@@ -1,0 +1,64 @@
+#version: '3.8'
+
+services:
+  mysql-container2:
+    image: juyeonoh00/mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: mysql-container2
+      MYSQL_USER: other_user
+      MYSQL_PASSWORD: 1234
+      ports: 3306:3306
+#      volumes: mysql-volume:/var/lib/mysql
+    networks:
+      - bridge
+  odiro-container2:
+    image: juyeonoh0/odiro:latest
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container2:3306/mysql-container2
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 1234
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-container2
+    networks:
+      - bridge
+volumes:
+  mysql-data:
+networks:
+  bridge:
+
+
+##version: '3.8'
+#
+#services:
+#  mysql-container2:
+#    image: mysql:latest
+#    environment:
+#      MYSQL_ROOT_PASSWORD: 1234
+#      MYSQL_DATABASE: mysql-container2
+#      MYSQL_USER: other_user
+#      MYSQL_PASSWORD: 1234
+#      ports: 3306:3306
+##      volumes: mysql-volume:/var/lib/mysql
+#    networks:
+#      - bridge
+#  odiro-container2:
+#    image: odiro
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container2:3306/mysql-container2
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: 1234
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - mysql-container2
+#    networks:
+#      - bridge
+#volumes:
+#  mysql-data:
+#networks:
+#  bridge:
+
+
