@@ -24,18 +24,27 @@ public class MemberController {
     private final MemberService memberService;
 
 //
-//    @ResponseBody
-//    @PostMapping("/members/signup")
-//    public void signUp(@RequestBody SignUpRequest request) throws ParseException {
-//
-//        Member newMember = new Member();
-//        newMember.setUserId(request.getUser_id());
-//        newMember.setPassword(request.getPassword());
-//        newMember.setPassword(request.getName());
-//        newMember.setPassword(request.getEmail());
-//
-//        memberService.join(newMember);
-//    }
+    @ResponseBody
+    @PostMapping("/members/signup")
+    public SignUpRequest signUp(@RequestBody SignUpRequest request) throws ParseException {
+
+        Member newMember = new Member();
+        newMember.setUserId(request.getUser_id());
+        newMember.setPassword(request.getPassword());
+        newMember.setName(request.getName());
+        newMember.setEmail(request.getEmail());
+
+        Long memberId = memberService.join(newMember);
+
+        SignUpRequest request1 = new SignUpRequest();
+        request1.setId(newMember.getId());
+        request1.setUser_id(newMember.getUserId());
+        request1.setPassword(newMember.getPassword());
+        request1.setEmail(newMember.getEmail());
+        request1.setName(newMember.getName());
+
+        return request1;
+    }
 //
 //
 //    @PostMapping("/members/login")
