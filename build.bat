@@ -12,11 +12,11 @@
 call gradlew build
 
 docker build --tag juyeonoh00/odiro -f Dockerfile .
-docker push juyeonoh00/odiro
+@REM docker push juyeonoh00/odiro
 
 cd ./mysql
 docker build --tag juyeonoh00/mysql -f Dockerfile .
-docker push juyeonoh00/mysql
+@REM docker push juyeonoh00/mysql
 cd ..
 
 docker-compose down

@@ -1,10 +1,10 @@
-package travelplaner.odiro.service;
+package odiro.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import travelplaner.odiro.domain.Plan;
-import travelplaner.odiro.mysql.PlanRepository;
+import odiro.domain.Plan;
+import odiro.repository.PlanRepository;
 
 @Service
 @Transactional

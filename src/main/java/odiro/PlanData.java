@@ -1,4 +1,4 @@
-package travelplaner.odiro;
+package odiro;
 
 import lombok.Getter;
 import lombok.Setter;

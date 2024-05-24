@@ -1,4 +1,4 @@
-package travelplaner.odiro.service;
+package odiro.service;
 
 public class FriendRequestService {
 }

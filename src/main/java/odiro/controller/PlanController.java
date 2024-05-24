@@ -7,11 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import travelplaner.odiro.ExportData;
-import travelplaner.odiro.PlanData;
-import travelplaner.odiro.mysql.PlanRepository;
-import travelplaner.odiro.domain.Plan;
-import travelplaner.odiro.service.PlanService;
+import odiro.ExportData;
+import odiro.PlanData;
+import odiro.repository.PlanRepository;
+import odiro.domain.Plan;
+import odiro.service.PlanService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

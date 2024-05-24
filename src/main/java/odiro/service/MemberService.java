@@ -1,11 +1,11 @@
-package travelplaner.odiro.service;
+package odiro.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import travelplaner.odiro.domain.Member;
-import travelplaner.odiro.domain.Plan;
-import travelplaner.odiro.mysql.MemberRepository;
+import odiro.domain.Member;
+import odiro.domain.Plan;
+import odiro.repository.MemberRepository;
 
 @Service
 @Transactional
@@ -24,7 +24,6 @@ public class MemberService {
         return findmember;
     }
 
-    public Plan findAllPlans(Member member) {
-
-    }
+//    public Plan findAllPlans(Member member) {
+//    }
 }
