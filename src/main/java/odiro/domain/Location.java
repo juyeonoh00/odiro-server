@@ -16,7 +16,6 @@ public class Location {
     private String address;
     private String image;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="todo_id") //fk명
+    @OneToOne(mappedBy = "location")
     private Todo todo;
 }

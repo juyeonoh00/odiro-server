@@ -1,82 +1,74 @@
 package odiro.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import odiro.domain.Member;
+import odiro.dto.InitPlanData;
+import odiro.service.MemberService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import odiro.ExportData;
-import odiro.PlanData;
-import odiro.repository.PlanRepository;
+import odiro.dto.InitPlanResponse;
 import odiro.domain.Plan;
 import odiro.service.PlanService;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
+import java.util.Optional;
 
 //@Controller +ResponseBody = RestController
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class PlanController {
 
-    private final ObjectMapper objectMapper;
     private final PlanService planService;
+    private final MemberService memberService;
 
-    @ResponseBody
-    @PostMapping("/members/{memberId}/InitializePlan")
-    public ExportData initPlan(@PathVariable("memberId") Long memberId, @RequestBody PlanData inputdata) throws ParseException {
+//    @PostMapping("/plan/create")
+//    public InitPlanResponse initPlan(@RequestBody InitPlanData inputData) {
+//
+//        Member member = memberService.findById(inputData.getMemberId()).orElseThrow(() -> new RuntimeException("Member not found"));
+//
+//        Plan newPlan = new Plan(member, inputData.getTitle(), inputData.getFirstday(), inputData.getLastday());
+//        Plan savedPlan = planService.initPlan(newPlan);
+//
+//        if (savedPlan != null) {
+//            InitPlanResponse response = new InitPlanResponse(
+//                    savedPlan.getId(), savedPlan.getInitializer().getId(), savedPlan.getTitle(), savedPlan.getFirstDay(), savedPlan.getLastDay());
+//            return response;
+//        } else {
+//            log.error("Plan 저장 실패");
+//        }
+//    }
 
-
-        ExportData exportdata = new ExportData();
-        exportdata.setInitializerId(memberId);
-        exportdata.setTitle(inputdata.getTitle());
-
-        /* *내가쓴거
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        Date firstday = dateFormat.parse(inputdata.getFirstday());
-        Date lastday = dateFormat.parse(inputdata.getLastday());
-
-        Plan newPlan = new Plan(inputdata.getTitle(), firstday, lastday);
-
-        Plan savedPlan = planRepository.save(newPlan);
-        exportdata.setPlanId(savedPlan.getId());
-        */
-
+    @PostMapping("/plan/create")
+    public ResponseEntity<InitPlanResponse> initPlan(@RequestBody InitPlanData inputData) {
         try {
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-            LocalDate firstLocalDate = LocalDate.parse(inputdata.getFirstday(), dateFormatter);
-            LocalDate lastLocalDate = LocalDate.parse(inputdata.getLastday(), dateFormatter);
+            // 회원 검색
+            Member member = memberService.findById(inputData.getMemberId())
+                    .orElseThrow(() -> new RuntimeException("Member not found"));
 
-            Date firstday = java.sql.Date.valueOf(firstLocalDate);
-            Date lastday = java.sql.Date.valueOf(lastLocalDate);;
-
-            Plan newPlan = new Plan(inputdata.getTitle(), firstday, lastday);
+            // 계획 생성 및 저장
+            Plan newPlan = new Plan(member, inputData.getTitle(), inputData.getFirstday(), inputData.getLastday());
             Plan savedPlan = planService.initPlan(newPlan);
 
             if (savedPlan != null) {
-                exportdata.setPlanId(savedPlan.getId());
+                // 성공적으로 저장된 경우
+                InitPlanResponse response = new InitPlanResponse(
+                        savedPlan.getId(), savedPlan.getInitializer().getId(), savedPlan.getTitle(),
+                        savedPlan.getFirstDay(), savedPlan.getLastDay());
+                return ResponseEntity.ok(response);
             } else {
+                // 저장 실패 시 로깅
                 log.error("Plan 저장 실패");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
-        } catch (DateTimeParseException e) {
-            log.error("날짜 형식 파싱 오류", e);
+        } catch (Exception e) {
+            // 예외 발생 시 처리
+            log.error("Plan 저장 중 오류 발생", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return exportdata;
     }
-
-
-    @ResponseBody
-    @GetMapping("/members/{memberId}/{planId}")
-    public void viewPlan() {
-        //지도, 달력, todo, comment, 댓글 반환
-    }
-
     
 }

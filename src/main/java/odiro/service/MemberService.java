@@ -7,6 +7,8 @@ import odiro.domain.Member;
 import odiro.domain.Plan;
 import odiro.repository.MemberRepository;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 public class MemberService {
@@ -19,11 +21,8 @@ public class MemberService {
         return member.getId();
     }
 
-    public Member findById(Long memberId) {
-        Member findmember = memberRepository.findById(memberId).get();
-        return findmember;
+    public Optional<Member> findById(Long memberId) {
+        return memberRepository.findById(memberId);
     }
 
-//    public Plan findAllPlans(Member member) {
-//    }
 }

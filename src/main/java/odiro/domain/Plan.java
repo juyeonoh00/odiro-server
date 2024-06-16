@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,8 +17,8 @@ public class Plan {
     private Long id;
 
     private String title;
-    private Date firstDay;
-    private Date lastDay;
+    private LocalDateTime firstDay;
+    private LocalDateTime lastDay;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="initializer_id")
@@ -30,8 +30,9 @@ public class Plan {
     protected Plan () {
     }
 
-    public Plan(String title, Date firstDay, Date lastDay)
+    public Plan(Member initializer, String title, LocalDateTime firstDay, LocalDateTime lastDay)
     {
+        this.initializer = initializer;
         this.title = title;
         this.firstDay = firstDay;
         this.lastDay = lastDay;

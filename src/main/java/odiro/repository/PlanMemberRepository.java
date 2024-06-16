@@ -1,9 +1,11 @@
 package odiro.repository;
 
+import odiro.domain.Plan;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import odiro.domain.PlanMember;
 
-@Repository
+import java.util.List;
+
 public interface PlanMemberRepository extends JpaRepository<PlanMember, Long> {
+    List<PlanMember> findByParticipantId(Long participantId);
 }

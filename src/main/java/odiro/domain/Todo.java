@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,8 +17,7 @@ public class Todo {
 
     private String title;
     private String memo;
-    private Date date;
-    private Boolean isWhislist;
+    private LocalDateTime date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="plan_id") //fk명
@@ -30,4 +29,8 @@ public class Todo {
 
     @OneToMany(mappedBy = "todo")
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name="location_id")
+    private  Location location;
 }

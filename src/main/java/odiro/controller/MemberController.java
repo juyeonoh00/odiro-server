@@ -1,29 +1,45 @@
 package odiro.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import odiro.domain.Plan;
+import odiro.dto.HomeResponse;
+import odiro.dto.InitPlanResponse;
+import odiro.dto.HomeRequest;
+import odiro.service.PlanService;
 import org.springframework.web.bind.annotation.*;
-import odiro.ExportData;
-import odiro.LoginRequest;
-import odiro.PlanData;
-import odiro.SignUpRequest;
-import odiro.domain.Member;
 import odiro.service.MemberService;
-import java.text.ParseException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-@Controller
+@RestController
 public class MemberController {
 
-    private final ObjectMapper objectMapper;
     private final MemberService memberService;
+    private final PlanService planService;
+
+    @GetMapping("/home")
+    public List<HomeResponse> homeForm(@RequestBody HomeRequest request) {
+
+        List<Plan> planList = planService.findPlansByParticipantId(request.getMemberId());
+        return mapToHomeResponseList(planList);
+
+    }
+
+    private List<HomeResponse> mapToHomeResponseList(List<Plan> planList) {
+        List<HomeResponse> responses = new ArrayList<>();
+        for (Plan plan : planList) {
+            HomeResponse response = new HomeResponse(plan.getId(), plan.getTitle(),plan.getFirstDay(), plan.getLastDay());
+            responses.add(response);
+        }
+        return responses;
+    }
 
 //
+    /*
     @ResponseBody
     @PostMapping("/members/signup")
     public SignUpRequest signUp(@RequestBody SignUpRequest request) throws ParseException {
@@ -45,6 +61,8 @@ public class MemberController {
 
         return request1;
     }
+
+     */
 //
 //
 //    @PostMapping("/members/login")

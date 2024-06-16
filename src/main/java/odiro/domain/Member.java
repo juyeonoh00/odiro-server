@@ -19,8 +19,6 @@ public class Member {
     private String email;
     private String profileImage;
 
-
-
     @OneToMany(mappedBy = "initializer")
     private List<Plan> initalizedPlans = new ArrayList<>();
 
@@ -32,8 +30,6 @@ public class Member {
 
     @OneToMany(mappedBy = "participant")
     private List<PlanMember> joinedPlan = new ArrayList<>();
-
-
 
 
     public Member() {
