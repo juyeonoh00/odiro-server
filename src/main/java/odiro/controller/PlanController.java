@@ -3,18 +3,14 @@ package odiro.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import odiro.domain.Member;
-import odiro.dto.InitPlanData;
+import odiro.dto.InitPlanRequest;
 import odiro.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import odiro.dto.InitPlanResponse;
 import odiro.domain.Plan;
 import odiro.service.PlanService;
-
-import java.time.format.DateTimeParseException;
-import java.util.Optional;
 
 //@Controller +ResponseBody = RestController
 @Slf4j
@@ -43,7 +39,7 @@ public class PlanController {
 //    }
 
     @PostMapping("/plan/create")
-    public ResponseEntity<InitPlanResponse> initPlan(@RequestBody InitPlanData inputData) {
+    public ResponseEntity<InitPlanResponse> initPlan(@RequestBody InitPlanRequest inputData) {
         try {
             // 회원 검색
             Member member = memberService.findById(inputData.getMemberId())

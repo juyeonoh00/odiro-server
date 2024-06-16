@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class InitPlanData {
+public class InitPlanRequest {
     private Long memberId;
     private String title;
     private LocalDateTime firstday;
