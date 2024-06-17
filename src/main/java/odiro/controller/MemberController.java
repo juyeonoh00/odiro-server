@@ -2,6 +2,8 @@ package odiro.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import odiro.SignUpRequest;
+import odiro.domain.Member;
 import odiro.domain.Plan;
 import odiro.dto.HomeResponse;
 import odiro.dto.InitPlanResponse;
@@ -32,17 +34,18 @@ public class MemberController {
     private List<HomeResponse> mapToHomeResponseList(List<Plan> planList) {
         List<HomeResponse> responses = new ArrayList<>();
         for (Plan plan : planList) {
-            HomeResponse response = new HomeResponse(plan.getId(), plan.getTitle(),plan.getFirstDay(), plan.getLastDay());
+            HomeResponse response = new HomeResponse(
+                    plan.getId(), plan.getTitle(),plan.getFirstDay(), plan.getLastDay());
             responses.add(response);
         }
         return responses;
     }
 
 //
-    /*
+
     @ResponseBody
     @PostMapping("/members/signup")
-    public SignUpRequest signUp(@RequestBody SignUpRequest request) throws ParseException {
+    public SignUpRequest signUp(@RequestBody SignUpRequest request) {
 
         Member newMember = new Member();
         newMember.setUserId(request.getUser_id());
@@ -62,7 +65,7 @@ public class MemberController {
         return request1;
     }
 
-     */
+
 //
 //
 //    @PostMapping("/members/login")

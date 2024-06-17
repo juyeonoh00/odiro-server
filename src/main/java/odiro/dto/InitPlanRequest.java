@@ -10,6 +10,6 @@ import java.time.LocalDateTime;
 public class InitPlanRequest {
     private Long memberId;
     private String title;
-    private LocalDateTime firstday;
-    private LocalDateTime lastday;
+    private LocalDateTime firstDay;
+    private LocalDateTime lastDay;
 }
