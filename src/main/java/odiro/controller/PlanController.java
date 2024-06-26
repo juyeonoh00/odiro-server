@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import odiro.domain.Member;
 import odiro.domain.PlanMember;
+import odiro.dto.HomeRequest;
+import odiro.dto.HomeResponse;
 import odiro.dto.InitPlanRequest;
 import odiro.repository.PlanMemberRepository;
 import odiro.service.MemberService;
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import odiro.dto.InitPlanResponse;
 import odiro.domain.Plan;
 import odiro.service.PlanService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //@Controller +ResponseBody = RestController
 @Slf4j
@@ -33,6 +38,26 @@ public class PlanController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/home")
+    public List<HomeResponse> homeForm(@RequestBody HomeRequest request) {
+
+        List<Plan> planList = planService.findPlansByParticipantId(request.getMemberId());
+        return mapToHomeResponseList(planList);
+
+    }
+
+    private List<HomeResponse> mapToHomeResponseList(List<Plan> planList) {
+        List<HomeResponse> responses = new ArrayList<>();
+        for (Plan plan : planList) {
+            HomeResponse response = new HomeResponse(
+                    plan.getId(), plan.getTitle(),plan.getFirstDay(), plan.getLastDay());
+            responses.add(response);
+        }
+        return responses;
+    }
+
+
 
 
 }

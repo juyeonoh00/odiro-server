@@ -23,23 +23,6 @@ public class MemberController {
     private final MemberService memberService;
     private final PlanService planService;
 
-    @GetMapping("/home")
-    public List<HomeResponse> homeForm(@RequestBody HomeRequest request) {
-
-        List<Plan> planList = planService.findPlansByParticipantId(request.getMemberId());
-        return mapToHomeResponseList(planList);
-
-    }
-
-    private List<HomeResponse> mapToHomeResponseList(List<Plan> planList) {
-        List<HomeResponse> responses = new ArrayList<>();
-        for (Plan plan : planList) {
-            HomeResponse response = new HomeResponse(
-                    plan.getId(), plan.getTitle(),plan.getFirstDay(), plan.getLastDay());
-            responses.add(response);
-        }
-        return responses;
-    }
 
 //
 

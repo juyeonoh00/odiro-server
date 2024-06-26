@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -16,7 +17,7 @@ public class Comment {
     private Long id;
 
     private String content;
-    private Date time;
+    private LocalDateTime writeTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="todo_id")
@@ -26,5 +27,15 @@ public class Comment {
     @JoinColumn(name="writer_id")
     private Member writer;
 
+    protected Comment () {
+    }
+
+    public Comment(Todo todo, Member writer, String content, LocalDateTime writeTime)
+    {
+        this.writer = writer;
+        this.content = content;
+        this.writeTime = writeTime;
+        this.todo = todo;
+    }
 
 }
