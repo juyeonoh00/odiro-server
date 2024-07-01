@@ -10,10 +10,7 @@ import odiro.dto.PostMemoResponse;
 import odiro.service.CommentService;
 import odiro.service.MemoService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -30,5 +27,17 @@ public class MemoController {
         PostMemoResponse response = new PostMemoResponse(savedMemo.getId());
 
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/plan/memo/{memoId}/edit")
+    public ResponseEntity<Void> updateMemo(@PathVariable Long memoId, @RequestBody CommentRequest request) {
+        memoService.updateMemo(memoId, request.getContent());
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/plan/memo/{memoId}/edit")
+    public ResponseEntity<Void> deleteMemo(@PathVariable Long memoId) {
+        memoService.deleteMemo(memoId);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -32,4 +32,22 @@ public class CommentService {
         //저장된 플랜 반환
         return comment;
     }
+
+    public Comment updateComment(Long commentId, String newContent) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new RuntimeException("Comment not found with id: " + commentId));
+
+        comment.setContent(newContent);
+        commentRepository.save(comment); // Save updated comment
+
+        return comment;
+    }
+
+
+    public void deleteComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new RuntimeException("Comment not found with id: " + commentId));
+
+        commentRepository.delete(comment); // Delete the comment
+    }
 }

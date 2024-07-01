@@ -31,4 +31,22 @@ public class MemoService {
         //저장된 플랜 반환
         return memo;
     }
+
+    public Memo updateMemo(Long memoId, String content) {
+        Memo memo = memoRepository.findById(memoId)
+                .orElseThrow(() -> new RuntimeException("Memo not found with id: " + memoId));
+
+        memo.setContent(content);
+        memoRepository.save(memo); // 수정된 Memo 저장
+
+        return memo;
+    }
+
+    public void deleteMemo(Long memoId) {
+        Memo memo = memoRepository.findById(memoId)
+                .orElseThrow(() -> new RuntimeException("Memo not found with id: " + memoId));
+
+        memoRepository.delete(memo); // Memo 삭제
+    }
+
 }

@@ -31,4 +31,35 @@ public class LocationService {
         //저장된 플랜 반환
         return location;
     }
+
+    // Location 수정
+    public Location updateLocation(Long locationId, String addressName, Long kakaoMapId, String phone, String placeName, String placeUrl, Long lat, Long lng, String roadAddressName, String CategoryGroupName, String imgUrl) {
+        // 기존 Location 검색
+        Location location = locationRepository.findById(locationId)
+                .orElseThrow(() -> new RuntimeException("Location not found with id: " + locationId));
+
+        // 수정된 정보 업데이트
+        location.setAddressName(addressName);
+        location.setKakaoMapId(kakaoMapId);
+        location.setPhone(phone);
+        location.setPlaceName(placeName);
+        location.setPlaceUrl(placeUrl);
+        location.setLat(lat);
+        location.setLng(lng);
+        location.setRoadAddressName(roadAddressName);
+        location.setCategoryGroupName(CategoryGroupName);
+        location.setImgUrl(imgUrl);
+
+        // 수정된 Location 저장 및 반환
+        return locationRepository.save(location);
+    }
+
+    // Location 삭제
+    public void deleteLocation(Long locationId) {
+        // Location 검색 후 삭제
+        Location location = locationRepository.findById(locationId)
+                .orElseThrow(() -> new RuntimeException("Location not found with id: " + locationId));
+
+        locationRepository.delete(location);
+    }
 }
