@@ -19,5 +19,17 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    @PostMapping("/plan/{dayPlanId}/comments/create")
+    public ResponseEntity<CommentResponse> writeComment(@PathVariable("dayPlanId") Long dayPlanId, @RequestBody CommentRequest request) {
+
+        Comment savedComment = commentService.postComment(dayPlanId, request.getMemberId(), request.getContent());
+
+        CommentResponse response = new CommentResponse(savedComment.getId(), savedComment.getWriteTime());
+
+        return ResponseEntity.ok(response);
+    }
+
+
+
 
 }

@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 
 @Entity
@@ -19,9 +18,14 @@ public class Comment {
     private String content;
     private LocalDateTime writeTime;
 
+    @PrePersist
+    public void prePersist() {
+        this.writeTime = LocalDateTime.now();
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="todo_id")
-    private Todo todo;
+    @JoinColumn(name="day_plan_id")
+    private DayPlan dayPlan;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="writer_id")
@@ -30,12 +34,11 @@ public class Comment {
     protected Comment () {
     }
 
-    public Comment(Todo todo, Member writer, String content, LocalDateTime writeTime)
+    public Comment(DayPlan dayPlan, Member writer, String content)
     {
         this.writer = writer;
         this.content = content;
-        this.writeTime = writeTime;
-        this.todo = todo;
+        this.dayPlan = dayPlan;
     }
 
 }

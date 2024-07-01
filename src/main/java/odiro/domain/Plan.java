@@ -25,7 +25,7 @@ public class Plan {
     private Member initializer;
 
     @OneToMany(mappedBy = "plan")
-    private List<Todo> todos = new ArrayList<>();
+    private List<DayPlan> dayPlans = new ArrayList<>();
 
     protected Plan () {
     }

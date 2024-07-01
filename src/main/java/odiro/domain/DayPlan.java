@@ -10,27 +10,23 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
-public class Todo {
+public class DayPlan {
     @Id @GeneratedValue
-    @Column(name = "todo_id")
+    @Column(name = "day_plan_id")
     private Long id;
-
-    private String title;
-    private String memo;
     private LocalDateTime date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="plan_id") //fk명
     private Plan plan;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="proposer_id") //fk명
-    private Member proposer;
-
-    @OneToMany(mappedBy = "todo")
+    @OneToMany(mappedBy = "dayPlan")
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToOne
-    @JoinColumn(name="location_id")
-    private  Location location;
+    @OneToMany(mappedBy = "dayPlan")
+    private List<Memo> memos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "dayPlan")
+    private List<Location> locations = new ArrayList<>();
+
 }

@@ -22,9 +22,6 @@ public class Member {
     @OneToMany(mappedBy = "initializer")
     private List<Plan> initalizedPlans = new ArrayList<>();
 
-    @OneToMany(mappedBy = "proposer")
-    private List<Todo> proposedTodos = new ArrayList<>();
-
     @OneToMany(mappedBy = "writer")
     private List<Comment> comments = new ArrayList<>();
 

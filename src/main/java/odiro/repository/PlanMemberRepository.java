@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface PlanMemberRepository extends JpaRepository<PlanMember, Long> {
     List<PlanMember> findByParticipantId(Long participantId);
+    List<PlanMember> findByPlanId(Long planId);
 }

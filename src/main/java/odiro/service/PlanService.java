@@ -31,6 +31,14 @@ public class PlanService {
         return planRepository.findById(planId);
     }
 
+    public List<Member> findParticipantsByPlanId(Long planId) {
+        List<PlanMember> planMembers = planMemberRepository.findByPlanId(planId);
+        List<Member> participants = planMembers.stream()
+                .map(PlanMember::getParticipant)
+                .collect(Collectors.toList());
+        return participants;
+    }
+
     public List<Plan> findPlansByParticipantId(Long participantId) {
         List<PlanMember> planMembers = planMemberRepository.findByParticipantId(participantId);
         return planMembers.stream()
