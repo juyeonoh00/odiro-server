@@ -8,6 +8,7 @@
 @REM sleep 10
 @REM docker-compose -f docker-compose.yml up -d odiro-container2
 @REM docker-compose -f docker-compose.yml logs -f odiro-cotainer2
+
 @echo off
 call gradlew build
 
@@ -27,3 +28,18 @@ echo Waiting for 10 seconds...
 PowerShell -Command "Start-Sleep -Seconds 10"
 echo Resuming execution.
 docker-compose -f docker-compose.yml up -d odiro-container2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
