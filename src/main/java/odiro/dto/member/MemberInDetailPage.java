@@ -1,4 +1,4 @@
-package odiro.dto;
+package odiro.dto.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class InitializerInDetailPage {
+public class MemberInDetailPage {
     private String userId;
     private String name;
     private String email;

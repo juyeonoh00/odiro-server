@@ -2,13 +2,9 @@ package odiro.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import odiro.domain.Comment;
 import odiro.domain.Memo;
-import odiro.dto.CommentRequest;
-import odiro.dto.CommentResponse;
-import odiro.dto.PostMemoRequest;
-import odiro.dto.PostMemoResponse;
-import odiro.service.CommentService;
+import odiro.dto.memo.PostMemoRequest;
+import odiro.dto.memo.PostMemoResponse;
 import odiro.service.MemoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

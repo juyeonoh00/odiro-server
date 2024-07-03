@@ -1,4 +1,4 @@
-package odiro.dto;
+package odiro.dto.memo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class PostLocationResponse {
-
-    private Long locationId;
+public class PostMemoResponse {
+    private Long memoId;
 }

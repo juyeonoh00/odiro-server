@@ -1,4 +1,4 @@
-package odiro.dto;
+package odiro.dto.dayPlan;
 
 import lombok.Getter;
 import lombok.Setter;

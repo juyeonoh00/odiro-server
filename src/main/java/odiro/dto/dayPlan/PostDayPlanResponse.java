@@ -1,4 +1,4 @@
-package odiro.dto;
+package odiro.dto.dayPlan;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class PostMemoResponse {
-    private Long memoId;
+public class PostDayPlanResponse {
+    private Long dayPlanId;
 }

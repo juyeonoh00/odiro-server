@@ -1,8 +1,11 @@
-package odiro.dto;
+package odiro.dto.dayPlan;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import odiro.dto.location.LocationInDetailPage;
+import odiro.dto.memo.MemoInDetailPage;
+import odiro.dto.comment.CommentInDetailPage;
 
 import java.time.LocalDateTime;
 import java.util.List;

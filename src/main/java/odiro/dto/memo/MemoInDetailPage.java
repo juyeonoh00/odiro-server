@@ -1,4 +1,4 @@
-package odiro.dto;
+package odiro.dto.memo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CommentResponse {
-    private Long CommentId;
-    private LocalDateTime writeTime;
+public class MemoInDetailPage {
+    private Long id;
+    private String content;
 }

@@ -1,4 +1,4 @@
-package odiro.dto;
+package odiro.dto.location;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

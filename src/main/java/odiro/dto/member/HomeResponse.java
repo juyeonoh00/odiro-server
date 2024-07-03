@@ -1,4 +1,4 @@
-package odiro.dto;
+package odiro.dto.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
