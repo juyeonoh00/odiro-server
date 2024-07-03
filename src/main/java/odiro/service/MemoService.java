@@ -24,7 +24,7 @@ public class MemoService {
         DayPlan dayPlan = dayPlanService.findById(dayPlanId)
                 .orElseThrow(() -> new RuntimeException("DayPlan not found"));
 
-        // Comment 저장
+        // Memo 생성 후 저장
         Memo memo = new Memo(dayPlan, content);
         memoRepository.save(memo);
 
@@ -33,20 +33,26 @@ public class MemoService {
     }
 
     public Memo updateMemo(Long memoId, String content) {
+
+        //Memo 검색
         Memo memo = memoRepository.findById(memoId)
                 .orElseThrow(() -> new RuntimeException("Memo not found with id: " + memoId));
 
+        //Memo 수정 후 저장
         memo.setContent(content);
-        memoRepository.save(memo); // 수정된 Memo 저장
+        memoRepository.save(memo);
 
         return memo;
     }
 
     public void deleteMemo(Long memoId) {
+
+        //Memo 검색
         Memo memo = memoRepository.findById(memoId)
                 .orElseThrow(() -> new RuntimeException("Memo not found with id: " + memoId));
 
-        memoRepository.delete(memo); // Memo 삭제
+        // Memo 삭제
+        memoRepository.delete(memo);
     }
 
 }

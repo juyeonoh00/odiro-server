@@ -6,6 +6,7 @@ import odiro.domain.Comment;
 import odiro.domain.Memo;
 import odiro.dto.CommentRequest;
 import odiro.dto.CommentResponse;
+import odiro.dto.PostMemoRequest;
 import odiro.dto.PostMemoResponse;
 import odiro.service.CommentService;
 import odiro.service.MemoService;
@@ -20,7 +21,7 @@ public class MemoController {
     private final MemoService memoService;
 
     @PostMapping("/plan/{dayPlanId}/memo/create")
-    public ResponseEntity<PostMemoResponse> postMemo(@PathVariable("dayPlanId") Long dayPlanId, @RequestBody CommentRequest request) {
+    public ResponseEntity<PostMemoResponse> postMemo(@PathVariable("dayPlanId") Long dayPlanId, @RequestBody PostMemoRequest request) {
 
         Memo savedMemo = memoService.postMemo(dayPlanId, request.getContent());
 
@@ -29,14 +30,19 @@ public class MemoController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/plan/memo/{memoId}/edit")
-    public ResponseEntity<Void> updateMemo(@PathVariable Long memoId, @RequestBody CommentRequest request) {
-        memoService.updateMemo(memoId, request.getContent());
-        return ResponseEntity.noContent().build();
+    @PutMapping("/memo/{memoId}")
+    public ResponseEntity<PostMemoResponse> updateMemo(@PathVariable("memoId") Long memoId, @RequestBody PostMemoRequest request) {
+
+        Memo updatedMemo = memoService.updateMemo(memoId, request.getContent());
+
+        PostMemoResponse response = new PostMemoResponse(updatedMemo.getId());
+
+        return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/plan/memo/{memoId}/edit")
-    public ResponseEntity<Void> deleteMemo(@PathVariable Long memoId) {
+    @DeleteMapping("/memo/{memoId}")
+    public ResponseEntity<Void> deleteMemo(@PathVariable("memoId") Long memoId) {
+
         memoService.deleteMemo(memoId);
         return ResponseEntity.noContent().build();
     }

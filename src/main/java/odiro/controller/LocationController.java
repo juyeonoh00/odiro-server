@@ -16,7 +16,6 @@ public class LocationController {
 
     private final LocationService locationService;
 
-    @ResponseBody
     @PostMapping("/plan/{dayPlanId}/location/create")
     public ResponseEntity<PostLocationResponse> postLocation(@PathVariable("dayPlanId") Long dayPlanId, @RequestBody PostLocationRequest request) {
 
@@ -31,8 +30,10 @@ public class LocationController {
     }
 
 
-    @PutMapping("/{locationId}")
-    public ResponseEntity<Location> updateLocation(@PathVariable Long locationId, @RequestBody PostLocationRequest request) {
+    @PutMapping("/location/{locationId}")
+    public ResponseEntity<PostLocationResponse> updateLocation(@PathVariable("locationId") Long locationId, @RequestBody PostLocationRequest request) {
+
+        //수정된 내용 저장
         Location updatedLocation = locationService.updateLocation(
                 locationId,
                 request.getAddressName(),
@@ -46,13 +47,19 @@ public class LocationController {
                 request.getCategoryGroupName(),
                 request.getImgUrl());
 
-        return ResponseEntity.ok(updatedLocation);
+        //결과 반환
+        PostLocationResponse response = new PostLocationResponse(updatedLocation.getId());
+        return ResponseEntity.ok(response);
     }
 
 
-    @DeleteMapping("/{locationId}")
-    public ResponseEntity<Void> deleteLocation(@PathVariable Long locationId) {
+    @DeleteMapping("/location/{locationId}")
+    public ResponseEntity<Void> deleteLocation(@PathVariable("locationId") Long locationId) {
+
+        //삭제
         locationService.deleteLocation(locationId);
+
+        //결과 반환
         return ResponseEntity.noContent().build();
     }
 

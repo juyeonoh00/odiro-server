@@ -23,6 +23,11 @@ public class Comment {
         this.writeTime = LocalDateTime.now();
     }
 
+    @PreUpdate
+    public void preUpdate() {
+        this.writeTime = LocalDateTime.now();
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="day_plan_id")
     private DayPlan dayPlan;

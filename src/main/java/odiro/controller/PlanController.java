@@ -4,12 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import odiro.domain.DayPlan;
 import odiro.domain.Member;
-import odiro.domain.PlanMember;
 import odiro.dto.*;
-import odiro.repository.PlanMemberRepository;
 import odiro.service.DayPlanService;
-import odiro.service.MemberService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import odiro.domain.Plan;
@@ -67,7 +63,7 @@ public class PlanController {
     }
 
     @GetMapping("/plan/{planId}")
-    public GetDetailPlanRespose getDetailPlan(@PathVariable("planId") Long planId) {
+    public GetDetailPlanResponse getDetailPlan(@PathVariable("planId") Long planId) {
 
         Plan plan = planService.findById(planId).orElseThrow(() -> new RuntimeException("Plan not found with id " + planId));
 
@@ -82,29 +78,31 @@ public class PlanController {
                 .collect(Collectors.toList());
 
 
-        //
+        //Location, memo,, comment는 day별로 묶어서
 
-        List<LocationInDetailPage> locationResponses = plan.getDayPlans().stream()
-                .flatMap(dayPlan -> dayPlan.getLocations().stream())
-                .map(location -> new LocationInDetailPage(
-                        location.getId(), location.getAddressName(), location.getKakaoMapId(), location.getPhone(),
-                        location.getPlaceName(), location.getPlaceUrl(), location.getLat(), location.getLng(),
-                        location.getRoadAddressName(), location.getCategoryGroupName(), location.getImgUrl()))
+        List<DayPlanInDetailPage> dayPlanResponses = plan.getDayPlans().stream()
+                .map(dayPlan -> {
+                    List<LocationInDetailPage> locations = dayPlan.getLocations().stream()
+                            .map(location -> new LocationInDetailPage(
+                                    location.getId(), location.getAddressName(), location.getKakaoMapId(), location.getPhone(),
+                                    location.getPlaceName(), location.getPlaceUrl(), location.getLat(), location.getLng(),
+                                    location.getRoadAddressName(), location.getCategoryGroupName(), location.getImgUrl()))
+                            .collect(Collectors.toList());
+
+                    List<MemoInDetailPage> memos = dayPlan.getMemos().stream()
+                            .map(memo -> new MemoInDetailPage(memo.getId(), memo.getContent()))
+                            .collect(Collectors.toList());
+
+                    List<CommentInDetailPage> comments = dayPlan.getComments().stream()
+                            .map(comment -> new CommentInDetailPage(comment.getId(), comment.getWriter().getId(), comment.getContent(), comment.getWriteTime()))
+                            .collect(Collectors.toList());
+
+                    return new DayPlanInDetailPage(dayPlan.getId(), dayPlan.getDate(), locations, memos, comments);
+                })
                 .collect(Collectors.toList());
 
-        List<MemoInDetailPage> memoResponses = plan.getDayPlans().stream()
-                .flatMap(dayPlan -> dayPlan.getMemos().stream())
-                .map(memo -> new MemoInDetailPage(memo.getId(), memo.getContent()))
-                .collect(Collectors.toList());
-
-        List<CommentInDetailPage> commentResponses = plan.getDayPlans().stream()
-                .flatMap(dayPlan -> dayPlan.getComments().stream())
-                .map(comment -> new CommentInDetailPage(comment.getId(),comment.getWriter().getId(), comment.getContent(), comment.getWriteTime()))
-                .collect(Collectors.toList());
-
-        GetDetailPlanRespose response = new GetDetailPlanRespose(
-                plan.getId(), plan.getTitle(), plan.getFirstDay(), plan.getLastDay(),
-                initializerResponse, memberResponses, locationResponses, memoResponses, commentResponses
+        GetDetailPlanResponse response = new GetDetailPlanResponse(
+                plan.getId(), plan.getTitle(), plan.getFirstDay(), plan.getLastDay(), initializerResponse, memberResponses, dayPlanResponses
         );
 
         return response;

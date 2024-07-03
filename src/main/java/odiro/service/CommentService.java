@@ -29,25 +29,32 @@ public class CommentService {
         Comment comment = new Comment(dayPlan, member, content);
         commentRepository.save(comment);
 
-        //저장된 플랜 반환
+        //comment 반환
         return comment;
     }
 
     public Comment updateComment(Long commentId, String newContent) {
+
+        //수정할 comment 찾기
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("Comment not found with id: " + commentId));
 
+        //comment 수정 후 저장
         comment.setContent(newContent);
         commentRepository.save(comment); // Save updated comment
 
+        //comment 반환
         return comment;
     }
 
 
     public void deleteComment(Long commentId) {
+
+        //수정할 comment 찾기
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("Comment not found with id: " + commentId));
 
-        commentRepository.delete(comment); // Delete the comment
+        //삭제
+        commentRepository.delete(comment);
     }
 }

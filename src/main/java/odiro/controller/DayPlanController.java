@@ -27,7 +27,9 @@ public class DayPlanController {
 
     private final DayPlanService dayPlanService;
 
+
     //플랜 생성시 자동 생성하도록 할수도 있음
+    /*
     @PostMapping("/plan/{planId}/dayplan/create")
     public ResponseEntity<PostDayPlanResponse> writeComment(@PathVariable("planId") Long planId, @RequestBody PostDayPlanRequest request) {
 
@@ -37,4 +39,5 @@ public class DayPlanController {
 
         return ResponseEntity.ok(response);
     }
+    */
 }

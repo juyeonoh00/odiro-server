@@ -19,7 +19,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/plan/{dayPlanId}/comments/create")
+    @PostMapping("/plan/{dayPlanId}/comment/create")
     public ResponseEntity<CommentResponse> writeComment(@PathVariable("dayPlanId") Long dayPlanId, @RequestBody CommentRequest request) {
 
         Comment savedComment = commentService.postComment(dayPlanId, request.getMemberId(), request.getContent());
@@ -29,14 +29,16 @@ public class CommentController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/comments/{commentId}")
+    @PutMapping("/comment/{commentId}")
     public ResponseEntity<CommentResponse> updateComment(@PathVariable("commentId") Long commentId, @RequestBody CommentRequest request) {
+
         Comment updatedComment = commentService.updateComment(commentId, request.getContent());
+
         CommentResponse response = new CommentResponse(updatedComment.getId(), updatedComment.getWriteTime());
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/comments/{commentId}")
+    @DeleteMapping("/comment/{commentId}")
     public ResponseEntity<Void> deleteComment(@PathVariable("commentId") Long commentId) {
         commentService.deleteComment(commentId);
         return ResponseEntity.noContent().build();

@@ -34,6 +34,7 @@ public class LocationService {
 
     // Location 수정
     public Location updateLocation(Long locationId, String addressName, Long kakaoMapId, String phone, String placeName, String placeUrl, Long lat, Long lng, String roadAddressName, String CategoryGroupName, String imgUrl) {
+
         // 기존 Location 검색
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() -> new RuntimeException("Location not found with id: " + locationId));
@@ -56,10 +57,12 @@ public class LocationService {
 
     // Location 삭제
     public void deleteLocation(Long locationId) {
-        // Location 검색 후 삭제
+
+        // Location 검색
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() -> new RuntimeException("Location not found with id: " + locationId));
 
+        //삭제
         locationRepository.delete(location);
     }
 }

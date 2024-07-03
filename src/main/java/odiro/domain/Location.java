@@ -20,7 +20,7 @@ public class Location {
     private Long lat;
     private Long lng;
     private String roadAddressName;
-    private String CategoryGroupName;
+    private String categoryGroupName;
     private String imgUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,7 +30,7 @@ public class Location {
     protected Location () {
     }
 
-    public Location(DayPlan dayPlan, String addressName, Long kakaoMapId, String phone, String placeName, String placeUrl, Long lat, Long lng, String roadAddressName, String CategoryGroupName, String imgUrl)
+    public Location(DayPlan dayPlan, String addressName, Long kakaoMapId, String phone, String placeName, String placeUrl, Long lat, Long lng, String roadAddressName, String categoryGroupName, String imgUrl)
     {
         this.dayPlan = dayPlan;
         this.addressName = addressName;
@@ -41,7 +41,7 @@ public class Location {
         this.lat = lat;
         this.lng = lng;
         this.roadAddressName = roadAddressName;
-        this.CategoryGroupName = CategoryGroupName;
+        this.categoryGroupName = categoryGroupName;
         this.imgUrl = imgUrl;
     }
 }

@@ -3,9 +3,6 @@ package odiro.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import odiro.domain.Comment;
-import odiro.domain.Location;
-import odiro.domain.Memo;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class GetDetailPlanRespose {
+public class GetDetailPlanResponse {
     private Long planId;
     private String title;
     private LocalDateTime firstDay;
@@ -21,7 +18,6 @@ public class GetDetailPlanRespose {
 
     private InitializerInDetailPage initializer;
     private List<MemberInDetailPage> participants;
-    private List<LocationInDetailPage> locations;
-    private List<MemoInDetailPage> memos;
-    private List<CommentInDetailPage> comments;
+
+    private List<DayPlanInDetailPage> dayPlans;
 }
