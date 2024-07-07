@@ -40,25 +40,6 @@ public class MemberController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-        @GetMapping(value={"","/"})
-        public String dashboard() {
-            return "/dashboard";
-        }
-
-        @GetMapping(value="/user")
-        public String user() {
-            return "/user";
-        }
-
-        @GetMapping(value="/manager")
-        public String manager() {
-            return "/manager";
-        }
-
-        @GetMapping(value="/admin")
-        public String admin() {
-            return "/admin";
-        }
 
     @Operation(summary = "회원가입", description = "회원가입")
     @ApiResponses(value = {

@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class MemberInDetailPage {
-    private String userId;
+    private Long Id;
     private String name;
     private String email;
     private String profileImage;

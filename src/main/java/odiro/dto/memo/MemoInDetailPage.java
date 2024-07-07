@@ -10,6 +10,6 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 public class MemoInDetailPage {
-    private Long id;
+    private Long memberId;
     private String content;
 }

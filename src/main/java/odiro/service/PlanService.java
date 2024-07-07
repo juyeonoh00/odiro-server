@@ -1,10 +1,11 @@
 package odiro.service;
 
 import lombok.RequiredArgsConstructor;
-import odiro.domain.Member;
 import odiro.domain.PlanMember;
-import odiro.repository.MemberRepository;
+import odiro.domain.member.Member;
 import odiro.repository.PlanMemberRepository;
+import odiro.repository.member.MemberRepository;
+import odiro.service.member.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

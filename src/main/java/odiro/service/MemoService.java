@@ -1,11 +1,8 @@
 package odiro.service;
 
 import lombok.RequiredArgsConstructor;
-import odiro.domain.Comment;
 import odiro.domain.DayPlan;
-import odiro.domain.Member;
 import odiro.domain.Memo;
-import odiro.repository.CommentRepository;
 import odiro.repository.MemoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

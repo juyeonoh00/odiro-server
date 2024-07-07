@@ -2,6 +2,9 @@ package odiro.domain.member;
 
 import jakarta.persistence.*;
 import lombok.*;
+import odiro.domain.Comment;
+import odiro.domain.Plan;
+import odiro.domain.PlanMember;
 import org.springframework.security.crypto.password.PasswordEncoder;
 //import odiro.domain.Comment;
 //import odiro.domain.Plan;
@@ -32,6 +35,18 @@ public class Member extends BaseTimeEntity {
 
     @Column(length = 20, nullable = false)
     private String nickname;
+
+    @Column
+    private String profileImage;
+
+    @OneToMany(mappedBy = "initializer")
+    private List<Plan> initalizedPlans = new ArrayList<>();
+
+    @OneToMany(mappedBy = "writer")
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "participant")
+    private List<PlanMember> joinedPlan = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Authority authority;

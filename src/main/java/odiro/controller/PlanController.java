@@ -3,7 +3,7 @@ package odiro.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import odiro.domain.DayPlan;
-import odiro.domain.Member;
+import odiro.domain.member.Member;
 import odiro.dto.dayPlan.DayPlanInDetailPage;
 import odiro.dto.comment.CommentInDetailPage;
 import odiro.dto.location.LocationInDetailPage;
@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class PlanController {
 
     private final PlanService planService;
@@ -79,11 +80,11 @@ public class PlanController {
 
         Member initializer = plan.getInitializer();
         InitializerInDetailPage initializerResponse = new InitializerInDetailPage(
-                initializer.getUserId(), initializer.getName(), initializer.getEmail(), initializer.getProfileImage());
+                initializer.getId(), initializer.getNickname(), initializer.getEmail(), initializer.getProfileImage());
 
         List<Member> participants = planService.findParticipantsByPlanId(planId);
         List<MemberInDetailPage> memberResponses = participants.stream()
-                .map(member -> new MemberInDetailPage(member.getUserId(), member.getName(), member.getEmail(), member.getProfileImage()))
+                .map(member -> new MemberInDetailPage(member.getId(), member.getNickname(), member.getEmail(), member.getProfileImage()))
                 .collect(Collectors.toList());
 
 

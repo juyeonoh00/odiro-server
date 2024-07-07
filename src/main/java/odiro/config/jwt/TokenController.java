@@ -23,7 +23,7 @@ public class TokenController {
     @Autowired
     private final MemberRepository memberRepository;
     @Value("${jwt.secret}")
-    private String secretKey;
+    private String secretKey="7ae96706cd6e6aade43a3b843bb3317f823ab927b64beb8d45558b3ac29f079dd36afe40f1646af31c334ccbb568cfe64b9e4e54a47aa5a5077796eca1e58075";
 
     @PostMapping("/token/refresh")
     public ResponseEntity<?> refreshAccessToken(@RequestHeader("Refresh-Token") String refreshToken) {
