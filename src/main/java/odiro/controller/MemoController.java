@@ -3,6 +3,7 @@ package odiro.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import odiro.domain.Memo;
+import odiro.dto.memo.EditMemoRequest;
 import odiro.dto.memo.PostMemoRequest;
 import odiro.dto.memo.PostMemoResponse;
 import odiro.service.MemoService;
@@ -17,27 +18,27 @@ public class MemoController {
 
     private final MemoService memoService;
 
-    @PostMapping("/plan/{dayPlanId}/memo/create")
-    public ResponseEntity<PostMemoResponse> postMemo(@PathVariable("dayPlanId") Long dayPlanId, @RequestBody PostMemoRequest request) {
+    @PostMapping("/memo/create")
+    public ResponseEntity<PostMemoResponse> postMemo(@RequestBody PostMemoRequest request) {
 
-        Memo savedMemo = memoService.postMemo(dayPlanId, request.getContent());
+        Memo savedMemo = memoService.postMemo(request.getDayPlanId(), request.getContent());
 
         PostMemoResponse response = new PostMemoResponse(savedMemo.getId());
 
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/memo/{memoId}")
-    public ResponseEntity<PostMemoResponse> updateMemo(@PathVariable("memoId") Long memoId, @RequestBody PostMemoRequest request) {
+    @PutMapping("/memo/edit")
+    public ResponseEntity<PostMemoResponse> updateMemo(@RequestBody EditMemoRequest request) {
 
-        Memo updatedMemo = memoService.updateMemo(memoId, request.getContent());
+        Memo updatedMemo = memoService.editMemo(request.getId(), request.getContent());
 
         PostMemoResponse response = new PostMemoResponse(updatedMemo.getId());
 
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/memo/{memoId}")
+    @DeleteMapping("/memo/delete/{memoId}")
     public ResponseEntity<Void> deleteMemo(@PathVariable("memoId") Long memoId) {
 
         memoService.deleteMemo(memoId);

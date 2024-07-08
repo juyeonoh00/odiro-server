@@ -15,7 +15,7 @@ public class LocationService {
     private final DayPlanService dayPlanService;
     private final LocationRepository locationRepository;
 
-    public Location postLocation(Long dayPlanId, String addressName, Long kakaoMapId, String phone, String placeName, String placeUrl, Long lat, Long lng, String roadAddressName, String CategoryGroupName, String imgUrl) {
+    public Location postLocation(Long dayPlanId, String addressName, String kakaoMapId, String phone, String placeName, String placeUrl, Long lat, Long lng, String roadAddressName, String CategoryGroupName, String imgUrl) {
 
         // DayPlan 검색
         DayPlan dayPlan = dayPlanService.findById(dayPlanId)

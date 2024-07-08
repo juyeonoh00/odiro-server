@@ -1,16 +1,15 @@
-package odiro.dto.dayPlan;
+package odiro.dto.comment;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class PostDayPlanRequest {
-    private Long planId;
-    private LocalDateTime day;
+public class EditCommentRequest {
+
+    private Long id;
+    private String content;
 }

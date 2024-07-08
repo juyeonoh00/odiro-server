@@ -1,6 +1,10 @@
 package odiro.dto.plan;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -8,19 +12,9 @@ import java.util.Date;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class InitPlanResponse {
 
-    private Long planId;
-    private Long initializerId;
-    private String title;
-    private LocalDateTime firstDay;
-    private LocalDateTime lastDay;
-
-    public InitPlanResponse(Long planId, Long initializerId, String title, LocalDateTime firstDay, LocalDateTime lastDay) {
-        this.planId = planId;
-        this.initializerId = initializerId;
-        this.title = title;
-        this.firstDay = firstDay;
-        this.lastDay = lastDay;
-    }
+    private Long id;
 }

@@ -13,7 +13,7 @@ public class Location {
     private Long id;
 
     private String addressName;
-    private Long kakaoMapId;
+    private String kakaoMapId;
     private String phone;
     private String placeName;
     private String placeUrl;
@@ -30,7 +30,7 @@ public class Location {
     protected Location () {
     }
 
-    public Location(DayPlan dayPlan, String addressName, Long kakaoMapId, String phone, String placeName, String placeUrl, Long lat, Long lng, String roadAddressName, String categoryGroupName, String imgUrl)
+    public Location(DayPlan dayPlan, String addressName, String kakaoMapId, String phone, String placeName, String placeUrl, Long lat, Long lng, String roadAddressName, String categoryGroupName, String imgUrl)
     {
         this.dayPlan = dayPlan;
         this.addressName = addressName;
