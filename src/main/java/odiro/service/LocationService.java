@@ -30,7 +30,7 @@ public class LocationService {
     }
 
     // Location 수정
-    public Location updateLocation(Long locationId, String addressName, Long kakaoMapId, String phone, String placeName, String placeUrl, Long lat, Long lng, String roadAddressName, String CategoryGroupName, String imgUrl) {
+    public Location updateLocation(Long locationId, String addressName, String kakaoMapId, String phone, String placeName, String placeUrl, Long lat, Long lng, String roadAddressName, String CategoryGroupName, String imgUrl) {
 
         // 기존 Location 검색
         Location location = locationRepository.findById(locationId)

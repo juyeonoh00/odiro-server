@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class PlanController {
 
     private final PlanService planService;
@@ -47,7 +47,7 @@ public class PlanController {
     }
 
     @PostMapping("/plan/create")
-    public ResponseEntity<InitPlanResponse> initPlan(@RequestBody InitPlanRequest request) {
+    public InitPlanResponse initPlan(@RequestBody InitPlanRequest request) {
 
         Plan savedPlan = planService.initPlanV2(
                 1L, request.getTitle(), request.getFirstDay(), request.getLastDay());
@@ -61,7 +61,7 @@ public class PlanController {
 
         InitPlanResponse response = new InitPlanResponse(savedPlan.getId());
 
-        return ResponseEntity.ok(response);
+        return response;
     }
 
     @GetMapping("/plan/{planId}")
