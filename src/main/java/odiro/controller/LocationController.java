@@ -17,12 +17,12 @@ public class LocationController {
 
     private final LocationService locationService;
 
-    @PostMapping("/plan/{dayPlanId}/location/create")
-    public ResponseEntity<PostLocationResponse> postLocation(@PathVariable("dayPlanId") Long dayPlanId, @RequestBody PostLocationRequest request) {
+    @PostMapping("/plan/location/create")
+    public ResponseEntity<PostLocationResponse> postLocation(@RequestBody PostLocationRequest request) {
 
 
         Location savedLocation = locationService.postLocation(
-                dayPlanId, request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), request.getCategoryGroupName(), request.getImgUrl()
+                request.getDayPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), request.getCategoryGroupName(), request.getImgUrl()
         );
 
         PostLocationResponse response = new PostLocationResponse(savedLocation.getId());
@@ -30,7 +30,7 @@ public class LocationController {
         return ResponseEntity.ok(response);
     }
 
-
+    /* //장소 수정 불필요
     @PutMapping("/location/{locationId}")
     public ResponseEntity<PostLocationResponse> updateLocation(@PathVariable("locationId") Long locationId, @RequestBody PostLocationRequest request) {
 
@@ -53,8 +53,10 @@ public class LocationController {
         return ResponseEntity.ok(response);
     }
 
+     */
 
-    @DeleteMapping("/location/{locationId}")
+
+    @DeleteMapping("/location/delete/{locationId}")
     public ResponseEntity<Void> deleteLocation(@PathVariable("locationId") Long locationId) {
 
         //삭제

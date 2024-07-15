@@ -29,7 +29,7 @@ public class MemoService {
         return memo;
     }
 
-    public Memo updateMemo(Long memoId, String content) {
+    public Memo editMemo(Long memoId, String content) {
 
         //Memo 검색
         Memo memo = memoRepository.findById(memoId)

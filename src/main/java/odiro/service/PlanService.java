@@ -1,6 +1,7 @@
 package odiro.service;
 
 import lombok.RequiredArgsConstructor;
+import odiro.domain.Memo;
 import odiro.domain.PlanMember;
 import odiro.domain.member.Member;
 import odiro.repository.PlanMemberRepository;
@@ -65,4 +66,30 @@ public class PlanService {
         //저장된 플랜 반환
         return plan;
     }
+
+    public Plan editPlan(Long planId, String title, LocalDateTime firstDay, LocalDateTime lastDay) {
+
+        //Plan 검색
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new RuntimeException("Plan not found with id: " + planId));
+
+        //Plan 수정 후 저장
+        plan.setTitle(title );
+        plan.setFirstDay(firstDay);
+        plan.setLastDay(lastDay);
+        planRepository.save(plan);
+
+        return plan;
+    }
+
+    public void deletePlan(Long planId) {
+
+        // Plan 검색
+        Plan memo = planRepository.findById(planId)
+                .orElseThrow(() -> new RuntimeException("Plan not found with id: " + planId));
+
+        // Plan 삭제
+        planRepository.delete(memo);
+    }
+
 }

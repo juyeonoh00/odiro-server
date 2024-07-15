@@ -1,5 +1,7 @@
 package odiro.dto.dayPlan;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,10 +15,11 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class DayPlanInDetailPage {
-    private Long dayPlanId;
+    private Long id;
     private LocalDateTime date;
-    private List<LocationInDetailPage> locations;
-    private List<MemoInDetailPage> memos;
-    private List<CommentInDetailPage> comments;
+    private List<LocationInDetailPage> location;
+    private List<MemoInDetailPage> memo;
+    private List<CommentInDetailPage> comment;
 }

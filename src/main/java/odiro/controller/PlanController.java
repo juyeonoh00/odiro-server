@@ -3,6 +3,7 @@ package odiro.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import odiro.domain.DayPlan;
+import odiro.domain.Memo;
 import odiro.domain.member.Member;
 import odiro.dto.dayPlan.DayPlanInDetailPage;
 import odiro.dto.comment.CommentInDetailPage;
@@ -11,6 +12,9 @@ import odiro.dto.member.HomeResponse;
 import odiro.dto.member.InitializerInDetailPage;
 import odiro.dto.member.MemberInDetailPage;
 import odiro.dto.memo.MemoInDetailPage;
+import odiro.dto.memo.PostMemoRequest;
+import odiro.dto.memo.PostMemoResponse;
+import odiro.dto.plan.EditPlanRequest;
 import odiro.dto.plan.GetDetailPlanResponse;
 import odiro.dto.plan.InitPlanRequest;
 import odiro.dto.plan.InitPlanResponse;
@@ -35,41 +39,29 @@ public class PlanController {
     private final PlanService planService;
     private final DayPlanService dayPlanService;
 
+    @GetMapping("/home")
+    public List<HomeResponse> homeForm() {
+
+        List<Plan> planList = planService.findPlansByParticipantId(1L); //memberId 1로 임시 지정
+        return mapToHomeResponseList(planList);
+    }
+
     @PostMapping("/plan/create")
-    public ResponseEntity<InitPlanResponse> initPlan(@RequestBody InitPlanRequest inputData) {
+    public InitPlanResponse initPlan(@RequestBody InitPlanRequest request) {
 
         Plan savedPlan = planService.initPlanV2(
-                inputData.getMemberId(), inputData.getTitle(), inputData.getFirstDay(), inputData.getLastDay());
+                1L, request.getTitle(), request.getFirstDay(), request.getLastDay());
 
         //DayPlan 생성
-        LocalDateTime currentDateTime = inputData.getFirstDay();
-        while (!currentDateTime.isAfter(inputData.getLastDay())) {
+        LocalDateTime currentDateTime = request.getFirstDay();
+        while (!currentDateTime.isAfter(request.getLastDay())) {
             DayPlan dayPlan = dayPlanService.postDayPlan(savedPlan.getId(), currentDateTime);
             currentDateTime = currentDateTime.plusDays(1);
         }
 
-        InitPlanResponse response = new InitPlanResponse(
-                savedPlan.getId(), savedPlan.getInitializer().getId(), savedPlan.getTitle(), savedPlan.getFirstDay(), savedPlan.getLastDay());
+        InitPlanResponse response = new InitPlanResponse(savedPlan.getId());
 
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/{memberId}/home")
-    public List<HomeResponse> homeForm(@PathVariable("memberId") Long memberId) {
-
-        List<Plan> planList = planService.findPlansByParticipantId(memberId);
-        return mapToHomeResponseList(planList);
-    }
-
-    private List<HomeResponse> mapToHomeResponseList(List<Plan> planList) {
-
-        List<HomeResponse> responses = new ArrayList<>();
-        for (Plan plan : planList) {
-            HomeResponse response = new HomeResponse(
-                    plan.getId(), plan.getTitle(),plan.getFirstDay(), plan.getLastDay());
-            responses.add(response);
-        }
-        return responses;
+        return response;
     }
 
     @GetMapping("/plan/{planId}")
@@ -118,8 +110,34 @@ public class PlanController {
         return response;
     }
 
+    @PutMapping("/plan/edit")
+    public ResponseEntity<InitPlanResponse> editPlan(@RequestBody EditPlanRequest request) {
+
+        Plan updatedPlan = planService.editPlan(request.getId(), request.getTitle(), request.getFirstDay(), request.getLastDay());
+
+        InitPlanResponse response = new InitPlanResponse(updatedPlan.getId());
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/plan/delete/{planId}")
+    public ResponseEntity<Void> deleteMemo(@PathVariable("planId") Long planId) {
+
+        planService.deletePlan(planId);
+        return ResponseEntity.noContent().build();
+    }
 
 
+    private List<HomeResponse> mapToHomeResponseList(List<Plan> planList) {
+
+        List<HomeResponse> responses = new ArrayList<>();
+        for (Plan plan : planList) {
+            HomeResponse response = new HomeResponse(
+                    plan.getId(), plan.getTitle(),plan.getFirstDay(), plan.getLastDay());
+            responses.add(response);
+        }
+        return responses;
+    }
 }
 
 
