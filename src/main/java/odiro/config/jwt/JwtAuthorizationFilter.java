@@ -2,33 +2,24 @@ package odiro.config.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import odiro.config.auth.PrincipalDetails;
 import odiro.domain.member.Member;
 import odiro.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
-import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.User;
+
 import java.io.IOException;
-import java.util.Date;
 
 
 //@RequiredArgsConstructor
@@ -49,84 +40,72 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         this.memberRepository = memberRepository;
     }
 
-
-        @Override
-        protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
-            System.out.println("secret" + secretKey);
-            System.out.println("doFilterInternal : 진입");
-            String accessHeader = request.getHeader(JwtProperties.ACCESS_HEADER);
-            String refreshHeader = request.getHeader(JwtProperties.REFRESH_HEADER); // 리프레시 토큰 헤더 추가
+        System.out.println("secret"+secretKey);
+        System.out.println("doFilterInternal : 진입");
+        String header = request.getHeader(JwtProperties.ACCESS_HEADER);
 
-            if (request.getServletPath().equals("/signin") || accessHeader == null || !accessHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
-                System.out.println("login : 진입");
-                filterChain.doFilter(request, response);
-                return;
-            }
+//        "login" 요청, jwt 검증 x
+//        if (header == null || !header.startsWith(JwtProperties.TOKEN_PREFIX)) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
 
-            String accessToken = accessHeader.replace(JwtProperties.TOKEN_PREFIX, "");
+        if (request.getServletPath().equals("/signin")||header == null || !header.startsWith(JwtProperties.TOKEN_PREFIX)) {
+            System.out.println("login : 진입");
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-            try {
-                // 토큰 검증
-                String username = JWT.require(Algorithm.HMAC512(secretKey)).build().verify(accessToken)
-                        .getClaim("username").asString();
-                System.out.println("???" + username);
+//        String refreshToken = jwtAuthenticationService.extractRefreshToken(request)
+//                .filter(jwtAuthenticationService::isTokenValid)
+//                .orElse(null);
+//
+//        // AccessToken 만료되어, refreshToken이 요청 헤더에 포함되어 있을 경우
+//        if (refreshToken != null) {
+//            checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
+//            return;
+//        }
+//
+//        // AccessToken가 만료되지 않아, refreshToken이 없다.
+//        if (refreshToken == null) {
+//            checkAccessTokenAndAuthentication(request, response, filterChain);
+//        }
+//        System.out.println("header : " + header);
 
-                if (username != null) {
-                    Member member = memberRepository.findByNickname(username)
-                            .orElseThrow(() -> new UsernameNotFoundException(username + " -> 데이터베이스에서 찾을 수 없습니다."));
 
-                    PrincipalDetails principalDetails = new PrincipalDetails(member);
-                    Authentication authentication = new UsernamePasswordAuthenticationToken(
-                            principalDetails,
-                            null,
-                            principalDetails.getAuthorities());
 
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-            } catch (TokenExpiredException e) { // 액세스 토큰 만료 예외 처리 추가
-                // 액세스 토큰이 만료된 경우 리프레시 토큰을 사용하여 새로운 액세스 토큰 발급
-                System.out.println("-------------------------------------------리프레시토큰");
-                if (refreshHeader != null && refreshHeader.startsWith(JwtProperties.TOKEN_PREFIX)) { // 리프레시 토큰 검증 추가
-                    String refreshToken = refreshHeader.replace(JwtProperties.TOKEN_PREFIX, "");
 
-                    try {
-                        String username = JWT.require(Algorithm.HMAC512(secretKey)).build().verify(refreshToken)
-                                .getSubject();
+        String token = request.getHeader(JwtProperties.ACCESS_HEADER)
+                .replace(JwtProperties.TOKEN_PREFIX, "");
 
-                        if (username != null) {
-                            Member member = memberRepository.findByNickname(username)
-                                    .orElseThrow(() -> new UsernameNotFoundException(username + " -> 데이터베이스에서 찾을 수 없습니다."));
+        // 토큰 검증 (이게 인증이기 때문에 AuthenticationManager도 필요 없음)
+        // 내가 SecurityContext에 집적접근해서 세션을 만들때 자동으로 UserDetailsService에 있는
+        // loadByUsername이 호출됨.
+        System.out.println("secret"+secretKey);
+        String username = JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token)
+                .getClaim("username").asString();
+        System.out.println("???"+username);
 
-                            String newAccessToken = JWT.create()
-                                    .withSubject(member.getNickname())
-                                    .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.ACCESS_TOKEN_EXPIRATION_TIME))
-                                    .withClaim("id", member.getId())
-                                    .withClaim("username", member.getNickname())
-                                    .sign(Algorithm.HMAC512(secretKey));
 
-                            // 새로운 액세스 토큰을 응답 헤더에 추가
-                            response.setHeader(JwtProperties.ACCESS_HEADER, JwtProperties.TOKEN_PREFIX + newAccessToken);
+        if (username != null) {
+            Member member = memberRepository.findByNickname(username)
+                    .orElseThrow(() -> new UsernameNotFoundException(username + " -> 데이터베이스에서 찾을 수 없습니다."));;
 
-                            PrincipalDetails principalDetails = new PrincipalDetails(member);
-                            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                                    principalDetails,
-                                    null,
-                                    principalDetails.getAuthorities());
+            // 인증은 토큰 검증시 끝. 인증을 하기 위해서가 아닌 스프링 시큐리티가 수행해주는 권한 처리를 위해
+            // 아래와 같이 토큰을 만들어서 Authentication 객체를 강제로 만들고 그걸 세션에 저장!
+            PrincipalDetails principalDetails = new PrincipalDetails(member);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    principalDetails, // 나중에 컨트롤러에서 DI해서 쓸 때 사용하기 편함.
+                    null, // 패스워드는 모르니까 null 처리, 어차피 지금 인증하는게 아니니까!!
+                    principalDetails.getAuthorities());
 
-                            SecurityContextHolder.getContext().setAuthentication(authentication);
-                        }
-                    } catch (JWTVerificationException ex) { // 리프레시 토큰 검증 예외 처리 추가
-                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                        response.getWriter().write("Invalid refresh token");
-                        return;
-                    }
-                } else {
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    response.getWriter().write("Refresh token missing or invalid");
-                    return;
-                }
-            }
+            // 강제로 시큐리티의 세션에 접근하여 값 저장
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+
         filterChain.doFilter(request, response);
     }
 
