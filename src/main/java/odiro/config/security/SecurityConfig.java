@@ -1,33 +1,25 @@
 package odiro.config.security;
 
 
-import lombok.RequiredArgsConstructor;
 //import odiro.config.jwt.JwtAccessDeniedException;
 //import odiro.config.jwt.JwtAuthenticationEntryPoint;
 //import odiro.config.jwt.JwtToken;
 //import odiro.config.jwt.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import odiro.config.auth.PrincipalDetails;
-import odiro.config.jwt.JwtAuthenticationService;
+        import odiro.config.jwt.JwtAuthenticationService;
 import odiro.config.jwt.JwtAuthorizationFilter;
 import odiro.repository.member.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+        import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.AuthenticationManager;
+        import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.SecurityFilterChain;
+        import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+        import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Slf4j
 @EnableWebSecurity
@@ -54,6 +46,16 @@ public class SecurityConfig {
     private final CorsConfig corsConfig;
 
     private final AuthenticationConfiguration authenticationConfiguration;
+
+    private final JwtAuthorizationFilter jwtAuthorizationFilter;
+
+//    public SecurityConfig(MemberRepository memberRepository, CorsConfig corsConfig, AuthenticationConfiguration authenticationConfiguration, JwtAuthorizationFilter jwtAuthorizationFilter) {
+//        this.memberRepository = memberRepository;
+//        this.corsConfig = corsConfig;
+//        this.authenticationConfiguration = authenticationConfiguration;
+//        this.jwtAuthorizationFilter = jwtAuthorizationFilter(memberRepository);
+//    }
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -82,7 +84,7 @@ public class SecurityConfig {
                         .anyRequest().permitAll())
                 .addFilterBefore(corsConfig.corsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterAt(new JwtAuthenticationService(authenticationManager(authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(new JwtAuthorizationFilter(memberRepository), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
 
 
 //                        // USER 권한이 있어야 요청할 수 있음

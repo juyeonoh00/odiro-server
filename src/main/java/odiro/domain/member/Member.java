@@ -6,13 +6,8 @@ import odiro.domain.Comment;
 import odiro.domain.Plan;
 import odiro.domain.PlanMember;
 import org.springframework.security.crypto.password.PasswordEncoder;
-//import odiro.domain.Comment;
-//import odiro.domain.Plan;
-//import odiro.domain.PlanMember;
-//import odiro.domain.Todo;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static lombok.AccessLevel.*;
