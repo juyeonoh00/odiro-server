@@ -22,7 +22,7 @@ public class LocationController {
 
 
         Location savedLocation = locationService.postLocation(
-                request.getDayPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), request.getCategoryGroupName(), request.getImgUrl()
+                request.getDayPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), request.getImgUrl(), request.getCategoryGroupName()
         );
 
         PostLocationResponse response = new PostLocationResponse(savedLocation.getId());

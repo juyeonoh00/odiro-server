@@ -88,7 +88,7 @@ public class PlanController {
                             .map(location -> new LocationInDetailPage(
                                     location.getId(), location.getAddressName(), location.getKakaoMapId(), location.getPhone(),
                                     location.getPlaceName(), location.getPlaceUrl(), location.getLat(), location.getLng(),
-                                    location.getRoadAddressName(), location.getCategoryGroupName(), location.getImgUrl()))
+                                    location.getRoadAddressName(), location.getImgUrl(),location.getCategoryGroupName()))
                             .collect(Collectors.toList());
 
                     List<MemoInDetailPage> memos = dayPlan.getMemos().stream()

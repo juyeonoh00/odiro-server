@@ -17,8 +17,8 @@ public class Location {
     private String phone;
     private String placeName;
     private String placeUrl;
-    private Long lat;
-    private Long lng;
+    private Float lat;
+    private Float lng;
     private String roadAddressName;
     private String categoryGroupName;
     private String imgUrl;
@@ -30,7 +30,7 @@ public class Location {
     protected Location () {
     }
 
-    public Location(DayPlan dayPlan, String addressName, String kakaoMapId, String phone, String placeName, String placeUrl, Long lat, Long lng, String roadAddressName, String categoryGroupName, String imgUrl)
+    public Location(DayPlan dayPlan, String addressName, String kakaoMapId, String phone, String placeName, String placeUrl, Float lat, Float lng, String roadAddressName, String imgUrl, String categoryGroupName)
     {
         this.dayPlan = dayPlan;
         this.addressName = addressName;
@@ -41,7 +41,7 @@ public class Location {
         this.lat = lat;
         this.lng = lng;
         this.roadAddressName = roadAddressName;
-        this.categoryGroupName = categoryGroupName;
         this.imgUrl = imgUrl;
+        this.categoryGroupName = categoryGroupName;
     }
 }
