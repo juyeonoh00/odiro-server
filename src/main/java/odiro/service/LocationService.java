@@ -94,5 +94,8 @@ public class LocationService {
         //dayPlan 등록
         location.setDayPlan(dayPlan);
         location.setPlan(null); //찜한 장소에만 있는 Plan정보는 삭제
+
+        locationRepository.save(location);
+        return location;
     }
 }
