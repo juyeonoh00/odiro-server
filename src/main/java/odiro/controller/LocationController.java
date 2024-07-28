@@ -2,11 +2,11 @@ package odiro.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import odiro.domain.DayPlan;
 import odiro.domain.Location;
-import odiro.dto.location.PostLocationRequest;
-import odiro.dto.location.PostLocationResponse;
-import odiro.dto.location.PostWishLocationRequest;
-import odiro.dto.location.RegisterWishLocationRequest;
+import odiro.dto.dayPlan.PostDayPlanResponse;
+import odiro.dto.location.*;
+import odiro.service.DayPlanService;
 import odiro.service.LocationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.*;
 public class LocationController {
 
     private final LocationService locationService;
+    private final DayPlanService dayPlanService;
 
-    @PostMapping("/plan/location/create")
+    @PostMapping("/location/create")
     public ResponseEntity<PostLocationResponse> postLocation(@RequestBody PostLocationRequest request) {
 
 
@@ -33,7 +34,7 @@ public class LocationController {
     }
 
     // 찜하기
-    @PostMapping("/plan/wishLocation/create")
+    @PostMapping("/wishLocation/create")
     public ResponseEntity<PostLocationResponse> postWishLocation(@RequestBody PostWishLocationRequest request) {
 
 
@@ -47,12 +48,12 @@ public class LocationController {
     }
 
     //찜한것을 DayPlan에 등록
-    @PostMapping("/plan/wishLocation/register")
+    @PostMapping("/wishLocation/bring")
     public ResponseEntity<PostLocationResponse> registerWishLoction(@RequestBody RegisterWishLocationRequest request) {
 
 
         Location savedLocation = locationService.registerWishLocation(
-                request.getLocationId(), request.getPlanId()
+                request.getLocationId(), request.getDayPlanId()
         );
 
         PostLocationResponse response = new PostLocationResponse(savedLocation.getId());
@@ -69,6 +70,16 @@ public class LocationController {
 
         //결과 반환
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/location/reorder")
+    public ResponseEntity<PostDayPlanResponse> postLocation(@RequestBody ReorderLocationRequest request) {
+
+        DayPlan reorderedDayplan = dayPlanService.reorderLocations(request.getDayPlanId(), request.getReorderedLocationIds());
+
+        PostDayPlanResponse response = new PostDayPlanResponse(reorderedDayplan.getId());
+
+        return ResponseEntity.ok(response);
     }
 
     /* //장소 수정 불필요

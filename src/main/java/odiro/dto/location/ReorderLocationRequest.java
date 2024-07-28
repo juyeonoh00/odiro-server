@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class RegisterWishLocationRequest {
+public class ReorderLocationRequest {
 
-    private Long locationId;
     private Long dayPlanId;
+    private List<Long> reorderedLocationIds;
 }
