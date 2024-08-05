@@ -20,6 +20,7 @@ public class LocationController {
     private final LocationService locationService;
     private final DayPlanService dayPlanService;
 
+    //장소 새로 등록
     @PostMapping("/location/create")
     public ResponseEntity<PostLocationResponse> postLocation(@RequestBody PostLocationRequest request) {
 
@@ -33,35 +34,7 @@ public class LocationController {
         return ResponseEntity.ok(response);
     }
 
-    // 찜하기
-    @PostMapping("/wishLocation/create")
-    public ResponseEntity<PostLocationResponse> postWishLocation(@RequestBody PostWishLocationRequest request) {
-
-
-        Location savedLocation = locationService.postWishLocation(
-                request.getPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), request.getImgUrl(), request.getCategoryGroupName()
-        );
-
-        PostLocationResponse response = new PostLocationResponse(savedLocation.getId());
-
-        return ResponseEntity.ok(response);
-    }
-
-    //찜한것을 DayPlan에 등록
-    @PostMapping("/wishLocation/bring")
-    public ResponseEntity<PostLocationResponse> registerWishLoction(@RequestBody RegisterWishLocationRequest request) {
-
-
-        Location savedLocation = locationService.registerWishLocation(
-                request.getLocationId(), request.getDayPlanId()
-        );
-
-        PostLocationResponse response = new PostLocationResponse(savedLocation.getId());
-
-        return ResponseEntity.ok(response);
-    }
-
-
+    //장소 삭제
     @DeleteMapping("/location/delete/{locationId}")
     public ResponseEntity<Void> deleteLocation(@PathVariable("locationId") Long locationId) {
 
@@ -72,6 +45,7 @@ public class LocationController {
         return ResponseEntity.noContent().build();
     }
 
+    //장소 DayPlan에서의 배치 순서 변경
     @PostMapping("/location/reorder")
     public ResponseEntity<PostDayPlanResponse> postLocation(@RequestBody ReorderLocationRequest request) {
 
@@ -106,4 +80,42 @@ public class LocationController {
     }
 
      */
+
+    // 찜하기
+    @PostMapping("/wishLocation/create")
+    public ResponseEntity<PostLocationResponse> postWishLocation(@RequestBody PostWishLocationRequest request) {
+
+
+        Location savedLocation = locationService.postWishLocation(
+                request.getPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), request.getImgUrl(), request.getCategoryGroupName()
+        );
+
+        PostLocationResponse response = new PostLocationResponse(savedLocation.getId());
+
+        return ResponseEntity.ok(response);
+    }
+
+    //찜한것을 DayPlan에 등록
+    @PostMapping("/wishLocation/bring")
+    public ResponseEntity<PostLocationResponse> registerWishLoction(@RequestBody RegisterWishLocationRequest request) {
+
+
+        Location savedLocation = locationService.registerWishLocation(
+                request.getLocationId(), request.getDayPlanId()
+        );
+
+        PostLocationResponse response = new PostLocationResponse(savedLocation.getId());
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/wishLocation/delete/{locationId}")
+    public ResponseEntity<Void> deleteWishLocation(@PathVariable("locationId") Long locationId) {
+
+        //삭제
+        locationService.deleteLocation(locationId);
+
+        //결과 반환
+        return ResponseEntity.noContent().build();
+    }
 }

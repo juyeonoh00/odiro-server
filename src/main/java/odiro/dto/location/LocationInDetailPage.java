@@ -12,6 +12,7 @@ import lombok.Setter;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class LocationInDetailPage {
 
+    private int order;
     private Long id;
     private String addressName;
     private String kakaoMapId;

@@ -25,11 +25,14 @@ public class Location {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="day_plan_id")
-    private DayPlan dayPlan;    //dayPlan에 추가한 장소
+    private DayPlan dayPlan;    //dayPlan에 추가한 장소는 DayPlan에는 값을 가지고 Plan은 null
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="plan_id")
-    private Plan plan;  //찜한 장소
+    private Plan plan;  //찜한 장소는 Plan에는 값을 가지고 DayPlan은 null
+
+    @Column(name = "location_order")
+    private int locationOrder;
 
     protected Location () {
     }
