@@ -1,6 +1,5 @@
 package odiro.config.swagger;
 
-import com.auth0.jwt.JWT;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;

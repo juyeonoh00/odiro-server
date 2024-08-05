@@ -2,6 +2,7 @@ package odiro.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import odiro.config.auth.PrincipalDetails;
 import odiro.domain.DayPlan;
 import odiro.domain.Memo;
 import odiro.domain.member.Member;
@@ -20,6 +21,7 @@ import odiro.dto.plan.InitPlanRequest;
 import odiro.dto.plan.InitPlanResponse;
 import odiro.service.DayPlanService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import odiro.domain.Plan;
 import odiro.service.PlanService;
@@ -40,17 +42,17 @@ public class PlanController {
     private final DayPlanService dayPlanService;
 
     @GetMapping("/home")
-    public List<HomeResponse> homeForm() {
+    public List<HomeResponse> homeForm( @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        List<Plan> planList = planService.findPlansByParticipantId(1L); //memberId 1로 임시 지정
+        List<Plan> planList = planService.findPlansByParticipantId(principalDetails.getMember().getId()); //memberId 1로 임시 지정
         return mapToHomeResponseList(planList);
     }
 
     @PostMapping("/plan/create")
-    public InitPlanResponse initPlan(@RequestBody InitPlanRequest request) {
+    public InitPlanResponse initPlan(@RequestBody InitPlanRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         Plan savedPlan = planService.initPlanV2(
-                1L, request.getTitle(), request.getFirstDay(), request.getLastDay());
+                principalDetails.getMember().getId(), request.getTitle(), request.getFirstDay(), request.getLastDay());
 
         //DayPlan 생성
         LocalDateTime currentDateTime = request.getFirstDay();
@@ -72,11 +74,11 @@ public class PlanController {
 
         Member initializer = plan.getInitializer();
         InitializerInDetailPage initializerResponse = new InitializerInDetailPage(
-                initializer.getId(), initializer.getNickname(), initializer.getEmail(), initializer.getProfileImage());
+                initializer.getId(), initializer.getUsername(), initializer.getEmail(), initializer.getProfileImage());
 
         List<Member> participants = planService.findParticipantsByPlanId(planId);
         List<MemberInDetailPage> memberResponses = participants.stream()
-                .map(member -> new MemberInDetailPage(member.getId(), member.getNickname(), member.getEmail(), member.getProfileImage()))
+                .map(member -> new MemberInDetailPage(member.getId(), member.getUsername(), member.getEmail(), member.getProfileImage()))
                 .collect(Collectors.toList());
 
 

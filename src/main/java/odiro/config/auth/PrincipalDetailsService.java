@@ -24,7 +24,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("PrincipalDetailsService : 진입");
-        Member member = memberRepository.findByNickname(username)
+        Member member = memberRepository.findByusername(username)
 //                .map(this::createUserDetails)
                 .orElseThrow(() -> new UsernameNotFoundException(username + " -> 데이터베이스에서 찾을 수 없습니다."));
         System.out.println("PrincipalDetailsService : 리턴");
@@ -37,7 +37,7 @@ public class PrincipalDetailsService implements UserDetailsService {
         GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(member.getAuthority().toString());
 
         return new User(
-                String.valueOf(member.getNickname()),
+                String.valueOf(member.getUsername()),
                 member.getPassword(),
                 Collections.singleton(grantedAuthority)
         );

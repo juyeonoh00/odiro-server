@@ -22,9 +22,9 @@ public class PrincipalDetails implements UserDetails {
         this.member = member;
     }
 
-//    public Member getMember() {
-//        return member;
-//    }
+    public Member getMember() {
+        return member;
+    }
 
     @Override
     public String getPassword() {
@@ -33,7 +33,7 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return member.getNickname();
+        return member.getUsername();
     }
 
 

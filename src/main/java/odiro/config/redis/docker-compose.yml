@@ -1,0 +1,24 @@
+#services:
+#  redis:
+#    image: redis:7.2.5
+#    container_name: redis
+#    networks:
+#      - my-network
+#    ports:
+#      - "6379:6379"
+#
+#  app:
+#    image: juyeonoh00/odiro:latest
+#    environment:
+#      - SPRING_REDIS_HOST=redis
+#      - SPRING_REDIS_PORT=6379
+#    depends_on:
+#      - redis
+#    networks:
+#      - my-network
+#    ports:
+#      - "8080:8080"
+#
+#networks:
+#  my-network:
+#    driver: bridge

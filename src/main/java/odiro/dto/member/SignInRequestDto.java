@@ -13,20 +13,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class SignInRequestDto {
-    private String nickname;
+    private String username;
     private String password;
 //    private String authority;
 
     public Member toEntity(PasswordEncoder passwordEncoder) {
         return Member.builder()
-                .nickname(nickname)
+                .username(username)
                 .password(passwordEncoder.encode(password))
                 .authority(Authority.ROLE_USER)
                 .build();
     }
 
     public UsernamePasswordAuthenticationToken toAuthentication() {
-        return new UsernamePasswordAuthenticationToken(nickname, password);
+        return new UsernamePasswordAuthenticationToken(username, password);
     }
 }
 

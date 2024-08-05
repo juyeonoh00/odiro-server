@@ -13,7 +13,7 @@ services:
     networks:
       - bridge
   odiro-container2:
-    image: juyeonoh0/odiro:latest
+    image: juyeonoh00/odiro:latest
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container2:3306/mysql-container2
       SPRING_DATASOURCE_USERNAME: root

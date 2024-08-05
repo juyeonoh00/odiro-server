@@ -45,6 +45,10 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/Demo
+    redis:
+#      host: 172.17.0.2 or redis
+      host: localhost
+      port: 6379
   jpa:
     hibernate:
       ddl-auto: create
@@ -53,6 +57,19 @@ spring:
         default_schema: here
         show_sql: true
         format_sql: true
+  security:
+    oauth2:
+      kakao:
+        client-id: 041c2f4f97b6949e3d0d99a52a15ce33
+        redirect_uri: http://localhost:8080/kakao
+        client-secret: EckGrm5S334npYTY9CxbRkNCPMw6pAUi
+        authorization-grant-type: authorization_code
+        token-uri: https://kauth.kakao.com/oauth/token
+#           scope: profile_nickname, account_email
+        client-name: Kakao
+#            token-uri: https://kauth.kakao.com/oauth/token
+#            user-info-uri: https://kapi.kakao.com/v2/user/me
+#            user-name-attribute: id
 
 server:
   address: localhost
@@ -64,3 +81,4 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 jwt:
   secret: 7ae96706cd6e6aade43a3b843bb3317f823ab927b64beb8d45558b3ac29f079dd36afe40f1646af31c334ccbb568cfe64b9e4e54a47aa5a5077796eca1e58075
+#  <button id="login-kakao-btn" onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id={REST_API_KEY}&redirect_uri=http://localhost:8080/api/user/kakao/callback&response_type=code'">

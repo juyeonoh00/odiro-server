@@ -10,10 +10,10 @@ import odiro.domain.member.Member;
 @AllArgsConstructor
 public class SignUpResponseDto {
     private String password;
-    private String nickname;
+    private String username;
 
 
     public static SignUpResponseDto toDto(Member member) {
-        return new SignUpResponseDto(member.getPassword(), member.getNickname());
+        return new SignUpResponseDto(member.getPassword(), member.getUsername());
     }
 }

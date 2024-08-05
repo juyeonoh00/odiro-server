@@ -1,4 +1,4 @@
-package odiro.Exception;
+package odiro.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

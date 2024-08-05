@@ -1,25 +1,25 @@
 package odiro.config.security;
 
 
-//import odiro.config.jwt.JwtAccessDeniedException;
-//import odiro.config.jwt.JwtAuthenticationEntryPoint;
-//import odiro.config.jwt.JwtToken;
-//import odiro.config.jwt.JwtTokenProvider;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-        import odiro.config.jwt.JwtAuthenticationService;
-import odiro.config.jwt.JwtAuthorizationFilter;
+
+import odiro.config.jwt.JwtFilter;
+import odiro.config.jwt.exception.JwtAccessDeniedException;
+import odiro.config.jwt.exception.JwtAuthenticationEntryPoint;
 import odiro.repository.member.MemberRepository;
-        import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-        import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-        import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-        import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 @Slf4j
 @EnableWebSecurity
@@ -27,19 +27,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-//    @Value("${jwt.secret}")
-//    private String secretNumber;
-    //권한 설정
-//    @Bean
-//    @Builder
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.authorizeHttpRequests((auth)->auth
-//                .requestMatchers("/").permitAll()
-//                .requestMatchers("/signup").permitAll()
-//                .anyRequest().authenticated()) // "/"외 모든 주소 로그인 필요
-//        ;
-//        return http.build();
-//    }
 
     private final MemberRepository memberRepository;
 
@@ -47,14 +34,7 @@ public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
 
-    private final JwtAuthorizationFilter jwtAuthorizationFilter;
-
-//    public SecurityConfig(MemberRepository memberRepository, CorsConfig corsConfig, AuthenticationConfiguration authenticationConfiguration, JwtAuthorizationFilter jwtAuthorizationFilter) {
-//        this.memberRepository = memberRepository;
-//        this.corsConfig = corsConfig;
-//        this.authenticationConfiguration = authenticationConfiguration;
-//        this.jwtAuthorizationFilter = jwtAuthorizationFilter(memberRepository);
-//    }
+    private final JwtFilter jwtFilter;
 
 
     @Bean
@@ -62,7 +42,6 @@ public class SecurityConfig {
         System.out.println("authenticationManager : 진입");
         return configuration.getAuthenticationManager();
     }
-
 
 
     @Bean
@@ -80,81 +59,33 @@ public class SecurityConfig {
                         // 해당 API에 대해서는 모든 요청을 허가
 //                        .requestMatchers( "/api/signin").hasRole("USER")
 //                                                .requestMatchers("/api/signup").hasRole("USER")
+//                         이 밖에 모든 요청에 대해서 인증을 필요로 한다는 설정
+//                        .requestMatchers("/kakaos/**").permitAll()
+//                        .requestMatchers("/login/**").permitAll()
+                        .requestMatchers("/kakao/**").permitAll()
+
+                        .requestMatchers("/api/signin").permitAll()
+                        .requestMatchers("/api/signup").permitAll()
+                        .requestMatchers("/","/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         // 이 밖에 모든 요청에 대해서 인증을 필요로 한다는 설정
-                        .anyRequest().permitAll())
+                        .anyRequest().authenticated())
+
+
+
+//                        .anyRequest().permitAll())
                 .addFilterBefore(corsConfig.corsFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterAt(new JwtAuthenticationService(authenticationManager(authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
-
-
-//                        // USER 권한이 있어야 요청할 수 있음
-//                        .requestMatchers("/members/test").hasRole("USER"))
-                // JWT 인증을 위하여 직접 구현한 필터를 UsernamePasswordAuthenticationFilter 전에 실행
-//                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-//                        UsernamePasswordAuthenticationFilter.class
-//                )
-//                .addFilterBefore(corsConfig.corsFilter(), UsernamePasswordAuthenticationFilter.class)
-//                .addFilter(new JwtAuthenticationService(authenticationManager(authenticationConfiguration)))
-//                .addFilterAfter(new JwtAuthorizationFilter(memberRepository), UsernamePasswordAuthenticationFilter.class)
-
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(ex->{
+                    ex.accessDeniedHandler(new JwtAccessDeniedException());
+                    ex.authenticationEntryPoint(new JwtAuthenticationEntryPoint());
+                    ex.accessDeniedHandler(new JwtAccessDeniedException());})
                 .build();
+
     }
 
-    public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
-
-        @Override
-        public void configure(HttpSecurity http) throws Exception {
-            System.out.println("MyCustomDsl : 진입");
-            AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-            http
-                    .addFilterBefore(corsConfig.corsFilter(), UsernamePasswordAuthenticationFilter.class)
-                    .addFilterAt(new JwtAuthenticationService(authenticationManager(authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class)
-                    .addFilterAfter(new JwtAuthorizationFilter(memberRepository), UsernamePasswordAuthenticationFilter.class)
-
-                    .build();}}
-
-//    @Bean
-//    public AuthenticationManager authenticationManagerBean() throws Exception {
-//        return this.authenticationManagerBean();
-//    }
-//    public class AddFilter extends AbstractHttpConfigurer<AddFilter, HttpSecurity> {
-//        @Override
-//        public void configure(HttpSecurity http) throws Exception {
-//            AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-//            http
-//                    .addFilter(corsConfig.corsFilter())
-//                    .addFilter(new JwtAuthenticationService())
-////                    .addFilter(new JwtAuthenticationService(authenticationManager))
-//                    .addFilter(new JwtAuthorizationFilter(memberRepository));
-//        }
-//    }
-//    @Bean
-//    public JwtAuthorizationFilter jwtAuthenticationProcessingFilter() {
-//        AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-//        return new JwtAuthorizationFilter(jwtAuthenticationFilter, memberRepository);
-//    }
-
-
-
-//    public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
-//        @Override
-//        public void configure(HttpSecurity http) throws Exception {
-//            AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-//            PrincipalDetails principalDetails = http.getSharedObject(PrincipalDetails.class);
-//            http
-//                    .addFilter(corsConfig.corsFilter())
-//                    .addFilter(new JwtAuthorizationFilter(memberRepository, new JwtAuthenticationService(principalDetails, authenticationManager)));
-//        }
-//    }
-
-
-
-
-    //(더미 데이터) 유저 생성
-//    public UserDetailsService userDetailsService(HttpSecurity http) throws Exception {
-//        UserDetails user = User.withUsername("root").password("{none}1234").authorities("ROLE_USER").build()
-//                ;
-//        return new InMemoryUserDetailsManager(user);
-//    }
 }
+
+
+
+
 

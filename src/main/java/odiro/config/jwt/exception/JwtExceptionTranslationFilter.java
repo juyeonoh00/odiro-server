@@ -1,4 +1,4 @@
-package odiro.config.jwt;
+package odiro.config.jwt.exception;
 
 public class JwtExceptionTranslationFilter {
 }

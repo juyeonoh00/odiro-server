@@ -25,12 +25,14 @@ public class Member extends BaseTimeEntity {
     @Column(length = 25)
     private String email;
 
-    @Column(length = 225, nullable = false)
+    @Column(length = 225)
     private String password;
 
     @Column(length = 20, nullable = false)
-    private String nickname;
+    private String username;
 
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
     @Column
     private String profileImage;
 
@@ -43,8 +45,6 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "participant")
     private List<PlanMember> joinedPlan = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING)
-    private Authority authority;
 
     //수정 필요
     @Column(nullable = true)
@@ -56,17 +56,6 @@ public class Member extends BaseTimeEntity {
     public void passwordEncoding(PasswordEncoder passwordEncoder) {
         password = passwordEncoder.encode(password);
     }
-//    @OneToMany(mappedBy = "initializer")
-//    private List<Plan> initalizedPlans = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "proposer")
-//    private List<Todo> proposedTodos = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "writer")
-//    private List<Comment> comments = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "participant")
-//    private List<PlanMember> joinedPlan = new ArrayList<>();
 
     @Override
     public String toString() {
@@ -75,7 +64,7 @@ public class Member extends BaseTimeEntity {
                 ", createDate=" + getCreateDate() +
                 ", email='" + email + '\'' +
                 ", emailVerified=" + emailVerified +
-                ", nickname='" + nickname + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

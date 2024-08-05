@@ -2,6 +2,8 @@ package odiro.config.oauth2;
 
 import lombok.Builder;
 import lombok.Getter;
+import odiro.domain.member.Authority;
+import odiro.domain.member.Member;
 
 import java.util.Map;
 
@@ -30,6 +32,15 @@ public class OAuthAttributes {
                 .nickName(nickname)
                 .attributes(attributes)
                 .socialType(SocialType.KAKAO)
+                .build();
+    }
+    public Member toEntity() {
+        return Member.builder()
+                .email(email)
+                .username(nickName)
+                .password(null)
+                .authority(Authority.ROLE_USER)
+                .emailVerified(true)
                 .build();
     }
 }
