@@ -87,10 +87,10 @@ public class PlanController {
         List<DayPlanInDetailPage> dayPlanResponses = plan.getDayPlans().stream()
                 .map(dayPlan -> {
                     List<LocationInDetailPage> locations = dayPlan.getLocations().stream()
-                            .map(location -> new LocationInDetailPage(
+                            .map(location -> new LocationInDetailPage( location.getLocationOrder(),
                                     location.getId(), location.getAddressName(), location.getKakaoMapId(), location.getPhone(),
                                     location.getPlaceName(), location.getPlaceUrl(), location.getLat(), location.getLng(),
-                                    location.getRoadAddressName(), location.getCategoryGroupName(), location.getImgUrl()))
+                                    location.getRoadAddressName(), location.getImgUrl(),location.getCategoryGroupName()))
                             .collect(Collectors.toList());
 
                     List<MemoInDetailPage> memos = dayPlan.getMemos().stream()

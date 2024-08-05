@@ -1,6 +1,7 @@
 package odiro.service;
 
 import lombok.RequiredArgsConstructor;
+import odiro.domain.DayPlan;
 import odiro.domain.Memo;
 import odiro.domain.PlanMember;
 import odiro.domain.member.Member;
@@ -91,5 +92,4 @@ public class PlanService {
         // Plan 삭제
         planRepository.delete(memo);
     }
-
 }

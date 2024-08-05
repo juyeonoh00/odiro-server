@@ -28,6 +28,9 @@ public class Plan {
     @OneToMany(mappedBy = "plan")
     private List<DayPlan> dayPlans = new ArrayList<>();
 
+    @OneToMany(mappedBy = "plan")
+    private List<Location> wishLocations = new ArrayList<>();
+
     protected Plan () {
     }
 

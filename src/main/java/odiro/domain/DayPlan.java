@@ -7,6 +7,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 @Entity
 @Getter @Setter
@@ -26,7 +27,7 @@ public class DayPlan {
     @OneToMany(mappedBy = "dayPlan")
     private List<Memo> memos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "dayPlan")
+    @OneToMany(mappedBy = "dayPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderColumn(name = "location_order")
     private List<Location> locations = new ArrayList<>();
-
 }
