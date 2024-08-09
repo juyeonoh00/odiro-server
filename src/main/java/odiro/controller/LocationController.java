@@ -2,14 +2,25 @@ package odiro.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import odiro.config.auth.PrincipalDetails;
 import odiro.domain.DayPlan;
 import odiro.domain.Location;
+import odiro.domain.Plan;
 import odiro.dto.dayPlan.PostDayPlanResponse;
 import odiro.dto.location.*;
+import odiro.dto.member.HomeResponse;
 import odiro.service.DayPlanService;
 import odiro.service.LocationService;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -117,5 +128,46 @@ public class LocationController {
 
         //결과 반환
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/location/image/crawl")
+    public CrawlResponse extractImageFromWeb(@RequestBody CrawlRequest request) {
+
+        CrawlResponse response = new CrawlResponse(null);
+        try {
+            // Jsoup을 사용하여 URL에서 HTML을 가져옵니다.
+            Document doc = Jsoup.connect(request.getUrl()).get();
+
+            // 'bg_present' 클래스를 가진 요소를 선택합니다.
+            Elements elements = doc.select(".bg_present");
+
+            // 선택된 요소의 background-image URL을 출력합니다.
+            for (Element element : elements) {
+                String style = element.attr("style");
+                String imageUrl = extractBackgroundImageUrl(style);
+                if (imageUrl != null) {
+                    response.setImageUrl(imageUrl);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    private static String extractBackgroundImageUrl(String style) {
+        String url = null;
+        String prefix = "background-image: url(";
+        int startIndex = style.indexOf(prefix);
+        if (startIndex != -1) {
+            startIndex += prefix.length();
+            int endIndex = style.indexOf(")", startIndex);
+            if (endIndex != -1) {
+                url = style.substring(startIndex, endIndex);
+                // URL에서 불필요한 따옴표를 제거합니다.
+                url = url.replace("\"", "").replace("'", "");
+            }
+        }
+        return url;
     }
 }
