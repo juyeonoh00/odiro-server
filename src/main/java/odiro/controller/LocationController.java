@@ -37,9 +37,23 @@ public class LocationController {
     @PostMapping("/location/create")
     public ResponseEntity<PostLocationResponse> postLocation(@RequestBody PostLocationRequest request) {
 
+        // https://place.map.kakao.com/placePrint.daum?confirmid={장소 고유 ID} 형식으로 로직 통일 가능
+        String url = "https://place.map.kakao.com/placePrint.daum?confirmid=" + request.getKakaoMapId();
+        String imagePath = null;
+
+        //이미지 크롤링
+        try {
+            Document doc = Jsoup.connect(url).get();
+
+            // "https:" 가 빠진채로 image src가 저장되어 있으므로 "https:" prefix 추가
+            imagePath = "https:" + doc.getElementsByClass("thumb_g").get(0).attr("src");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Location savedLocation = locationService.postLocation(
-                request.getDayPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), request.getImgUrl(), request.getCategoryGroupName()
+                request.getDayPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), imagePath, request.getCategoryGroupName()
         );
 
         PostLocationResponse response = new PostLocationResponse(savedLocation.getId());
@@ -98,9 +112,23 @@ public class LocationController {
     @PostMapping("/wishLocation/create")
     public ResponseEntity<PostLocationResponse> postWishLocation(@RequestBody PostWishLocationRequest request) {
 
+        // https://place.map.kakao.com/placePrint.daum?confirmid={장소 고유 ID} 형식으로 로직 통일 가능
+        String url = "https://place.map.kakao.com/placePrint.daum?confirmid=" + request.getKakaoMapId();
+        String imagePath = null;
+
+        //이미지 크롤링
+        try {
+            Document doc = Jsoup.connect(url).get();
+
+            // "https:" 가 빠진채로 image src가 저장되어 있으므로 "https:" prefix 추가
+            imagePath = "https:" + doc.getElementsByClass("thumb_g").get(0).attr("src");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Location savedLocation = locationService.postWishLocation(
-                request.getPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), request.getImgUrl(), request.getCategoryGroupName()
+                request.getPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), imagePath, request.getCategoryGroupName()
         );
 
         PostLocationResponse response = new PostLocationResponse(savedLocation.getId());
@@ -272,24 +300,24 @@ public class LocationController {
 //        return response;
 //    }
 
-    @PostMapping("/location/image/crawl")
-    public CrawlResponse extractImageFromWeb(@RequestBody CrawlRequest request) {
-        CrawlResponse response = new CrawlResponse(null);
-
-        try {
-            // 요청에서 전달받은 URL을 사용하여 HTML을 가져옴
-            Document doc = Jsoup.connect(request.getUrl()).get();
-
-            // 'thumb_g' 클래스를 가진 요소를 선택하고, src 속성 값을 추출하여 이미지 경로를 완성
-            String imagePath = "https:" + doc.getElementsByClass("thumb_g").get(0).attr("src");
-
-            // CrawlResponse 객체에 이미지 URL을 설정
-            response.setImageUrl(imagePath);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return response;
-    }
+//    @PostMapping("/location/image/crawl")
+//    public CrawlResponse extractImageFromWeb(@RequestBody CrawlRequest request) {
+//        CrawlResponse response = new CrawlResponse(null);
+//
+//        try {
+//            // 요청에서 전달받은 URL을 사용하여 HTML을 가져옴
+//            Document doc = Jsoup.connect(request.getUrl()).get();
+//
+//            // 'thumb_g' 클래스를 가진 요소를 선택하고, src 속성 값을 추출하여 이미지 경로를 완성
+//            String imagePath = "https:" + doc.getElementsByClass("thumb_g").get(0).attr("src");
+//
+//            // CrawlResponse 객체에 이미지 URL을 설정
+//            response.setImageUrl(imagePath);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return response;
+//    }
 }
