@@ -70,9 +70,7 @@ public class PrincipalDetails implements UserDetails {
 //        System.out.println("getAuthorities : 반환");
 //        return Collections.singletonList(authority); // 단일 권한을 리스트로 반환
 
-        System.out.println("getAuthorities : 진입");
         GrantedAuthority authority = new SimpleGrantedAuthority(member.getAuthority().name());
-        System.out.println("getAuthorities : 반환");
         return Collections.singletonList(authority);
     }
 

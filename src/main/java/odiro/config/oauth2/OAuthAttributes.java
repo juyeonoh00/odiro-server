@@ -40,7 +40,6 @@ public class OAuthAttributes {
                 .username(nickName)
                 .password(null)
                 .authority(Authority.ROLE_USER)
-                .emailVerified(true)
                 .build();
     }
 }

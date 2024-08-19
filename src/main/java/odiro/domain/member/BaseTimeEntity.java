@@ -19,6 +19,4 @@ public abstract class BaseTimeEntity {
     @JsonIgnore // http 통신에는 보이지 않음
     @Column(name = "create_date", updatable = false)
     private LocalDateTime createDate;
-
-    // 아이디 수정이 없고, 아이디 생성 일자만 나옴
 }

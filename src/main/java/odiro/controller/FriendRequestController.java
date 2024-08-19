@@ -3,7 +3,7 @@ package odiro.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import odiro.service.member.MemberService;
+import odiro.service.MemberService;
 import org.springframework.stereotype.Controller;
 import odiro.repository.FriendRequestRepository;
 import org.springframework.web.bind.annotation.RequestMapping;

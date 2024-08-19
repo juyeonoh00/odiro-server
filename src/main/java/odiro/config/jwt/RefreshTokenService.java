@@ -1,6 +1,7 @@
 package odiro.config.jwt;
 
 import lombok.RequiredArgsConstructor;
+import odiro.config.redis.RedisService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
-
+    private final RedisService redisService;
 //    @Transactional
 //    public void saveTokenInfo(Long memberId, String refreshToken, String accessToken) {
 //        refreshTokenRepository.save(new RefreshToken(String.valueOf(memberId), refreshToken, accessToken));
@@ -18,6 +19,9 @@ public class RefreshTokenService {
     @Transactional
     public void removeRefreshToken(String accessToken) {
         refreshTokenRepository.findByAccessToken(accessToken)
-                .ifPresent(refreshToken -> refreshTokenRepository.delete(refreshToken));
+                .ifPresent(refreshToken -> {
+                    redisService.deleteValues(refreshToken.getRefreshToken());
+                    refreshTokenRepository.delete(refreshToken);
+                });
     }
 }

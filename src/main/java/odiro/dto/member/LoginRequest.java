@@ -1,4 +1,4 @@
-package odiro;
+package odiro.dto.member;
 
 import lombok.Getter;
 import lombok.Setter;

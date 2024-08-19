@@ -7,8 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import odiro.config.jwt.JwtUtil;
 import odiro.config.jwt.TokenDto;
 import odiro.domain.member.Member;
-import odiro.service.member.MemberService;
-import org.springframework.http.HttpStatus;
+import odiro.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("")
+@RequestMapping("/api")
 public class KakaoLoginController {
 
     private final Oauth2TokenService oauth2TokenService;

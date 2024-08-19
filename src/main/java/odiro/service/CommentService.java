@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import odiro.domain.*;
 import odiro.domain.member.Member;
 import odiro.repository.CommentRepository;
-import odiro.service.member.MemberService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -45,13 +45,6 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "participant")
     private List<PlanMember> joinedPlan = new ArrayList<>();
 
-
-    //수정 필요
-    @Column(nullable = true)
-    private boolean emailVerified;
-
-    @Column(nullable = true)
-    private String refreshToken;
     //비밀번호 암호화
     public void passwordEncoding(PasswordEncoder passwordEncoder) {
         password = passwordEncoder.encode(password);
@@ -63,7 +56,6 @@ public class Member extends BaseTimeEntity {
                 "authority='" + authority + '\'' +
                 ", createDate=" + getCreateDate() +
                 ", email='" + email + '\'' +
-                ", emailVerified=" + emailVerified +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';

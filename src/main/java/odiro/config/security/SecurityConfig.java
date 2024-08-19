@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import odiro.config.jwt.JwtFilter;
 import odiro.config.jwt.exception.JwtAccessDeniedException;
 import odiro.config.jwt.exception.JwtAuthenticationEntryPoint;
-import odiro.repository.member.MemberRepository;
+import odiro.repository.MemberRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,7 +19,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 @Slf4j
 @EnableWebSecurity
@@ -62,8 +61,8 @@ public class SecurityConfig {
 //                         이 밖에 모든 요청에 대해서 인증을 필요로 한다는 설정
 //                        .requestMatchers("/kakaos/**").permitAll()
 //                        .requestMatchers("/login/**").permitAll()
-                        .requestMatchers("/kakao/**").permitAll()
-
+                        .requestMatchers("api/kakao/**").permitAll()
+                        .requestMatchers("/api/emails/**").permitAll()
                         .requestMatchers("/api/signin").permitAll()
                         .requestMatchers("/api/signup").permitAll()
                         .requestMatchers("/","/swagger-ui/**", "/v3/api-docs/**").permitAll()

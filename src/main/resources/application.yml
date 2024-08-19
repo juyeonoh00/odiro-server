@@ -70,7 +70,23 @@ spring:
 #            token-uri: https://kauth.kakao.com/oauth/token
 #            user-info-uri: https://kapi.kakao.com/v2/user/me
 #            user-name-attribute: id
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ohjuyeon2000@gmail.com
+    password: j l i m a d c h t s w x a m t t
+    properties:
+      mail:
+        smtp:
+          from: ODIRO@gmail.com
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+    auth-code-expiration-millis: 1800000
 server:
   address: localhost
   port: 8080

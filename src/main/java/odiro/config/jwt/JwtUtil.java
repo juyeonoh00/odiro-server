@@ -4,16 +4,14 @@ import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import odiro.config.auth.PrincipalDetails;
 import odiro.config.auth.PrincipalDetailsService;
 import odiro.config.jwt.exception.ErrorCode;
 import odiro.config.jwt.exception.TokenExcption;
 import odiro.domain.member.Member;
-import odiro.repository.member.MemberRepository;
+import odiro.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -36,7 +34,7 @@ public class JwtUtil {
     private final RefreshTokenRepository refreshTokenRepository;
 
     private final MemberRepository memberRepository;
-    public String createAccessToken(Member member,HttpServletResponse response){
+    public String createAccessToken(Member member, HttpServletResponse response){
         Claims claims = Jwts.claims().setSubject(member.getUsername());
 //        String authorities = authentication.getAuthorities().stream()
 //                .map(GrantedAuthority::getAuthority)
@@ -52,34 +50,34 @@ public class JwtUtil {
         return accessToken;
     }
 
-    public TokenDto generateToken(Authentication authentication, HttpServletResponse response){
-        PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
-        Claims claims = Jwts.claims().setSubject(authentication.getName());
-        // 권한들
-//        String authorities = authentication.getAuthorities().stream()
-//                .map(GrantedAuthority::getAuthority)
-//                .collect(Collectors.joining(","));
-
-        String accessToken = Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+ JwtProperties.ACCESS_TOKEN_EXPIRATION_TIME))
-                .claim(JwtProperties.AUTHORITIES_KEY, authentication.getAuthorities())
-                .signWith(SignatureAlgorithm.HS256,secretKey.getBytes())
-                .compact();
-        String refreshToken = Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+ JwtProperties.REFRESH_TOKEN_EXPIRATION_TIME))
-                .claim(JwtProperties.AUTHORITIES_KEY, authentication.getAuthorities())
-                .signWith(SignatureAlgorithm.HS256,secretKey.getBytes())
-                .compact();
-        response.addHeader(JwtProperties.ACCESS_HEADER, JwtProperties.TOKEN_PREFIX + accessToken);
-        refreshTokenRepository.save(new RefreshToken(userDetails.getMember().getId(), refreshToken, accessToken));
-        return new TokenDto(accessToken, refreshToken);
-    }
+//    public TokenDto generateToken(Authentication authentication, HttpServletResponse response){
+//        PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
+//        Claims claims = Jwts.claims().setSubject(userDetails.getMember().getId().toString());
+//        // 권한들
+////        String authorities = authentication.getAuthorities().stream()
+////                .map(GrantedAuthority::getAuthority)
+////                .collect(Collectors.joining(","));
+//
+//        String accessToken = Jwts.builder()
+//                .setClaims(claims)
+//                .setIssuedAt(new Date(System.currentTimeMillis()))
+//                .setExpiration(new Date(System.currentTimeMillis()+ JwtProperties.ACCESS_TOKEN_EXPIRATION_TIME))
+//                .claim(JwtProperties.AUTHORITIES_KEY, authentication.getAuthorities())
+//                .signWith(SignatureAlgorithm.HS256,secretKey.getBytes())
+//                .compact();
+//        String refreshToken = Jwts.builder()
+//                .setClaims(claims)
+//                .setIssuedAt(new Date(System.currentTimeMillis()))
+//                .setExpiration(new Date(System.currentTimeMillis()+ JwtProperties.REFRESH_TOKEN_EXPIRATION_TIME))
+//                .claim(JwtProperties.AUTHORITIES_KEY, authentication.getAuthorities())
+//                .signWith(SignatureAlgorithm.HS256,secretKey.getBytes())
+//                .compact();
+//        response.addHeader(JwtProperties.ACCESS_HEADER, JwtProperties.TOKEN_PREFIX + accessToken);
+//        refreshTokenRepository.save(new RefreshToken(userDetails.getMember().getId(), refreshToken, accessToken));
+//        return new TokenDto(accessToken, refreshToken);
+//    }
     public TokenDto generateToken(Member member, HttpServletResponse response){
-        Claims claims = Jwts.claims().setSubject(member.getUsername());
+        Claims claims = Jwts.claims().setSubject(member.getId().toString());
         // 권한들
 //        String authorities = authentication.getAuthorities().stream()
 //                .map(GrantedAuthority::getAuthority)
@@ -163,10 +161,8 @@ public class JwtUtil {
             String accessToken = createAccessToken(member, response);
             // 레디스에 저장
             refreshTokenRepository.save(new RefreshToken(memberId, refreshToken, accessToken));
-            log.info("토큰 재생성");
         }catch (TokenExcption e) {
             // 리프레시 토큰 없으면
-            log.info("리다이렉트");
             throw e;
         }
     }
