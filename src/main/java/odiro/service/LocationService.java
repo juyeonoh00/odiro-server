@@ -23,9 +23,15 @@ public class LocationService {
         DayPlan dayPlan = dayPlanService.findById(dayPlanId)
                 .orElseThrow(() -> new RuntimeException("DayPlan not found with id: " + dayPlanId));
 
-        // Location 저장
+        // Location 생성
         Location location = new Location(dayPlan, addressName, kakaoMapId, phone, placeName, placeUrl, lat, lng, roadAddressName, imgUrl, CategoryGroupName);
+
+        // location_order에 값 저장
+        location.setLocationOrder(dayPlan.getLocations().size()); // 새로 추가할 때 리스트의 현재 크기로 순서 설정
+        dayPlan.getLocations().add(location);
+
         locationRepository.save(location);
+        dayPlanService.save(dayPlan);
 
         //저장된 플랜 반환
         return location;
