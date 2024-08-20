@@ -19,6 +19,5 @@ public class PostLocationRequest {
     private Float lat;
     private Float lng;
     private String roadAddressName;
-    private String imgUrl;
     private String CategoryGroupName;
 }

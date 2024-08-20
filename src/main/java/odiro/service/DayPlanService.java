@@ -22,6 +22,11 @@ public class DayPlanService {
     private final DayPlanRepository dayPlanRepository;
     private final PlanService planService;
 
+    //완전한 DayPlan 객체를 저장할때 사용
+    public DayPlan save(DayPlan dayPlan) {
+        return dayPlanRepository.save(dayPlan);
+    }
+
     public DayPlan postDayPlan(Long planId, LocalDateTime day) {
 
         //Optional
