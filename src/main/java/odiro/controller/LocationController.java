@@ -46,7 +46,7 @@ public class LocationController {
             Document doc = Jsoup.connect(url).get();
 
             // "https:" 가 빠진채로 image src가 저장되어 있으므로 "https:" prefix 추가
-            imagePath = "https:" + doc.getElementsByClass("thumb_g").get(0).attr("src");
+            imagePath = doc.getElementsByClass("thumb_g").get(0).attr("src");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -56,7 +56,7 @@ public class LocationController {
                 request.getDayPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), imagePath, request.getCategoryGroupName()
         );
 
-        PostLocationResponse response = new PostLocationResponse(savedLocation.getId());
+        PostLocationResponse response = new PostLocationResponse(savedLocation.getId(), imagePath);
 
         return ResponseEntity.ok(response);
     }
@@ -121,7 +121,7 @@ public class LocationController {
             Document doc = Jsoup.connect(url).get();
 
             // "https:" 가 빠진채로 image src가 저장되어 있으므로 "https:" prefix 추가
-            imagePath = "https:" + doc.getElementsByClass("thumb_g").get(0).attr("src");
+            imagePath = doc.getElementsByClass("thumb_g").get(0).attr("src");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -131,21 +131,21 @@ public class LocationController {
                 request.getPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), imagePath, request.getCategoryGroupName()
         );
 
-        PostLocationResponse response = new PostLocationResponse(savedLocation.getId());
+        PostLocationResponse response = new PostLocationResponse(savedLocation.getId(), imagePath);
 
         return ResponseEntity.ok(response);
     }
 
     //찜한것을 DayPlan에 등록
     @PostMapping("/wishLocation/bring")
-    public ResponseEntity<PostLocationResponse> registerWishLoction(@RequestBody RegisterWishLocationRequest request) {
+    public ResponseEntity<LocationRegisterResponse> registerWishLoction(@RequestBody RegisterWishLocationRequest request) {
 
 
         Location savedLocation = locationService.registerWishLocation(
                 request.getLocationId(), request.getDayPlanId()
         );
 
-        PostLocationResponse response = new PostLocationResponse(savedLocation.getId());
+        LocationRegisterResponse response = new LocationRegisterResponse(savedLocation.getId());
 
         return ResponseEntity.ok(response);
     }

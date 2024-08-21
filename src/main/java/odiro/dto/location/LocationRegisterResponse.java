@@ -10,8 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class PostLocationResponse {
+public class LocationRegisterResponse {
 
     private Long id;
-    private String imgUrl;
 }
