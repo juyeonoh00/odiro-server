@@ -11,18 +11,27 @@ import odiro.dto.location.*;
 import odiro.dto.member.HomeResponse;
 import odiro.service.DayPlanService;
 import odiro.service.LocationService;
+import org.apache.tomcat.util.json.JSONParser;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
+
 
 @Slf4j
 @RestController
@@ -158,6 +167,93 @@ public class LocationController {
 
         //결과 반환
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/location/search")
+    public ResponseEntity<InformationVO> init(@RequestParam String contenttypeid, @RequestParam String contentid) {
+        try {
+            String servicekey = "VZwsEBpKrcOmbKb2y%2FszpWMkbfTx9GLvm2dZ96N6fn9bubmU0iPfGKNkuGSqCvCgpqL611HousPLRFN2KBEk9w%3D%3D";
+            String infourl = "http://apis.data.go.kr/B551011/KorService1/detailCommon1?";
+            StringBuilder infosb = new StringBuilder();
+            infosb.append(infourl);
+            infosb.append("MobileOS=ETC");
+            infosb.append("&MobileApp=dajuu");
+            infosb.append("&_type=json");
+            infosb.append("&contentId=").append(contentid);
+            infosb.append("&contentTypeId=").append(contenttypeid);
+            infosb.append("&numOfRows=10");
+            infosb.append("&pageNo=1");
+            infosb.append("&serviceKey=").append(servicekey);
+            infosb.append("&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y");
+
+            URL inurl = new URL(infosb.toString());
+            HttpURLConnection inconn = (HttpURLConnection) inurl.openConnection();
+
+            if (inconn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                try (BufferedReader br2 = new BufferedReader(new InputStreamReader(inconn.getInputStream(), "UTF-8"))) {
+                    StringBuilder inst = new StringBuilder();
+                    String infoline;
+                    while ((infoline = br2.readLine()) != null) {
+                        inst.append(infoline);
+                    }
+
+                    // JSON 파싱
+                    JSONParser parser1 = new JSONParser();
+                    JSONObject json1 = (JSONObject) parser1.parse(inst.toString());
+                    JSONObject resp1 = (JSONObject) json1.get("response");
+                    JSONObject body1 = (JSONObject) resp1.get("body");
+                    JSONObject items1 = (JSONObject) body1.get("items");
+                    JSONArray itemar = (JSONArray) items1.get("item");
+
+                    InformationVO infoVO = null;
+
+                    // JSONArray의 길이 얻기
+                    int length = itemar.put(); // size() 대신 length() 사용
+                    for (int i = 0; i < length; i++) {
+                        JSONObject item1 = (JSONObject) itemar.get(i);
+
+                        // 필요한 데이터 추출 및 InformationVO 생성
+                        infoVO = new InformationVO(
+                                item1.get("contentid") != null ? item1.get("contentid").toString() : "",
+                                item1.get("contenttypeid") != null ? item1.get("contenttypeid").toString() : "",
+                                item1.get("title") != null ? item1.get("title").toString() : "",
+                                item1.get("createdtime") != null ? item1.get("createdtime").toString() : "",
+                                item1.get("modifiedtime") != null ? item1.get("modifiedtime").toString() : "",
+                                item1.get("tel") != null ? item1.get("tel").toString() : "",
+                                item1.get("telname") != null ? item1.get("telname").toString() : "",
+                                item1.get("homepage") != null ? item1.get("homepage").toString() : "",
+                                item1.get("booktour") != null ? item1.get("booktour").toString() : "",
+                                item1.get("firstimage") != null ? item1.get("firstimage").toString() : "",
+                                item1.get("firstimage2") != null ? item1.get("firstimage2").toString() : "",
+                                item1.get("cpyrhtDivCd") != null ? item1.get("cpyrhtDivCd").toString() : "",
+                                item1.get("areacode") != null ? item1.get("areacode").toString() : "",
+                                item1.get("sigungucode") != null ? item1.get("sigungucode").toString() : "",
+                                item1.get("cat1") != null ? item1.get("cat1").toString() : "",
+                                item1.get("cat2") != null ? item1.get("cat2").toString() : "",
+                                item1.get("cat3") != null ? item1.get("cat3").toString() : "",
+                                item1.get("addr1") != null ? item1.get("addr1").toString() : "",
+                                item1.get("addr2") != null ? item1.get("addr2").toString() : "",
+                                item1.get("zipcode") != null ? item1.get("zipcode").toString() : "",
+                                item1.get("mapx") != null ? item1.get("mapx").toString() : "",
+                                item1.get("mapy") != null ? item1.get("mapy").toString() : "",
+                                item1.get("mlevel") != null ? item1.get("mlevel").toString() : "",
+                                item1.get("overview") != null ? item1.get("overview").toString() : ""
+                        );
+                    }
+
+                    // 성공적인 응답
+                    return new ResponseEntity<>(infoVO, HttpStatus.OK);
+                }
+            } else {
+                // 오류 응답
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 예외 발생 시 에러 응답
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     }
 
 //    @PostMapping("/location/image/crawl")

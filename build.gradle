@@ -58,6 +58,9 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 
 	implementation 'org.jsoup:jsoup:1.16.1'	//자바 크롤링
+
+	//공공api
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 }
 
 tasks.named('test') {
