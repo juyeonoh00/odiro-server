@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BeansEndpointTabSettings">
+    <option name="showDoc" value="false" />
+    <option name="showLibraryBeans" value="false" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="250ab824-6744-454a-b7b9-25b84ca1bc50" name="변경" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/controller/HomeController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/PlanFilteredDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/exception/ErrorResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/exception/ExControllerAdivice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/exception/NotMatchPostException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/exception/NotMatchWriterException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/exception/common/BusinessException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/exception/common/ErrorCode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/service/HomeService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/redis/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitmodules" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitmodules" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.bat" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/backend/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/backend/gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/backend/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/Exception/ErrorResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/Exception/ExControllerAdivice.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/OdiroApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/OdiroApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/auth/PrincipalDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/auth/PrincipalDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/auth/PrincipalDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/auth/PrincipalDetailsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/email/EmailConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/email/EmailConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/email/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/email/EmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/jwt/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/jwt/JwtFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/jwt/JwtProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/jwt/JwtProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/jwt/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/jwt/JwtUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/jwt/RandomPasswordGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/jwt/RandomPasswordGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/jwt/RefreshToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/jwt/RefreshToken.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/jwt/RefreshTokenRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/jwt/RefreshTokenRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/jwt/RefreshTokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/jwt/RefreshTokenService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/jwt/TokenDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/jwt/TokenDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/jwt/exception/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/jwt/exception/ErrorCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/jwt/exception/JwtAccessDeniedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/jwt/exception/JwtAccessDeniedException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/jwt/exception/JwtAuthenticationEntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/jwt/exception/JwtAuthenticationEntryPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/jwt/exception/JwtExceptionTranslationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/jwt/exception/JwtExceptionTranslationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/jwt/exception/TokenExcption.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/jwt/exception/TokenExcption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/oauth2/KakaoLoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/oauth2/KakaoLoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/oauth2/KakaoLoginPageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/oauth2/KakaoLoginPageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/oauth2/OAuthAttributes.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/oauth2/OAuthAttributes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/oauth2/Oauth2TokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/oauth2/Oauth2TokenService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/oauth2/OauthToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/oauth2/OauthToken.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/oauth2/SocialType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/oauth2/SocialType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/redis/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/redis/RedisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/redis/RedisConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/redis/RedisService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/redis/RedisService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/redis/docker-compose.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/security/BCryptConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/security/BCryptConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/security/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/security/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/config/swagger/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/config/swagger/SwaggerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/controller/CommentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/controller/DayPlanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/controller/DayPlanController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/controller/FriendRequestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/controller/FriendRequestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/controller/LocationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/controller/LocationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/controller/MemberController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/controller/MemoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/controller/MemoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/controller/PlanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/controller/PlanController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/domain/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/domain/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/domain/DayPlan.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/domain/DayPlan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/domain/Friend.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/domain/Friend.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/domain/FriendRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/domain/FriendRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/domain/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/domain/Location.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/domain/Memo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/domain/Memo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/domain/Plan.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/domain/Plan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/domain/PlanMember.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/domain/PlanMember.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/domain/member/Authority.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/domain/member/Authority.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/domain/member/BaseTimeEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/domain/member/BaseTimeEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/domain/member/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/domain/member/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/MemberDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/MemberDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/UpdateUserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/UpdateUserRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/comment/CommentInDetailPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/comment/CommentInDetailPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/comment/CommentRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/comment/CommentRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/comment/CommentResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/comment/CommentResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/comment/EditCommentRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/comment/EditCommentRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/dayPlan/DayPlanInDetailPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/dayPlan/DayPlanInDetailPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/dayPlan/PostDayPlanRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/dayPlan/PostDayPlanRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/dayPlan/PostDayPlanResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/dayPlan/PostDayPlanResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/location/LocationInDetailPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/location/LocationInDetailPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/location/PostLocationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/location/PostLocationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/location/PostLocationResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/location/PostLocationResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/location/PostWishLocationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/location/PostWishLocationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/location/RegisterWishLocationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/location/RegisterWishLocationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/location/ReorderLocationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/location/ReorderLocationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/member/HomeRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/member/HomeRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/member/HomeResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/member/HomeResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/member/InitializerInDetailPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/member/InitializerInDetailPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/member/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/member/LoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/member/MemberInDetailPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/member/MemberInDetailPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/member/SignInRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/member/SignInRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/member/SignUpDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/member/SignUpDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/member/SignUpRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/member/SignUpRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/member/SignUpResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/member/SignUpResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/memo/EditMemoRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/memo/EditMemoRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/memo/MemoInDetailPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/memo/MemoInDetailPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/memo/PostMemoRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/memo/PostMemoRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/memo/PostMemoResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/memo/PostMemoResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/plan/EditPlanRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/plan/EditPlanRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/plan/GetDetailPlanResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/plan/GetDetailPlanResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/plan/InitPlanRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/plan/InitPlanRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/dto/plan/InitPlanResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/dto/plan/InitPlanResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/exception/member/DuplicateEmailException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/exception/member/DuplicateEmailException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/exception/member/EmailAlreadyExistsException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/exception/member/EmailAlreadyExistsException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/exception/member/UsernameAlreadyExistsException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/exception/member/UsernameAlreadyExistsException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/repository/CommentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/repository/CommentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/repository/DayPlanRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/repository/DayPlanRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/repository/FriendRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/repository/FriendRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/repository/FriendRequestRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/repository/FriendRequestRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/repository/LocationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/repository/LocationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/repository/MemberRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/repository/MemberRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/repository/MemoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/repository/MemoRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/repository/PlanMemberRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/repository/PlanMemberRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/repository/PlanRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/repository/PlanRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/service/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/service/DayPlanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/service/DayPlanService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/service/FriendService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/service/FriendService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/service/LocationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/service/LocationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/service/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/service/MemberService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/service/MemoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/service/MemoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/odiro/service/PlanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/odiro/service/PlanService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/images/spring-security-project.png" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/static/images/spring-security-project.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/odiro/OdiroApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/odiro/OdiroApplicationTests.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2jGV4D5y2jtF71lAU8yL2ZMw0Yn" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Administrator/Downloads/odiro-server/backend/src/main/java/odiro/exception&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;모듈&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;redis&quot;
+    ]
+  }
+}</component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="odiro.dto" />
+      <recent name="odiro.config.jwt.exception" />
+      <recent name="odiro.config.oauth2" />
+      <recent name="odiro.service" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Administrator\Downloads\odiro-server\backend\src\main\java\odiro\exception" />
+      <recent name="C:\Users\Administrator\Downloads\odiro-server\redis" />
+      <recent name="C:\Users\Administrator\Downloads\odiro-server\app" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Administrator\Downloads\odiro-server\app" />
+      <recent name="C:\Users\Administrator\Desktop\odiro-server\src\main\java\odiro\config\jwt" />
+      <recent name="C:\Users\Administrator\Desktop\odiro-server\src\main\java\odiro\config\jwt\exception" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="odiro.controller" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.OdiroApplication">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="ODIRO" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="ODIRO" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OdiroApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="ODIRO.backend.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="odiro.OdiroApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="sourceFilePath" value="Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml: Compose 배포" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.docker-compose.yml: Compose 배포" />
+        <item itemvalue="Docker.Dockerfile" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="250ab824-6744-454a-b7b9-25b84ca1bc50" name="변경" comment="" />
+      <created>1721013210222</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1721013210222</updated>
+      <workItem from="1721013216929" duration="19894000" />
+      <workItem from="1721554443129" duration="174000" />
+      <workItem from="1721554653467" duration="95000" />
+      <workItem from="1721554772697" duration="18153000" />
+      <workItem from="1721891943169" duration="2250000" />
+      <workItem from="1721968442679" duration="22540000" />
+      <workItem from="1722241123133" duration="2103000" />
+      <workItem from="1722587589627" duration="4680000" />
+      <workItem from="1722593167380" duration="3069000" />
+      <workItem from="1722598542805" duration="572000" />
+      <workItem from="1722599208284" duration="1219000" />
+      <workItem from="1722600457744" duration="2107000" />
+      <workItem from="1722602602026" duration="304000" />
+      <workItem from="1722604009601" duration="1171000" />
+      <workItem from="1722605818054" duration="22357000" />
+      <workItem from="1722795668606" duration="11817000" />
+      <workItem from="1722810311727" duration="12740000" />
+      <workItem from="1722955676532" duration="6877000" />
+      <workItem from="1723189086013" duration="9503000" />
+      <workItem from="1723269461155" duration="53054000" />
+      <workItem from="1724053469724" duration="481000" />
+      <workItem from="1724161286779" duration="871000" />
+      <workItem from="1724645645391" duration="2847000" />
+      <workItem from="1724649394236" duration="17075000" />
+      <workItem from="1724919993610" duration="1443000" />
+      <workItem from="1725003369128" duration="8000" />
+      <workItem from="1725111777109" duration="13175000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

@@ -1,1 +1,2 @@
 rootProject.name = 'ODIRO'
+include 'backend'

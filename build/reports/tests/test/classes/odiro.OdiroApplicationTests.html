@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - OdiroApplicationTests</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>OdiroApplicationTests</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/odiro.html">odiro</a> &gt; OdiroApplicationTests</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">1.318s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">contextLoads()</td>
+<td class="success">1.318s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>22:19:21.657 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [odiro.OdiroApplicationTests]: OdiroApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+22:19:21.958 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration odiro.OdiroApplication for test class odiro.OdiroApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.4)
+
+2024-08-02T22:19:22.953+09:00  INFO 2216 --- [    Test worker] odiro.OdiroApplicationTests              : Starting OdiroApplicationTests using Java 17.0.9 with PID 2216 (started by Administrator in C:\Users\Administrator\Desktop\odiro-server)
+2024-08-02T22:19:22.956+09:00  INFO 2216 --- [    Test worker] odiro.OdiroApplicationTests              : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2024-08-02T22:19:26.025+09:00  INFO 2216 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-08-02T22:19:26.030+09:00  INFO 2216 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-08-02T22:19:26.145+09:00  INFO 2216 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data JPA - Could not safely identify store assignment for repository candidate interface odiro.config.jwt.RefreshTokenRepository; If you want this repository to be a JPA repository, consider annotating your entities with one of these annotations: jakarta.persistence.Entity, jakarta.persistence.MappedSuperclass (preferred), or consider extending one of the following types with your repository: org.springframework.data.jpa.repository.JpaRepository
+2024-08-02T22:19:26.448+09:00  INFO 2216 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 396 ms. Found 9 JPA repository interfaces.
+2024-08-02T22:19:26.492+09:00  INFO 2216 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-08-02T22:19:26.495+09:00  INFO 2216 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-08-02T22:19:26.539+09:00  INFO 2216 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface odiro.repository.CommentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2024-08-02T22:19:26.540+09:00  INFO 2216 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface odiro.repository.DayPlanRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2024-08-02T22:19:26.540+09:00  INFO 2216 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface odiro.repository.FriendRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2024-08-02T22:19:26.540+09:00  INFO 2216 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface odiro.repository.FriendRequestRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2024-08-02T22:19:26.541+09:00  INFO 2216 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface odiro.repository.LocationRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2024-08-02T22:19:26.545+09:00  INFO 2216 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface odiro.repository.member.MemberRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2024-08-02T22:19:26.546+09:00  INFO 2216 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface odiro.repository.MemoRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2024-08-02T22:19:26.547+09:00  INFO 2216 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface odiro.repository.PlanMemberRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2024-08-02T22:19:26.548+09:00  INFO 2216 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface odiro.repository.PlanRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2024-08-02T22:19:26.564+09:00  INFO 2216 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 46 ms. Found 1 Redis repository interface.
+2024-08-02T22:19:28.330+09:00  INFO 2216 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-08-02T22:19:28.517+09:00  INFO 2216 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-08-02T22:19:28.653+09:00  INFO 2216 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-08-02T22:19:29.329+09:00  INFO 2216 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-08-02T22:19:29.386+09:00  INFO 2216 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-08-02T22:19:29.877+09:00  INFO 2216 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@563ab6d5
+2024-08-02T22:19:29.883+09:00  INFO 2216 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-08-02T22:19:32.752+09:00  INFO 2216 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-08-02T22:19:32.795+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table comment 
+       drop 
+       foreign key FK782m2l8ex4ek69agrn6snq8cg
+Hibernate: 
+    alter table comment 
+       drop 
+       foreign key FK782m2l8ex4ek69agrn6snq8cg
+2024-08-02T22:19:32.820+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table comment 
+       drop 
+       foreign key FKjfdaen6h2c8o1axvh7j6go3rq
+Hibernate: 
+    alter table comment 
+       drop 
+       foreign key FKjfdaen6h2c8o1axvh7j6go3rq
+2024-08-02T22:19:32.846+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table day_plan 
+       drop 
+       foreign key FKaw9tji523ep5bixgb3n48vb6p
+Hibernate: 
+    alter table day_plan 
+       drop 
+       foreign key FKaw9tji523ep5bixgb3n48vb6p
+2024-08-02T22:19:32.874+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table friend 
+       drop 
+       foreign key FKha6sralpdhol9fskpexcm8njl
+Hibernate: 
+    alter table friend 
+       drop 
+       foreign key FKha6sralpdhol9fskpexcm8njl
+2024-08-02T22:19:32.889+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table friend 
+       drop 
+       foreign key FKfbs5r5rvm2cpx00ndcs4tgc41
+Hibernate: 
+    alter table friend 
+       drop 
+       foreign key FKfbs5r5rvm2cpx00ndcs4tgc41
+2024-08-02T22:19:32.906+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table friend_request 
+       drop 
+       foreign key FKjb5d7u2slfp3fy0912mq0r1rf
+Hibernate: 
+    alter table friend_request 
+       drop 
+       foreign key FKjb5d7u2slfp3fy0912mq0r1rf
+2024-08-02T22:19:32.922+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table friend_request 
+       drop 
+       foreign key FKlplia5yaa4rqrmc15dqltgqdf
+Hibernate: 
+    alter table friend_request 
+       drop 
+       foreign key FKlplia5yaa4rqrmc15dqltgqdf
+2024-08-02T22:19:32.937+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table location 
+       drop 
+       foreign key FK1oxp27eoftwxbjby5t7fod6a4
+Hibernate: 
+    alter table location 
+       drop 
+       foreign key FK1oxp27eoftwxbjby5t7fod6a4
+2024-08-02T22:19:32.957+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table memo 
+       drop 
+       foreign key FK82b01c00mr1f2achfsqaapwvm
+Hibernate: 
+    alter table memo 
+       drop 
+       foreign key FK82b01c00mr1f2achfsqaapwvm
+2024-08-02T22:19:32.974+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table plan 
+       drop 
+       foreign key FKgln97lfgrfk1h8yb5dx83k68g
+Hibernate: 
+    alter table plan 
+       drop 
+       foreign key FKgln97lfgrfk1h8yb5dx83k68g
+2024-08-02T22:19:32.994+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table plan_member 
+       drop 
+       foreign key FKjdy07sl6wtsjkdm7hlpp6pxb0
+Hibernate: 
+    alter table plan_member 
+       drop 
+       foreign key FKjdy07sl6wtsjkdm7hlpp6pxb0
+2024-08-02T22:19:33.012+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table plan_member 
+       drop 
+       foreign key FKm1dt2a5il9iu8ug8me4yoqn3s
+Hibernate: 
+    alter table plan_member 
+       drop 
+       foreign key FKm1dt2a5il9iu8ug8me4yoqn3s
+2024-08-02T22:19:33.028+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    drop table if exists comment
+Hibernate: 
+    drop table if exists comment
+2024-08-02T22:19:33.067+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    drop table if exists comment_seq
+Hibernate: 
+    drop table if exists comment_seq
+2024-08-02T22:19:33.085+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    drop table if exists day_plan_seq
+Hibernate: 
+    drop table if exists day_plan_seq
+2024-08-02T22:19:33.101+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    drop table if exists day_plan
+Hibernate: 
+    drop table if exists day_plan
+2024-08-02T22:19:33.124+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    drop table if exists friend
+Hibernate: 
+    drop table if exists friend
+2024-08-02T22:19:33.143+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    drop table if exists friend_request_seq
+Hibernate: 
+    drop table if exists friend_request_seq
+2024-08-02T22:19:33.162+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    drop table if exists friend_seq
+Hibernate: 
+    drop table if exists friend_seq
+2024-08-02T22:19:33.179+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    drop table if exists friend_request
+Hibernate: 
+    drop table if exists friend_request
+2024-08-02T22:19:33.197+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    drop table if exists location
+Hibernate: 
+    drop table if exists location
+2024-08-02T22:19:33.215+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    drop table if exists location_seq
+Hibernate: 
+    drop table if exists location_seq
+2024-08-02T22:19:33.232+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    drop table if exists member
+Hibernate: 
+    drop table if exists member
+2024-08-02T22:19:33.250+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    drop table if exists memo
+Hibernate: 
+    drop table if exists memo
+2024-08-02T22:19:33.275+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    drop table if exists memo_seq
+Hibernate: 
+    drop table if exists memo_seq
+2024-08-02T22:19:33.293+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    drop table if exists plan
+Hibernate: 
+    drop table if exists plan
+2024-08-02T22:19:33.311+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    drop table if exists plan_member_seq
+Hibernate: 
+    drop table if exists plan_member_seq
+2024-08-02T22:19:33.329+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    drop table if exists plan_seq
+Hibernate: 
+    drop table if exists plan_seq
+2024-08-02T22:19:33.345+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    drop table if exists plan_member
+Hibernate: 
+    drop table if exists plan_member
+2024-08-02T22:19:33.375+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    create table comment (
+        comment_id bigint not null,
+        day_plan_id bigint,
+        write_time datetime(6),
+        writer_id bigint,
+        content varchar(255),
+        primary key (comment_id)
+    ) engine=InnoDB
+Hibernate: 
+    create table comment (
+        comment_id bigint not null,
+        day_plan_id bigint,
+        write_time datetime(6),
+        writer_id bigint,
+        content varchar(255),
+        primary key (comment_id)
+    ) engine=InnoDB
+2024-08-02T22:19:33.402+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    create table comment_seq (
+        next_val bigint
+    ) engine=InnoDB
+Hibernate: 
+    create table comment_seq (
+        next_val bigint
+    ) engine=InnoDB
+2024-08-02T22:19:33.425+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    insert into comment_seq values ( 1 )
+Hibernate: 
+    insert into comment_seq values ( 1 )
+2024-08-02T22:19:33.432+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    create table day_plan_seq (
+        next_val bigint
+    ) engine=InnoDB
+Hibernate: 
+    create table day_plan_seq (
+        next_val bigint
+    ) engine=InnoDB
+2024-08-02T22:19:33.457+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    insert into day_plan_seq values ( 1 )
+Hibernate: 
+    insert into day_plan_seq values ( 1 )
+2024-08-02T22:19:33.464+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    create table day_plan (
+        date datetime(6),
+        day_plan_id bigint not null,
+        plan_id bigint,
+        primary key (day_plan_id)
+    ) engine=InnoDB
+Hibernate: 
+    create table day_plan (
+        date datetime(6),
+        day_plan_id bigint not null,
+        plan_id bigint,
+        primary key (day_plan_id)
+    ) engine=InnoDB
+2024-08-02T22:19:33.489+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    create table friend (
+        friend_request_id bigint not null,
+        receiver_id bigint,
+        sender_id bigint,
+        primary key (friend_request_id)
+    ) engine=InnoDB
+Hibernate: 
+    create table friend (
+        friend_request_id bigint not null,
+        receiver_id bigint,
+        sender_id bigint,
+        primary key (friend_request_id)
+    ) engine=InnoDB
+2024-08-02T22:19:33.514+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    create table friend_request_seq (
+        next_val bigint
+    ) engine=InnoDB
+Hibernate: 
+    create table friend_request_seq (
+        next_val bigint
+    ) engine=InnoDB
+2024-08-02T22:19:33.545+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    insert into friend_request_seq values ( 1 )
+Hibernate: 
+    insert into friend_request_seq values ( 1 )
+2024-08-02T22:19:33.552+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    create table friend_seq (
+        next_val bigint
+    ) engine=InnoDB
+Hibernate: 
+    create table friend_seq (
+        next_val bigint
+    ) engine=InnoDB
+2024-08-02T22:19:33.580+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    insert into friend_seq values ( 1 )
+Hibernate: 
+    insert into friend_seq values ( 1 )
+2024-08-02T22:19:33.586+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    create table friend_request (
+        friend_request_id bigint not null,
+        receiver_id bigint,
+        sender_id bigint,
+        primary key (friend_request_id)
+    ) engine=InnoDB
+Hibernate: 
+    create table friend_request (
+        friend_request_id bigint not null,
+        receiver_id bigint,
+        sender_id bigint,
+        primary key (friend_request_id)
+    ) engine=InnoDB
+2024-08-02T22:19:33.616+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    create table location (
+        day_plan_id bigint,
+        lat bigint,
+        lng bigint,
+        location_id bigint not null,
+        address_name varchar(255),
+        category_group_name varchar(255),
+        img_url varchar(255),
+        kakao_map_id varchar(255),
+        phone varchar(255),
+        place_name varchar(255),
+        place_url varchar(255),
+        road_address_name varchar(255),
+        primary key (location_id)
+    ) engine=InnoDB
+Hibernate: 
+    create table location (
+        day_plan_id bigint,
+        lat bigint,
+        lng bigint,
+        location_id bigint not null,
+        address_name varchar(255),
+        category_group_name varchar(255),
+        img_url varchar(255),
+        kakao_map_id varchar(255),
+        phone varchar(255),
+        place_name varchar(255),
+        place_url varchar(255),
+        road_address_name varchar(255),
+        primary key (location_id)
+    ) engine=InnoDB
+2024-08-02T22:19:33.648+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    create table location_seq (
+        next_val bigint
+    ) engine=InnoDB
+Hibernate: 
+    create table location_seq (
+        next_val bigint
+    ) engine=InnoDB
+2024-08-02T22:19:33.680+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    insert into location_seq values ( 1 )
+Hibernate: 
+    insert into location_seq values ( 1 )
+2024-08-02T22:19:33.689+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    create table member (
+        email_verified bit,
+        create_date datetime(6),
+        member_id bigint not null auto_increment,
+        username varchar(20) not null,
+        email varchar(25),
+        password varchar(225) not null,
+        profile_image varchar(255),
+        refresh_token varchar(255),
+        authority enum ('ROLE_USER','ROLE_TEAMMEMBER','ROLE_ADMIN','ROLE_GUEST'),
+        primary key (member_id)
+    ) engine=InnoDB
+Hibernate: 
+    create table member (
+        email_verified bit,
+        create_date datetime(6),
+        member_id bigint not null auto_increment,
+        username varchar(20) not null,
+        email varchar(25),
+        password varchar(225) not null,
+        profile_image varchar(255),
+        refresh_token varchar(255),
+        authority enum ('ROLE_USER','ROLE_TEAMMEMBER','ROLE_ADMIN','ROLE_GUEST'),
+        primary key (member_id)
+    ) engine=InnoDB
+2024-08-02T22:19:33.722+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    create table memo (
+        comment_id bigint not null,
+        day_plan_id bigint,
+        content varchar(255),
+        primary key (comment_id)
+    ) engine=InnoDB
+Hibernate: 
+    create table memo (
+        comment_id bigint not null,
+        day_plan_id bigint,
+        content varchar(255),
+        primary key (comment_id)
+    ) engine=InnoDB
+2024-08-02T22:19:33.753+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    create table memo_seq (
+        next_val bigint
+    ) engine=InnoDB
+Hibernate: 
+    create table memo_seq (
+        next_val bigint
+    ) engine=InnoDB
+2024-08-02T22:19:33.780+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    insert into memo_seq values ( 1 )
+Hibernate: 
+    insert into memo_seq values ( 1 )
+2024-08-02T22:19:33.787+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    create table plan (
+        first_day datetime(6),
+        initializer_id bigint,
+        last_day datetime(6),
+        plan_id bigint not null,
+        title varchar(255),
+        primary key (plan_id)
+    ) engine=InnoDB
+Hibernate: 
+    create table plan (
+        first_day datetime(6),
+        initializer_id bigint,
+        last_day datetime(6),
+        plan_id bigint not null,
+        title varchar(255),
+        primary key (plan_id)
+    ) engine=InnoDB
+2024-08-02T22:19:33.815+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    create table plan_member_seq (
+        next_val bigint
+    ) engine=InnoDB
+Hibernate: 
+    create table plan_member_seq (
+        next_val bigint
+    ) engine=InnoDB
+2024-08-02T22:19:33.839+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    insert into plan_member_seq values ( 1 )
+Hibernate: 
+    insert into plan_member_seq values ( 1 )
+2024-08-02T22:19:33.844+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    create table plan_seq (
+        next_val bigint
+    ) engine=InnoDB
+Hibernate: 
+    create table plan_seq (
+        next_val bigint
+    ) engine=InnoDB
+2024-08-02T22:19:33.868+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    insert into plan_seq values ( 1 )
+Hibernate: 
+    insert into plan_seq values ( 1 )
+2024-08-02T22:19:33.872+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    create table plan_member (
+        participant_id bigint,
+        plan_id bigint,
+        plan_member_id bigint not null,
+        primary key (plan_member_id)
+    ) engine=InnoDB
+Hibernate: 
+    create table plan_member (
+        participant_id bigint,
+        plan_id bigint,
+        plan_member_id bigint not null,
+        primary key (plan_member_id)
+    ) engine=InnoDB
+2024-08-02T22:19:33.897+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table comment 
+       add constraint FK782m2l8ex4ek69agrn6snq8cg 
+       foreign key (day_plan_id) 
+       references day_plan (day_plan_id)
+Hibernate: 
+    alter table comment 
+       add constraint FK782m2l8ex4ek69agrn6snq8cg 
+       foreign key (day_plan_id) 
+       references day_plan (day_plan_id)
+2024-08-02T22:19:33.963+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table comment 
+       add constraint FKjfdaen6h2c8o1axvh7j6go3rq 
+       foreign key (writer_id) 
+       references member (member_id)
+Hibernate: 
+    alter table comment 
+       add constraint FKjfdaen6h2c8o1axvh7j6go3rq 
+       foreign key (writer_id) 
+       references member (member_id)
+2024-08-02T22:19:34.033+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table day_plan 
+       add constraint FKaw9tji523ep5bixgb3n48vb6p 
+       foreign key (plan_id) 
+       references plan (plan_id)
+Hibernate: 
+    alter table day_plan 
+       add constraint FKaw9tji523ep5bixgb3n48vb6p 
+       foreign key (plan_id) 
+       references plan (plan_id)
+2024-08-02T22:19:34.103+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table friend 
+       add constraint FKha6sralpdhol9fskpexcm8njl 
+       foreign key (receiver_id) 
+       references member (member_id)
+Hibernate: 
+    alter table friend 
+       add constraint FKha6sralpdhol9fskpexcm8njl 
+       foreign key (receiver_id) 
+       references member (member_id)
+2024-08-02T22:19:34.166+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table friend 
+       add constraint FKfbs5r5rvm2cpx00ndcs4tgc41 
+       foreign key (sender_id) 
+       references member (member_id)
+Hibernate: 
+    alter table friend 
+       add constraint FKfbs5r5rvm2cpx00ndcs4tgc41 
+       foreign key (sender_id) 
+       references member (member_id)
+2024-08-02T22:19:34.246+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table friend_request 
+       add constraint FKjb5d7u2slfp3fy0912mq0r1rf 
+       foreign key (receiver_id) 
+       references member (member_id)
+Hibernate: 
+    alter table friend_request 
+       add constraint FKjb5d7u2slfp3fy0912mq0r1rf 
+       foreign key (receiver_id) 
+       references member (member_id)
+2024-08-02T22:19:34.318+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table friend_request 
+       add constraint FKlplia5yaa4rqrmc15dqltgqdf 
+       foreign key (sender_id) 
+       references member (member_id)
+Hibernate: 
+    alter table friend_request 
+       add constraint FKlplia5yaa4rqrmc15dqltgqdf 
+       foreign key (sender_id) 
+       references member (member_id)
+2024-08-02T22:19:34.404+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table location 
+       add constraint FK1oxp27eoftwxbjby5t7fod6a4 
+       foreign key (day_plan_id) 
+       references day_plan (day_plan_id)
+Hibernate: 
+    alter table location 
+       add constraint FK1oxp27eoftwxbjby5t7fod6a4 
+       foreign key (day_plan_id) 
+       references day_plan (day_plan_id)
+2024-08-02T22:19:34.466+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table memo 
+       add constraint FK82b01c00mr1f2achfsqaapwvm 
+       foreign key (day_plan_id) 
+       references day_plan (day_plan_id)
+Hibernate: 
+    alter table memo 
+       add constraint FK82b01c00mr1f2achfsqaapwvm 
+       foreign key (day_plan_id) 
+       references day_plan (day_plan_id)
+2024-08-02T22:19:34.527+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table plan 
+       add constraint FKgln97lfgrfk1h8yb5dx83k68g 
+       foreign key (initializer_id) 
+       references member (member_id)
+Hibernate: 
+    alter table plan 
+       add constraint FKgln97lfgrfk1h8yb5dx83k68g 
+       foreign key (initializer_id) 
+       references member (member_id)
+2024-08-02T22:19:34.597+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table plan_member 
+       add constraint FKjdy07sl6wtsjkdm7hlpp6pxb0 
+       foreign key (participant_id) 
+       references member (member_id)
+Hibernate: 
+    alter table plan_member 
+       add constraint FKjdy07sl6wtsjkdm7hlpp6pxb0 
+       foreign key (participant_id) 
+       references member (member_id)
+2024-08-02T22:19:34.655+09:00 DEBUG 2216 --- [    Test worker] org.hibernate.SQL                        : 
+    alter table plan_member 
+       add constraint FKm1dt2a5il9iu8ug8me4yoqn3s 
+       foreign key (plan_id) 
+       references plan (plan_id)
+Hibernate: 
+    alter table plan_member 
+       add constraint FKm1dt2a5il9iu8ug8me4yoqn3s 
+       foreign key (plan_id) 
+       references plan (plan_id)
+2024-08-02T22:19:34.721+09:00  INFO 2216 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+authenticationManager : 진입
+2024-08-02T22:19:38.656+09:00  WARN 2216 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-08-02T22:19:39.829+09:00  INFO 2216 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+SecurityFilterChain : 진입
+2024-08-02T22:19:39.999+09:00  INFO 2216 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@162bc9e8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5ec2462, org.springframework.security.web.context.SecurityContextHolderFilter@49e8f283, org.springframework.security.web.header.HeaderWriterFilter@4f34f451, org.springframework.web.filter.CorsFilter@59be715a, org.springframework.security.web.authentication.logout.LogoutFilter@629e9957, org.springframework.web.filter.CorsFilter@59be715a, odiro.config.jwt.JwtFilter@12515d64, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@45e97963, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1582dfec, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5d81bc79, org.springframework.security.web.session.SessionManagementFilter@5a271f3b, org.springframework.security.web.access.ExceptionTranslationFilter@b205e08, org.springframework.security.web.access.intercept.AuthorizationFilter@55f2e76a]
+2024-08-02T22:19:42.028+09:00  INFO 2216 --- [    Test worker] odiro.OdiroApplicationTests              : Started OdiroApplicationTests in 19.689 seconds (process running for 23.08)
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.7</a> at 2024. 8. 2. 오후 10:19:44</p>
+</div>
+</div>
+</body>
+</html>
