@@ -1,8 +1,8 @@
 package odiro.service;
 
 import lombok.AllArgsConstructor;
+import odiro.config.redis.RedisService;
 import odiro.domain.Plan;
-import odiro.dto.PlanFilteredDTO;
 import odiro.repository.PlanRepository;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
@@ -19,37 +20,43 @@ public class HomeService {
 
     private final RedisTemplate<String, Object> redisTemplate;
     private final PlanRepository planRepository;
+    private final RedisService redisService;
     public List<Plan> getplanFilteredList(String filterNum) {
         //0일경우 1,2를 모두 찾음
         List<String> patterns = generatePatterns(filterNum);
-        List<Object> values = new ArrayList<>();
+        List<String> values = new ArrayList<>();
 
         for (String pattern : patterns) {
             // Redis에서 패턴에 맞는 키 검색
             Set<String> keys = redisTemplate.keys(pattern);
             if (keys != null) {
                 for (String key : keys) {
-                    Object value = redisTemplate.opsForValue().get(key);
-                    values.add(value);
+                    List<String> value = redisService.getList(pattern);
+                    values = Stream.concat(values.stream(), value.stream())
+                            .toList();
                 }
             }
         }
 
-        List<Long> randomElements = getRandomElements(values, 6);
+        Object randomElements = getRandomElements(values, 6);
         // 해당 리스트를 dto 정보를 가져와서 넣기
-        List<Plan> planList = planRepository.findByIdIn(randomElements);
+        List<Plan> planList = planRepository.findByIdIn((List<Long>) randomElements);
         // Dto로 변환해서 넣기
         return planList;
     }
 
     //랜덤 리스트 생성
-    public List<Long> getRandomElements(List<Object> values, int count) {
-        Collections.shuffle(values);
+    public Object getRandomElements(List<String> values, int count) {
+        if (values == null){
+            return 0;
+        }
+        List<String> arrvalues = new ArrayList<>(values);
+        Collections.shuffle(arrvalues);
 
-        List<Object> selectedValues = values.subList(0, Math.min(count, values.size()));
+        List<String> selectedValues = arrvalues.subList(0, Math.min(count, arrvalues.size()));
 
         return selectedValues.stream()
-                .map(object -> Long.valueOf(object.toString()))
+                .map(Long::valueOf)
                 .collect(Collectors.toList());
     }
 

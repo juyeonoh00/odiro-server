@@ -1,5 +1,6 @@
 package odiro.domain.member;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import odiro.domain.Comment;
@@ -35,13 +36,13 @@ public class Member extends BaseTimeEntity {
     private Authority authority;
     @Column
     private String profileImage;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "initializer")
     private List<Plan> initalizedPlans = new ArrayList<>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "writer")
     private List<Comment> comments = new ArrayList<>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "participant")
     private List<PlanMember> joinedPlan = new ArrayList<>();
 

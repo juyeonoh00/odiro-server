@@ -10,7 +10,7 @@ import odiro.domain.member.Member;
 @Setter
 public class FriendRequest {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "friend_request_id")
     private Long id;
 

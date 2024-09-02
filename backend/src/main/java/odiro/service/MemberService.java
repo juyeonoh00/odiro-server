@@ -1,34 +1,4 @@
-<<<<<<< Updated upstream:src/main/java/odiro/service/MemberService.java
-//package odiro.service;
-//
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//import org.springframework.transaction.annotation.Transactional;
-//import odiro.domain.Member;
-//import odiro.domain.Plan;
-//import odiro.repository.MemberRepository;
-//
-//import java.util.Optional;
-//
-//@Service
-//@Transactional
-//@RequiredArgsConstructor
-//public class MemberService {
-//
-//    private final MemberRepository memberRepository;
-//
-//    public Long join(Member member) {
-//        memberRepository.save(member);
-//        return member.getId();
-//    }
-//
-//    public Optional<Member> findById(Long memberId) {
-//        return memberRepository.findById(memberId);
-//    }
-//
-//}
-=======
+
 package odiro.service;
 
 import jakarta.mail.MessagingException;
@@ -45,12 +15,12 @@ import odiro.dto.member.SignInRequestDto;
 import odiro.dto.member.SignUpDto;
 import odiro.exception.member.EmailAlreadyExistsException;
 import odiro.exception.member.UsernameAlreadyExistsException;
+import odiro.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import odiro.domain.member.Member;
-import odiro.repository.MemberRepository;
 import odiro.config.email.EmailService;
 
 import java.io.UnsupportedEncodingException;
@@ -183,4 +153,4 @@ public class MemberService {
         refreshTokenService.removeRefreshToken(authorizationHeader.substring(7));
     }
 }
->>>>>>> Stashed changes:backend/src/main/java/odiro/service/MemberService.java
+

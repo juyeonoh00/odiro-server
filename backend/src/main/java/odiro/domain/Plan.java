@@ -1,5 +1,6 @@
 package odiro.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import odiro.domain.member.Member;
@@ -15,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Plan {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "plan_id")
     private Long id;
     private Boolean isPublic = false;
@@ -24,13 +25,15 @@ public class Plan {
     private LocalDateTime firstDay;
     private LocalDateTime lastDay;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="initializer_id")
     private Member initializer;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "plan")
     private List<DayPlan> dayPlans = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "plan")
     private List<Location> wishLocations = new ArrayList<>();
 

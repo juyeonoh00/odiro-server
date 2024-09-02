@@ -4,8 +4,10 @@ import io.jsonwebtoken.Jwt;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import odiro.config.jwt.JwtUtil;
@@ -16,8 +18,7 @@ import odiro.domain.member.Member;
 import odiro.dto.member.SignInRequestDto;
 import odiro.dto.member.SignUpDto;
 import odiro.dto.member.SignUpResponseDto;
-import odiro.repository.member.MemberRepository;
-import odiro.service.member.MemberService;
+import odiro.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 @Slf4j
 @RestController
@@ -62,20 +66,6 @@ public class MemberController {
 //        return ResponseEntity.ok(memberService.login(memberRequestDto));
 //    }
     @PostMapping("/signin")
-<<<<<<< Updated upstream:src/main/java/odiro/controller/MemberController.java
-    public ResponseEntity<TokenDto> signIn(@RequestBody SignInRequestDto signInRequestDto, HttpServletResponse response) {
-        System.out.println("---------------------------------------");
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(signInRequestDto.getUsername(), signInRequestDto.getPassword()));
-            TokenDto tokenDto = jwtUtil.generateToken(authentication, response);
-
-            return ResponseEntity.ok(tokenDto);
-        } catch (AuthenticationException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(response.SC_UNAUTHORIZED).body(null);
-        }
-=======
     public ResponseEntity<TokenDto> signIn(@RequestBody SignInRequestDto signInRequestDto, HttpServletResponse response) throws Exception {
         Member member = memberService.signIn(signInRequestDto);
         TokenDto tokenDto = jwtUtil.generateToken(member, response);
@@ -113,7 +103,6 @@ public class MemberController {
         memberService.verifiedCode(email, authCode);
         // 인증 제대로 안됨
         return new ResponseEntity<>(HttpStatus.OK);
->>>>>>> Stashed changes:backend/src/main/java/odiro/controller/MemberController.java
     }
 //    @Operation(summary = "카카오 로그인", description = "회원가입")
 //    @ApiResponses(value = {

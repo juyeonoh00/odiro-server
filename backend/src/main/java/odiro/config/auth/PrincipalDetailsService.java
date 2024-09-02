@@ -2,7 +2,7 @@ package odiro.config.auth;
 
 import lombok.RequiredArgsConstructor;
 import odiro.domain.member.Member;
-import odiro.repository.member.MemberRepository;
+import odiro.repository.MemberRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -23,12 +23,10 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("PrincipalDetailsService : 진입");
         Member member = memberRepository.findByusername(username)
 //                .map(this::createUserDetails)
                 .orElseThrow(() -> new UsernameNotFoundException(username + " -> 데이터베이스에서 찾을 수 없습니다."));
-        System.out.println("PrincipalDetailsService : 리턴");
-        // session.setAttribute("loginUser", user);
+
         return new PrincipalDetails(member);
     }
 

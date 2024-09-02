@@ -9,7 +9,7 @@ import odiro.config.auth.PrincipalDetailsService;
 import odiro.config.jwt.exception.ErrorCode;
 import odiro.config.jwt.exception.TokenExcption;
 import odiro.domain.member.Member;
-import odiro.repository.member.MemberRepository;
+import odiro.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

@@ -10,7 +10,7 @@ import odiro.domain.member.Member;
 @Setter
 public class PlanMember {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="plan_member_id")
     private Long id;
 

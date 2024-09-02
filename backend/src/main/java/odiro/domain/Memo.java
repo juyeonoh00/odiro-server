@@ -10,7 +10,7 @@ import lombok.Setter;
 public class Memo {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private Long id;
 

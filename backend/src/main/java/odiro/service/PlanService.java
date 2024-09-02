@@ -1,20 +1,12 @@
 package odiro.service;
 
 import lombok.RequiredArgsConstructor;
-<<<<<<< Updated upstream:src/main/java/odiro/service/PlanService.java
-import odiro.domain.DayPlan;
-import odiro.domain.Memo;
-=======
 
 import odiro.config.redis.RedisService;
->>>>>>> Stashed changes:backend/src/main/java/odiro/service/PlanService.java
 import odiro.domain.PlanMember;
 import odiro.domain.member.Member;
 import odiro.dto.plan.InitPlanRequest;
 import odiro.repository.PlanMemberRepository;
-import odiro.repository.member.MemberRepository;
-import odiro.service.member.MemberService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import odiro.domain.Plan;
@@ -67,7 +59,7 @@ public class PlanService {
         // planFilter 저장
         if(plan.getIsPublic()){
             // planfilter가 key인 곳에 id를 삽입
-            redisService.setHashOps(String.valueOf(plan.getPlanFilter()), String.valueOf(plan.getId()));
+            redisService.setList(String.valueOf(plan.getPlanFilter()), String.valueOf(plan.getId()));
         }
 
         //플랜 멤버 저장
