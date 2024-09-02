@@ -37,14 +37,12 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        System.out.println("authenticationManager : 진입");
         return configuration.getAuthenticationManager();
     }
 
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        System.out.println("SecurityFilterChain : 진입");
         return httpSecurity
                 // REST API이므로 basic auth 및 csrf 보안을 사용하지 않음
                 .httpBasic(AbstractHttpConfigurer::disable)
@@ -55,8 +53,8 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         // 해당 API에 대해서는 모든 요청을 허가
-                        .requestMatchers("/user/check-username").permitAll()
-                        .requestMatchers("api/kakao/**").permitAll()
+                        .requestMatchers("/api/user/check-username").permitAll()
+                        .requestMatchers("/api/kakao/**").permitAll()
                         .requestMatchers("/api/emails/**").permitAll()
                         .requestMatchers("/api/signin").permitAll()
                         .requestMatchers("/api/signup").permitAll()
