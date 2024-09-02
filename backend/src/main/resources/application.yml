@@ -107,7 +107,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/mysql
     username: root
-    password: dbAplus232Strong
+    password: 1234
 
   data:
     mongodb:
