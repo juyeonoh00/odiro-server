@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="redis">
   <database-model serializer="dbm" dbms="REDIS" family-id="REDIS" format-version="4.49">
-    <root id="1">
-      <ServerVersion>6.2.14</ServerVersion>
-    </root>
+    <root id="1"/>
     <schema id="2" parent="1" name="0">
       <Current>1</Current>
     </schema>
