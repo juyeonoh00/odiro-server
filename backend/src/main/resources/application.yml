@@ -1,0 +1,168 @@
+#spring:
+#  datasource:
+#    url: jdbc:mysql://mysql-container2:3306/mysql-container2
+##    url: jdbc:mysql://172.17.0.2:3306/mysql
+##    url: jdbc:mysql://localhost:3306/mysql?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+#    username: other_user
+##    username: root
+#    password: 1234
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#  jpa:
+#    database-platform: org.hibernate.dialect.MySQLDialect
+##    database: mysql
+#    hibernate:
+#      ddl-auto: create
+#    properties:
+#      hibernate:
+#        format_sql: true
+#
+#logging.level:
+#  org.springframework.boot.autoconfigure: ERROR
+#  org.hibernate.SQL: debug
+#  org.hibernate.type: trace
+#
+#server:
+#  port: 8080
+
+
+#jwt:
+##  header: Authorization
+#  secret: 41ea7cfcfb520a099ca9f8443a9c78d370c87f894abc7bfa2c6a016bf36ca20b
+##  token-validity-in-seconds: 86400
+
+
+
+
+###정현
+#
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://127.0.0.1:3306/here
+#    username: root
+#    password: 1234
+#
+#  data:
+#    mongodb:
+#      uri: mongodb://localhost:27017/Demo
+#    redis:
+##      host: 172.17.0.2 or redis
+#      host: localhost
+#      port: 6379
+#  jpa:
+#    hibernate:
+#      ddl-auto: none
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQLDialect
+#        default_schema: here
+#        show_sql: true
+#        format_sql: true
+#  security:
+#    oauth2:
+#      kakao:
+#        client-id: 041c2f4f97b6949e3d0d99a52a15ce33
+#        redirect_uri: http://localhost:8080/kakao
+#        client-secret: EckGrm5S334npYTY9CxbRkNCPMw6pAUi
+#        authorization-grant-type: authorization_code
+#        token-uri: https://kauth.kakao.com/oauth/token
+##           scope: profile_nickname, account_email
+#        client-name: Kakao
+##            token-uri: https://kauth.kakao.com/oauth/token
+##            user-info-uri: https://kapi.kakao.com/v2/user/me
+##            user-name-attribute: id
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: ohjuyeon2000@gmail.com
+#    password: j l i m a d c h t s w x a m t t
+#    properties:
+#      mail:
+#        smtp:
+#          from: ODIRO@gmail.com
+#          auth: true
+#          starttls:
+#            enable: true
+#            required: true
+#          connectiontimeout: 5000
+#          timeout: 5000
+#          writetimeout: 5000
+#    auth-code-expiration-millis: 1800000
+#server:
+#  address: localhost
+#  port: 8080
+#
+#logging:
+#  level:
+#    org.hibernate.SQL: debug
+#    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+#jwt:
+#  secret: 7ae96706cd6e6aade43a3b843bb3317f823ab927b64beb8d45558b3ac29f079dd36afe40f1646af31c334ccbb568cfe64b9e4e54a47aa5a5077796eca1e58075
+#  <button id="login-kakao-btn" onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id={REST_API_KEY}&redirect_uri=http://localhost:8080/api/user/kakao/callback&response_type=code'">
+#정현
+
+spring:
+  datasource:
+#    url: jdbc:mysql://127.0.0.1:3306/here
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mysql
+    username: root
+    password: 1234
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/Demo
+    redis:
+      #      host: 172.17.0.2 or redis
+      host: localhost
+      port: 6382
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        default_schema: here
+        show_sql: true
+        format_sql: true
+  security:
+    oauth2:
+      kakao:
+        client-id: 041c2f4f97b6949e3d0d99a52a15ce33
+        redirect_uri: http://localhost:8080/kakao
+        client-secret: EckGrm5S334npYTY9CxbRkNCPMw6pAUi
+        authorization-grant-type: authorization_code
+        token-uri: https://kauth.kakao.com/oauth/token
+        #           scope: profile_nickname, account_email
+        client-name: Kakao
+  #            token-uri: https://kauth.kakao.com/oauth/token
+  #            user-info-uri: https://kapi.kakao.com/v2/user/me
+  #            user-name-attribute: id
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ohjuyeon2000@gmail.com
+    password: j l i m a d c h t s w x a m t t
+    properties:
+      mail:
+        smtp:
+          from: ODIRO@gmail.com
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+    auth-code-expiration-millis: 1800000
+server:
+  address: localhost
+  port: 8080
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+jwt:
+  secret: 7ae96706cd6e6aade43a3b843bb3317f823ab927b64beb8d45558b3ac29f079dd36afe40f1646af31c334ccbb568cfe64b9e4e54a47aa5a5077796eca1e58075
+#  <button id="login-kakao-btn" onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id={REST_API_KEY}&redirect_uri=http://localhost:8080/api/user/kakao/callback&response_type=code'">
