@@ -80,12 +80,9 @@ public class MemberService {
                 authCode, Duration.ofMillis(this.authCodeExpirationMillis));
     }
 
-    public void verifiedCode(String email, String authCode) {
+    public boolean verifiedCode(String email, String authCode) {
         String redisAuthCode = redisService.getValues(AUTH_CODE_PREFIX + email);
-        boolean authResult = redisService.checkExistsValue(redisAuthCode) && redisAuthCode.equals(authCode);
-        if (!authResult) {
-            log.debug("MemberService.createCode() exception occur");
-        }
+        return redisService.checkExistsValue(redisAuthCode) && redisAuthCode.equals(authCode);
     }
 
     private void checkDuplicatedEmail(String email) {

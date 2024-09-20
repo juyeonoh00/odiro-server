@@ -98,11 +98,10 @@ public class MemberController {
             @ApiResponse(responseCode = "200", description = "OK")
     })
     @GetMapping("/emails/verifications")
-    public ResponseEntity verificationEmail(@RequestParam("email") @Valid String email,
+    public ResponseEntity<Boolean> verificationEmail(@RequestParam("email") @Valid String email,
                                             @RequestParam("code") String authCode) {
-        memberService.verifiedCode(email, authCode);
-        // 인증 제대로 안됨
-        return new ResponseEntity<>(HttpStatus.OK);
+        Boolean isVerified = memberService.verifiedCode(email, authCode);
+        return ResponseEntity.ok(isVerified);
     }
 //    @Operation(summary = "카카오 로그인", description = "회원가입")
 //    @ApiResponses(value = {
