@@ -1,8 +1,5 @@
 package odiro.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import odiro.config.auth.PrincipalDetails;
@@ -13,7 +10,10 @@ import odiro.domain.member.Member;
 import odiro.dto.dayPlan.DayPlanInDetailPage;
 import odiro.dto.comment.CommentInDetailPage;
 import odiro.dto.location.LocationInDetailPage;
-import odiro.dto.member.*;
+import odiro.dto.location.WishLocationInDetailPage;
+import odiro.dto.member.HomeResponse;
+import odiro.dto.member.InitializerInDetailPage;
+import odiro.dto.member.MemberInDetailPage;
 import odiro.dto.memo.MemoInDetailPage;
 import odiro.dto.memo.PostMemoRequest;
 import odiro.dto.memo.PostMemoResponse;
@@ -22,7 +22,7 @@ import odiro.dto.plan.GetDetailPlanResponse;
 import odiro.dto.plan.InitPlanRequest;
 import odiro.dto.plan.InitPlanResponse;
 import odiro.service.DayPlanService;
-import org.springframework.http.HttpStatus;
+import odiro.service.LocationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +33,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 //@Controller +ResponseBody = RestController
 @Slf4j
 @RestController
@@ -43,7 +42,7 @@ public class PlanController {
 
     private final PlanService planService;
     private final DayPlanService dayPlanService;
-    private final RedisService redisService;
+    private final LocationService locationService;
 
     @GetMapping("/home")
     public List<HomeResponse> homeForm( @AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -108,13 +107,14 @@ public class PlanController {
                 })
                 .collect(Collectors.toList());
 
+        List<WishLocationInDetailPage> wishLocations = locationService.getWishLocationsByPlanId(planId);
+
         GetDetailPlanResponse response = new GetDetailPlanResponse(
-                plan.getId(), plan.getTitle(), plan.getFirstDay(), plan.getLastDay(), initializerResponse, memberResponses, dayPlanResponses
+                plan.getId(), plan.getTitle(), plan.getFirstDay(), plan.getLastDay(), initializerResponse, memberResponses, dayPlanResponses, wishLocations
         );
 
         return response;
     }
-
     @PutMapping("/plan/edit")
     public ResponseEntity<InitPlanResponse> editPlan(@RequestBody EditPlanRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 

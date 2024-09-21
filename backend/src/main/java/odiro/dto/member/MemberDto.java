@@ -1,4 +1,4 @@
-package odiro.dto;
+package odiro.dto.member;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

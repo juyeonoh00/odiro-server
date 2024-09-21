@@ -3,14 +3,16 @@ package odiro.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import odiro.config.jwt.RefreshTokenService;
+import odiro.config.jwt.JwtUtil;
+import odiro.config.jwt.TokenDto;
 import odiro.config.oauth2.OAuthAttributes;
 import odiro.config.redis.RedisService;
 import odiro.domain.member.Authority;
-import odiro.dto.MemberDto;
-import odiro.dto.UpdateUserRequest;
+import odiro.dto.member.MemberDto;
+import odiro.dto.member.UpdateUserRequest;
 import odiro.dto.member.SignInRequestDto;
 import odiro.dto.member.SignUpDto;
 import odiro.exception.member.EmailAlreadyExistsException;
@@ -30,6 +32,8 @@ import java.time.Duration;
 import java.util.Optional;
 import java.util.Random;
 
+import static odiro.config.jwt.JwtProperties.REFRESH_TOKEN_EXPIRATION_TIME;
+
 @Slf4j
 @Service
 @Transactional
@@ -40,9 +44,9 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final RedisService redisService;
-    private final RefreshTokenService refreshTokenService;
     @Value("${spring.mail.auth-code-expiration-millis}")
     private long authCodeExpirationMillis;
+    private final JwtUtil jwtUtil;
     public Long join(Member member) {
         memberRepository.save(member);
         return member.getId();
@@ -135,19 +139,21 @@ public class MemberService {
         memberRepository.save(member);
         return new MemberDto(member);
     }
-    public Member signIn(SignInRequestDto signInRequestDto) throws Exception {
+    public TokenDto signIn(SignInRequestDto signInRequestDto, HttpServletResponse response) throws Exception {
         Member member = memberRepository.findByusername(signInRequestDto.getUsername()).orElseThrow(()-> new
                 RuntimeException("user가 존재하지 않습니다."));
         if (member == null || !passwordEncoder.matches(signInRequestDto.getPassword(), member.getPassword())) {
             // 비밀번호가 일치하지 않거나 사용자가 존재하지 않으면 예외 발생
             throw new Exception("Invalid username or password.");
         }
-        return member;
+        TokenDto tokenDto = jwtUtil.generateToken(member, response);
+        redisService.setValues(member.getId().toString(), tokenDto.getRefreshToken(), Duration.ofDays(REFRESH_TOKEN_EXPIRATION_TIME));
+        return tokenDto;
     }
 
     public void logout(HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
-        refreshTokenService.removeRefreshToken(authorizationHeader.substring(7));
+        redisService.deleteValues(authorizationHeader.substring(7));
     }
 }
 

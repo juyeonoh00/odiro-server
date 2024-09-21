@@ -4,9 +4,14 @@ import lombok.RequiredArgsConstructor;
 import odiro.domain.DayPlan;
 import odiro.domain.Location;
 import odiro.domain.Plan;
+import odiro.dto.location.WishLocationInDetailPage;
 import odiro.repository.LocationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 @Transactional
@@ -22,10 +27,20 @@ public class LocationService {
         // DayPlan 검색
         DayPlan dayPlan = dayPlanService.findById(dayPlanId)
                 .orElseThrow(() -> new RuntimeException("DayPlan not found with id: " + dayPlanId));
+
         if(dayPlan.getPlan().getInitializer().getId().equals(userId)&&dayPlan.getPlan().getId().equals(planId)) {
             // Location 저장
+            // Location 생성
             Location location = new Location(dayPlan, addressName, kakaoMapId, phone, placeName, placeUrl, lat, lng, roadAddressName, imgUrl, CategoryGroupName);
+
+            // location_order에 값 저장
+            location.setLocationOrder(dayPlan.getLocations().size()); // 새로 추가할 때 리스트의 현재 크기로 순서 설정
+            dayPlan.getLocations().add(location);
+
             locationRepository.save(location);
+            dayPlanService.save(dayPlan);
+
+            //저장된 플랜 반환
             return location;
         }else{
             throw new RuntimeException("유저 정보 혹은 플랜 정보가 일치하지 않습니다");
@@ -110,5 +125,26 @@ public class LocationService {
         }else{
             throw new RuntimeException("유저 정보 혹은 플랜 정보가 일치하지 않습니다");
         }
+    }
+    public List<WishLocationInDetailPage> getWishLocationsByPlanId(Long planId) {
+        List<Location> wishLocations = locationRepository.findByPlanIdAndDayPlanIsNull(planId);
+        return wishLocations.stream()
+                .map(this::convertToWishLocationInDetailPage)
+                .collect(Collectors.toList());
+    }
+    private WishLocationInDetailPage convertToWishLocationInDetailPage(Location location) {
+        WishLocationInDetailPage dto = new WishLocationInDetailPage();
+        dto.setId(location.getId());
+        dto.setAddressName(location.getAddressName());
+        dto.setKakaoMapId(location.getKakaoMapId());
+        dto.setPhone(location.getPhone());
+        dto.setPlaceName(location.getPlaceName());
+        dto.setPlaceUrl(location.getPlaceUrl());
+        dto.setLat(location.getLat());
+        dto.setLng(location.getLng());
+        dto.setRoadAddressName(location.getRoadAddressName());
+        dto.setImgUrl(location.getImgUrl());
+        dto.setCategoryGroupName(location.getCategoryGroupName());
+        return dto;
     }
 }

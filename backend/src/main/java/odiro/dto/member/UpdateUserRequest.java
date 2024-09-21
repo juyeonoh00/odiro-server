@@ -1,4 +1,4 @@
-package odiro.dto;
+package odiro.dto.member;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;

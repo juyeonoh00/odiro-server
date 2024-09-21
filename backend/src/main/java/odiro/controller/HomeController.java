@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import odiro.domain.Plan;
-import odiro.dto.PlanFilteredDTO;
 import odiro.service.HomeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

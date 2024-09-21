@@ -1,4 +1,4 @@
-package odiro.dto;
+package odiro.dto.plan;
 
 public class PlanFilteredDTO {
     private Long id;

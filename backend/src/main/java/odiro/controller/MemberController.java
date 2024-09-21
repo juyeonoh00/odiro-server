@@ -67,9 +67,7 @@ public class MemberController {
 //    }
     @PostMapping("/signin")
     public ResponseEntity<TokenDto> signIn(@RequestBody SignInRequestDto signInRequestDto, HttpServletResponse response) throws Exception {
-        Member member = memberService.signIn(signInRequestDto);
-        TokenDto tokenDto = jwtUtil.generateToken(member, response);
-        return ResponseEntity.ok(tokenDto);
+        return ResponseEntity.ok(memberService.signIn(signInRequestDto, response));
     }
 
     @Operation(summary = "이메일 인증 요청", description = "이메일 인증 코드 발송")

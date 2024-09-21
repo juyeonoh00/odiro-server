@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import odiro.dto.dayPlan.DayPlanInDetailPage;
+import odiro.dto.location.LocationInDetailPage;
+import odiro.dto.location.PostWishLocationRequest;
+import odiro.dto.location.WishLocationInDetailPage;
 import odiro.dto.member.InitializerInDetailPage;
 import odiro.dto.member.MemberInDetailPage;
 
@@ -26,4 +29,6 @@ public class GetDetailPlanResponse {
     private List<MemberInDetailPage> participant;
 
     private List<DayPlanInDetailPage> dayPlan;
+
+    private List<WishLocationInDetailPage> wishLocation;
 }
