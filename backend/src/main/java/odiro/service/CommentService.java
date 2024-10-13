@@ -34,7 +34,7 @@ public class CommentService {
         Member member = memberService.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("Member not found"));
 
-        if(dayPlan.getPlan().getInitializer().getId().equals(planId)) {
+        if(dayPlan.getPlan().getPlanMembers().contains(member)&&dayPlan.getPlan().getId().equals(planId)) {
             // Comment 저장
             Comment comment = new Comment(dayPlan, member, content);
             commentRepository.save(comment);
@@ -46,12 +46,12 @@ public class CommentService {
         }
     }
 
-    public Comment updateComment(Long commentId, String newContent, Long memberId, Long planId) {
+    public Comment updateComment(Long commentId, String newContent, Member member, Long planId) {
 
         //수정할 comment 찾기
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("Comment not found with id: " + commentId));
-        if(comment.getDayPlan().getPlan().getInitializer().getId().equals(memberId)&&comment.getDayPlan().getPlan().getId().equals(planId)) {
+        if(comment.getDayPlan().getPlan().getId().equals(planId)&&comment.getWriter().equals(member)) {
             //comment 수정 후 저장
             comment.setContent(newContent);
             commentRepository.save(comment); // Save updated comment
@@ -64,12 +64,12 @@ public class CommentService {
     }
 
 
-    public void deleteComment(Long commentId, Long memberId, Long planId) {
+    public void deleteComment(Long commentId, Member member, Long planId) {
 
         //수정할 comment 찾기
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("Comment not found with id: " + commentId));
-        if(comment.getDayPlan().getPlan().getInitializer().getId().equals(memberId)&&comment.getDayPlan().getPlan().getId().equals(planId)) {
+        if(comment.getDayPlan().getPlan().getId().equals(planId)&&comment.getWriter().equals(member)) {
             //삭제
             commentRepository.delete(comment);
         }else{

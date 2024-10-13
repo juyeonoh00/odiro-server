@@ -3,16 +3,16 @@ package odiro.service;
 import lombok.RequiredArgsConstructor;
 
 import odiro.config.redis.RedisService;
-import odiro.domain.PlanMember;
 import odiro.domain.member.Member;
+import odiro.dto.member.HomeResponse;
 import odiro.dto.plan.InitPlanRequest;
-import odiro.repository.PlanMemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import odiro.domain.Plan;
 import odiro.repository.PlanRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,27 +23,25 @@ import java.util.stream.Collectors;
 public class PlanService {
 
     private final PlanRepository planRepository;
-    private final PlanMemberRepository planMemberRepository;
     private final MemberService memberService;
     private final RedisService redisService;
 
-    public Optional<Plan> findById(Long planId) {
-        return planRepository.findById(planId);
-    }
-
     public List<Member> findParticipantsByPlanId(Long planId) {
-        List<PlanMember> planMembers = planMemberRepository.findByPlanId(planId);
-        List<Member> participants = planMembers.stream()
-                .map(PlanMember::getParticipant)
-                .collect(Collectors.toList());
-        return participants;
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new RuntimeException("Plan not found with id: " + planId));
+        List<Member> planMembers = plan.getPlanMembers();
+//        List<PlanMember> planMembers = planMemberRepository.findByPlanId(planId);
+//        List<Member> participants = planMembers.stream()
+//                .map(PlanMember::getParticipant)
+//                .collect(Collectors.toList());
+        return planMembers;
     }
 
     public List<Plan> findPlansByParticipantId(Long participantId) {
-        List<PlanMember> planMembers = planMemberRepository.findByParticipantId(participantId);
-        return planMembers.stream()
-                .map(PlanMember::getPlan)
-                .collect(Collectors.toList());
+        Member member = memberService.findById(participantId)
+                .orElseThrow(() -> new RuntimeException("Plan not found with id: " + participantId));
+        List<Plan> myPlanList = member.getPlans();
+        return myPlanList;
     }
 
     public Plan initPlanV2(Long memberId, InitPlanRequest request) {
@@ -63,21 +61,16 @@ public class PlanService {
         }
 
         //플랜 멤버 저장
-        PlanMember planMember = new PlanMember();
-        planMember.setParticipant(member);
-        planMember.setPlan(plan);
-        planMemberRepository.save(planMember);
-
         //저장된 플랜 반환
         return plan;
     }
 
-    public Plan editPlan(Long planId, String title, LocalDateTime firstDay, LocalDateTime lastDay, Long id) {
+    public Plan editPlan(Long planId, String title, LocalDateTime firstDay, LocalDateTime lastDay, Member member) {
 
         //Plan 검색
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new RuntimeException("Plan not found with id: " + planId));
-        if(plan.getInitializer().getId().equals(id)){
+        if(plan.getPlanMembers().contains(member)){
             //Plan 수정 후 저장
             plan.setTitle(title);
             plan.setFirstDay(firstDay);
@@ -87,18 +80,29 @@ public class PlanService {
             return plan;
         }
         else {
-            throw new RuntimeException("userId not match with writerid: " + id);
+            throw new RuntimeException("userId not match with writerid: " + member.getId());
         }
     }
 
-    public void deletePlan(Long planId, Long id) {
+    public void deletePlan(Long planId, Member member) {
 
         // Plan 검색
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new RuntimeException("Plan not found with id: " + planId));
-        if(plan.getInitializer().getId().equals(id)) {
+        if(plan.getPlanMembers().contains(member)) {
             // Plan 삭제
             planRepository.delete(plan);
         }
+    }
+
+    public List<HomeResponse> mapToHomeResponseList(List<Plan> planList) {
+
+        List<HomeResponse> responses = new ArrayList<>();
+        for (Plan plan : planList) {
+            HomeResponse response = new HomeResponse(
+                    plan.getId(), plan.getTitle(),plan.getFirstDay(), plan.getLastDay());
+            responses.add(response);
+        }
+        return responses;
     }
 }

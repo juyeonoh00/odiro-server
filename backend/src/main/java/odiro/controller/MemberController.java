@@ -15,9 +15,7 @@ import odiro.config.jwt.TokenDto;
 import odiro.config.oauth2.Oauth2TokenService;
 import odiro.config.oauth2.OauthToken;
 import odiro.domain.member.Member;
-import odiro.dto.member.SignInRequestDto;
-import odiro.dto.member.SignUpDto;
-import odiro.dto.member.SignUpResponseDto;
+import odiro.dto.member.*;
 import odiro.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -119,17 +117,37 @@ public class MemberController {
 //        return ResponseEntity.ok().headers(headers).body("success");
 //    }
 
+    @Operation(summary = "회원 정보 수정", description = "회원 정보 수정")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "202", description = "Accepted")
+    })
+    @PatchMapping("/update")
+    public ResponseEntity<MemberDto> updateMember(@RequestHeader("userId") Long userId, @RequestBody UpdateUserRequest request) {
+        MemberDto user = memberService.updateMember(userId, request);
+        // dto 만들어서 조건 추가하기
+        return ResponseEntity.ok(user);
+    }
 
-//    @Operation(summary = "로그아웃", description = "Acceess Token 인증 후, 현재 로그인중인 사용자 로그아웃")
+//    @Operation(summary = "회원 정보", description = "회원 정보 페이지")
 //    @ApiResponses(value = {
 //            @ApiResponse(responseCode = "202", description = "Accepted")
 //    })
-//    @PatchMapping("/logout")
-//    public void logout(HttpServletRequest request) {
-//        String accessToken = JwtUtil.resolveAccessToken(request);
-//        String ref = JwtUtil.resolveRefreshToken(request);
-//        memberService.logout(ref, accessToken);
+//    @PatchMapping("/update")
+//    public ResponseEntity<MemberDto> memberDetails(@RequestHeader("userId") Long userId, @RequestBody UpdateUserRequest request) {
+//        MemberDto user = memberService.memberDetails(userId, request);
+//        // dto 만들어서 조건 추가하기
+//        return ResponseEntity.ok(user);
 //    }
+
+    @Operation(summary = "로그아웃", description = "Acceess Token 인증 후, 현재 로그인중인 사용자 로그아웃")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "202", description = "Accepted")
+    })
+    @PatchMapping("/logout")
+    public void logout(HttpServletResponse response, HttpServletRequest request) {
+        memberService.logout(request);
+        response.setHeader("Authorization", "");
+    }
 
 
 

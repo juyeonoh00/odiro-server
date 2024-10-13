@@ -5,12 +5,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import odiro.domain.Comment;
 import odiro.domain.Plan;
-import odiro.domain.PlanMember;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import static lombok.AccessLevel.*;
 
 @Entity
@@ -42,9 +40,14 @@ public class Member extends BaseTimeEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "writer")
     private List<Comment> comments = new ArrayList<>();
+
     @JsonIgnore
-    @OneToMany(mappedBy = "participant")
-    private List<PlanMember> joinedPlan = new ArrayList<>();
+    @ManyToMany(mappedBy = "planMembers")
+    private List<Plan> plans = new ArrayList<>();
+//
+//    @JsonIgnore
+//    @OneToOne(mappedBy = "participant")
+//    private PlanMember joinedPlan;
 
     //비밀번호 암호화
     public void passwordEncoding(PasswordEncoder passwordEncoder) {

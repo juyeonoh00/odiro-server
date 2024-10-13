@@ -155,5 +155,11 @@ public class MemberService {
         String authorizationHeader = request.getHeader("Authorization");
         redisService.deleteValues(authorizationHeader.substring(7));
     }
+
+    public MemberDto memberDetails(Long userId, UpdateUserRequest request) {
+        Member member = memberRepository.findById(userId).orElseThrow(()-> new
+                RuntimeException("user가 존재하지 않습니다."));
+        return new MemberDto(member);
+    }
 }
 

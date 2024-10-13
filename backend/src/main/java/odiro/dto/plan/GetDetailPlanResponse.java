@@ -26,8 +26,9 @@ public class GetDetailPlanResponse {
     private LocalDateTime lastDay;
 
     private InitializerInDetailPage owner;
+    private Boolean isOnwer;
     private List<MemberInDetailPage> participant;
-
+    private Boolean isParticipant;
     private List<DayPlanInDetailPage> dayPlan;
 
     private List<WishLocationInDetailPage> wishLocation;

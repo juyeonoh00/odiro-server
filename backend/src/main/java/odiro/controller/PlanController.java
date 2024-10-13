@@ -21,6 +21,7 @@ import odiro.dto.plan.EditPlanRequest;
 import odiro.dto.plan.GetDetailPlanResponse;
 import odiro.dto.plan.InitPlanRequest;
 import odiro.dto.plan.InitPlanResponse;
+import odiro.repository.PlanRepository;
 import odiro.service.DayPlanService;
 import odiro.service.LocationService;
 import org.springframework.http.ResponseEntity;
@@ -41,14 +42,15 @@ import java.util.stream.Collectors;
 public class PlanController {
 
     private final PlanService planService;
+    private final PlanRepository planRepository;
     private final DayPlanService dayPlanService;
     private final LocationService locationService;
 
     @GetMapping("/home")
-    public List<HomeResponse> homeForm( @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public List<HomeResponse> homeForm(@AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         List<Plan> planList = planService.findPlansByParticipantId(principalDetails.getMember().getId()); //memberId 1로 임시 지정
-        return mapToHomeResponseList(planList);
+        return planService.mapToHomeResponseList(planList);
     }
 
     @PostMapping("/plan/create")
@@ -69,9 +71,9 @@ public class PlanController {
     }
 
     @GetMapping("/plan/{planId}")
-    public GetDetailPlanResponse getDetailPlan(@PathVariable("planId") Long planId) {
+    public GetDetailPlanResponse getDetailPlan(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable("planId") Long planId) {
 
-        Plan plan = planService.findById(planId).orElseThrow(() -> new RuntimeException("Plan not found with id " + planId));
+        Plan plan = planRepository.findById(planId).orElseThrow(() -> new RuntimeException("Plan not found with id " + planId));
 
 
         Member initializer = plan.getInitializer();
@@ -79,6 +81,9 @@ public class PlanController {
                 initializer.getId(), initializer.getUsername(), initializer.getEmail(), initializer.getProfileImage());
 
         List<Member> participants = planService.findParticipantsByPlanId(planId);
+        // Member 안에 본인이 있는지
+        Boolean isParticipant = participants.stream()
+                .anyMatch(member -> member.getId().equals(principalDetails.getMember().getId()));
         List<MemberInDetailPage> memberResponses = participants.stream()
                 .map(member -> new MemberInDetailPage(member.getId(), member.getUsername(), member.getEmail(), member.getProfileImage()))
                 .collect(Collectors.toList());
@@ -110,15 +115,17 @@ public class PlanController {
         List<WishLocationInDetailPage> wishLocations = locationService.getWishLocationsByPlanId(planId);
 
         GetDetailPlanResponse response = new GetDetailPlanResponse(
-                plan.getId(), plan.getTitle(), plan.getFirstDay(), plan.getLastDay(), initializerResponse, memberResponses, dayPlanResponses, wishLocations
+                plan.getId(), plan.getTitle(), plan.getFirstDay(), plan.getLastDay(), initializerResponse, principalDetails.getMember().equals(plan.getInitializer()), memberResponses, isParticipant, dayPlanResponses, wishLocations
         );
 
         return response;
     }
+
+
     @PutMapping("/plan/edit")
     public ResponseEntity<InitPlanResponse> editPlan(@RequestBody EditPlanRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        Plan updatedPlan = planService.editPlan(request.getId(), request.getTitle(), request.getFirstDay(), request.getLastDay(), principalDetails.getMember().getId());
+        Plan updatedPlan = planService.editPlan(request.getId(), request.getTitle(), request.getFirstDay(), request.getLastDay(), principalDetails.getMember());
 
         InitPlanResponse response = new InitPlanResponse(updatedPlan.getId());
 
@@ -128,21 +135,11 @@ public class PlanController {
     @DeleteMapping("/plan/delete/{planId}")
     public ResponseEntity<Void> deleteMemo(@PathVariable("planId") Long planId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        planService.deletePlan(planId,principalDetails.getMember().getId());
+        planService.deletePlan(planId,principalDetails.getMember());
         return ResponseEntity.noContent().build();
     }
 
 
-    private List<HomeResponse> mapToHomeResponseList(List<Plan> planList) {
-
-        List<HomeResponse> responses = new ArrayList<>();
-        for (Plan plan : planList) {
-            HomeResponse response = new HomeResponse(
-                    plan.getId(), plan.getTitle(),plan.getFirstDay(), plan.getLastDay());
-            responses.add(response);
-        }
-        return responses;
-    }
 }
 //    @Operation(summary = "Plan 카테고리 선택", description = "Plan 카테고리 선택")
 //    @ApiResponses(value = {

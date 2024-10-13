@@ -67,7 +67,7 @@ public class LocationController {
         }
 
         Location savedLocation = locationService.postLocation(
-                request.getDayPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), imagePath, request.getCategoryGroupName(), planId, principalDetails.getMember().getId()
+                request.getDayPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), imagePath, request.getCategoryGroupName(), planId, principalDetails.getMember()
         );
 
         PostLocationResponse response = new PostLocationResponse(savedLocation.getId(), imagePath);
@@ -80,7 +80,7 @@ public class LocationController {
     public ResponseEntity<Void> deleteLocation(@PathVariable("locationId") Long locationId, @PathVariable("planId") Long planId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         //삭제
-        locationService.deleteLocation(locationId, planId, principalDetails.getMember().getId());
+        locationService.deleteLocation(locationId, planId, principalDetails.getMember());
 
         //결과 반환
         return ResponseEntity.noContent().build();
@@ -90,7 +90,7 @@ public class LocationController {
     @PostMapping("/{planId}/location/reorder")
     public ResponseEntity<PostDayPlanResponse> postLocation(@RequestBody ReorderLocationRequest request, @PathVariable("planId") Long planId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        DayPlan reorderedDayplan = dayPlanService.reorderLocations(request.getDayPlanId(), request.getReorderedLocationIds(),planId, principalDetails.getMember().getId());
+        DayPlan reorderedDayplan = dayPlanService.reorderLocations(request.getDayPlanId(), request.getReorderedLocationIds(),planId, principalDetails.getMember());
 
         PostDayPlanResponse response = new PostDayPlanResponse(reorderedDayplan.getId());
 
@@ -142,7 +142,7 @@ public class LocationController {
         }
 
         Location savedLocation = locationService.postWishLocation(
-                request.getPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), imagePath, request.getCategoryGroupName(), planId, principalDetails.getMember().getId()
+                request.getPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), imagePath, request.getCategoryGroupName(), planId, principalDetails.getMember()
         );
 
         PostLocationResponse response = new PostLocationResponse(savedLocation.getId(), imagePath);
@@ -155,7 +155,7 @@ public class LocationController {
     public ResponseEntity<LocationRegisterResponse> registerWishLoction(@RequestBody RegisterWishLocationRequest request, @PathVariable("planId") Long planId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         Location savedLocation = locationService.registerWishLocation(
-                request.getLocationId(), request.getDayPlanId(), planId, principalDetails.getMember().getId()
+                request.getLocationId(), request.getDayPlanId(), planId, principalDetails.getMember()
         );
 
         LocationRegisterResponse response = new LocationRegisterResponse(savedLocation.getId());
@@ -163,11 +163,12 @@ public class LocationController {
         return ResponseEntity.ok(response);
     }
 
+    // wishLocation delete로 수정 필요
     @DeleteMapping("/{planId}/wishLocation/delete/{locationId}")
     public ResponseEntity<Void> deleteWishLocation(@PathVariable("locationId") Long locationId, @PathVariable("planId") Long planId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         //삭제
-        locationService.deleteLocation(locationId,planId, principalDetails.getMember().getId());
+//        locationService.deleteLocation(locationId,planId, principalDetails.getMember());
 
         //결과 반환
         return ResponseEntity.noContent().build();

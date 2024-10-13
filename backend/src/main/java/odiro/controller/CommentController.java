@@ -35,7 +35,7 @@ public class CommentController {
     @PutMapping("/{planId}/comment/edit")
     public ResponseEntity<CommentResponse> updateComment(@RequestBody EditCommentRequest request, @PathVariable("planId") Long planId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        Comment updatedComment = commentService.updateComment(request.getId(), request.getContent(), principalDetails.getMember().getId(), planId);
+        Comment updatedComment = commentService.updateComment(request.getId(), request.getContent(), principalDetails.getMember(), planId);
 
         CommentResponse response = new CommentResponse(updatedComment.getId(), updatedComment.getWriteTime());
         return ResponseEntity.ok(response);
@@ -44,7 +44,7 @@ public class CommentController {
     @DeleteMapping("/{planId}/comment/delete/{commentId}")
     public ResponseEntity<Void> deleteComment(@PathVariable("commentId") Long commentId, @PathVariable("planId") Long planId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        commentService.deleteComment(commentId, principalDetails.getMember().getId(), planId);
+        commentService.deleteComment(commentId, principalDetails.getMember(), planId);
         return ResponseEntity.noContent().build();
     }
 

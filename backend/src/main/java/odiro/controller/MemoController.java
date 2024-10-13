@@ -23,7 +23,7 @@ public class MemoController {
     @PostMapping("/{planId}/memo/create")
     public ResponseEntity<PostMemoResponse> postMemo(@RequestBody PostMemoRequest request, @PathVariable("planId") Long PathdayPlanId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        Memo savedMemo = memoService.postMemo(request.getDayPlanId(), request.getContent(), PathdayPlanId, principalDetails.getMember().getId());
+        Memo savedMemo = memoService.postMemo(request.getDayPlanId(), request.getContent(), PathdayPlanId, principalDetails.getMember());
 
         PostMemoResponse response = new PostMemoResponse(savedMemo.getId());
 
@@ -33,7 +33,7 @@ public class MemoController {
     @PutMapping("/{planId}/memo/edit")
     public ResponseEntity<PostMemoResponse> updateMemo(@RequestBody EditMemoRequest request, @PathVariable("planId") Long planId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        Memo updatedMemo = memoService.editMemo(request.getId(), request.getContent(),planId, principalDetails.getMember().getId());
+        Memo updatedMemo = memoService.editMemo(request.getId(), request.getContent(),planId, principalDetails.getMember());
 
         PostMemoResponse response = new PostMemoResponse(updatedMemo.getId());
 
@@ -43,7 +43,7 @@ public class MemoController {
     @DeleteMapping("/{planId}/memo/delete/{memoId}")
     public ResponseEntity<Void> deleteMemo(@PathVariable("memoId") Long memoId, @PathVariable("planId") Long planId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        memoService.deleteMemo(memoId,planId, principalDetails.getMember().getId());
+        memoService.deleteMemo(memoId,planId, principalDetails.getMember());
         return ResponseEntity.noContent().build();
     }
 }
