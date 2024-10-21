@@ -23,3 +23,4 @@ public class FestivalResearchResponse {
         this.items = items;
     }
 }
+
