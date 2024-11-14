@@ -16,7 +16,7 @@ public class FestivalDto {
 
     // 생성자
     public FestivalDto(String addr1, String addr2, String eventStartDate, String eventEndDate,
-                       String firstImage, String firstImage2, String tel, String title) {
+                   String firstImage, String firstImage2, String tel, String title) {
         this.addr1 = addr1;
         this.addr2 = addr2;
         this.eventStartDate = eventStartDate;
