@@ -1,0 +1,16 @@
+package odiro.chat;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+
+// 메시지 DTO
+public class MessageDto {
+    private Long senderId;
+    private String content;
+    private String roomId;
+
+    // Getter 및 Setter
+}

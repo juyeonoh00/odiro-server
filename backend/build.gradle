@@ -63,6 +63,9 @@ dependencies {
 	implementation 'com.google.code.gson:gson'
 	//implementation 'org.json:json:20230918'
 
+	// 웹소켓
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
 	implementation 'org.json:json:20210307'
 }
 

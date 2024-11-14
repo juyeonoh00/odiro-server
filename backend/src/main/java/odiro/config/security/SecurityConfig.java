@@ -52,6 +52,11 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/ws/**").permitAll()
+                        .requestMatchers("/ws/chat/**").permitAll()
+                        .requestMatchers("/chat/**").permitAll()
+                        .requestMatchers("/api/chat/create/room").permitAll()
                         // 해당 API에 대해서는 모든 요청을 허가
                         .requestMatchers("/api/user/check-username").permitAll()
                         .requestMatchers("/api/kakao/**").permitAll()
