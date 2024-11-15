@@ -17,7 +17,7 @@ public class Memo {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="day_plan_id")
+    @JoinColumn(name="day_plan_id", foreignKey = @ForeignKey(name = "FK_day_plan_id"))
     private DayPlan dayPlan;
 
     protected Memo () {

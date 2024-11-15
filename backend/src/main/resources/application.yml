@@ -118,7 +118,7 @@ spring:
       port: 6382
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
@@ -129,7 +129,7 @@ spring:
     oauth2:
       kakao:
         client-id: 041c2f4f97b6949e3d0d99a52a15ce33
-        redirect_uri: http://localhost:8080/kakao
+        redirect_uri: http://localhost:3000/auth
         client-secret: EckGrm5S334npYTY9CxbRkNCPMw6pAUi
         authorization-grant-type: authorization_code
         token-uri: https://kauth.kakao.com/oauth/token

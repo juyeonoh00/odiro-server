@@ -21,12 +21,12 @@ import lombok.Getter;
 @Entity
 @NoArgsConstructor
 public class ChatRoom {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String roomId;
     private String name;
     @OneToMany
+//    @OneToMany(mappedBy = "chatRoom")
     private Set<Member> users = new HashSet<>();
 
     @Builder

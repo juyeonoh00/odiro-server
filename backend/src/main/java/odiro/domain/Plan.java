@@ -20,7 +20,7 @@ public class Plan {
     @Column(name = "plan_id")
     private Long id;
     private Boolean isPublic = false;
-    private Long planFilter;
+    private String planFilter;
     private String title;
     private LocalDateTime firstDay;
     private LocalDateTime lastDay;
@@ -37,7 +37,7 @@ public class Plan {
     @OneToMany(mappedBy = "plan")
     private List<Location> wishLocations = new ArrayList<>();
 
-    public void initPlan(Member initializer, String title, LocalDateTime firstDay, LocalDateTime lastDay, Boolean isPublic, Long planFilter)
+    public void initPlan(Member initializer, String title, LocalDateTime firstDay, LocalDateTime lastDay, Boolean isPublic, String planFilter)
     {
         this.initializer = initializer;
         this.title = title;

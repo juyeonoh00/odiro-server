@@ -15,10 +15,11 @@ public class PlanMember {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="participant_id")
+//    @JoinColumn(name = "member_id")
+    @JoinColumn(name="participant_id", foreignKey = @ForeignKey(name = "FK_participant_id"))
     private Member participant;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="plan_id")
+    @JoinColumn(name="plan_id", foreignKey = @ForeignKey(name = "FK_plan_id"))
     private Plan plan;
 }

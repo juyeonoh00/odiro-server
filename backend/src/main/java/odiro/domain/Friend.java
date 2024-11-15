@@ -11,7 +11,7 @@ import odiro.domain.member.Member;
 public class Friend {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "friend_request_id")
+    @Column(name = "friend_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

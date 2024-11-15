@@ -17,5 +17,5 @@ public class InitPlanRequest {
     private LocalDateTime firstDay;
     private LocalDateTime lastDay;
     private Boolean isPublic;
-    private Long planFilter;
+    private String planFilter;
 }
