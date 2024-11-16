@@ -6,6 +6,7 @@ import static java.awt.DefaultKeyboardFocusManager.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,8 +26,8 @@ public class ChatRoom {
     private Long id;
     private String roomId;
     private String name;
+    @JsonIgnore
     @OneToMany
-//    @OneToMany(mappedBy = "chatRoom")
     private Set<Member> users = new HashSet<>();
 
     @Builder

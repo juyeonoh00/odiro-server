@@ -8,7 +8,6 @@ import lombok.Setter;
 
 // 메시지 DTO
 public class MessageDto {
-    private Long senderId;
     private String content;
     private String roomId;
 
