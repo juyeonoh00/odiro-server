@@ -167,7 +167,7 @@ public class LocationController {
     public ResponseEntity<Void> deleteWishLocation(@PathVariable("locationId") Long locationId, @PathVariable("planId") Long planId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         //삭제
-        locationService.deleteLocation(locationId,planId, principalDetails.getMember().getId());
+        locationService.deleteWishLocation(locationId,planId, principalDetails.getMember().getId());
 
         //결과 반환
         return ResponseEntity.noContent().build();

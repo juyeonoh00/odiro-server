@@ -11,4 +11,5 @@ import java.util.Set;
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByusername(String username);
     Optional<Member> findByEmail(String email);
+    List<Member> findByUsernameContaining(String username);
 }

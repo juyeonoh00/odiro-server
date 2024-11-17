@@ -11,10 +11,7 @@ import odiro.config.jwt.TokenDto;
 import odiro.config.oauth2.OAuthAttributes;
 import odiro.config.redis.RedisService;
 import odiro.domain.member.Authority;
-import odiro.dto.member.MemberDto;
-import odiro.dto.member.UpdateUserRequest;
-import odiro.dto.member.SignInRequestDto;
-import odiro.dto.member.SignUpDto;
+import odiro.dto.member.*;
 import odiro.exception.member.EmailAlreadyExistsException;
 import odiro.exception.member.UsernameAlreadyExistsException;
 import odiro.repository.MemberRepository;
@@ -29,8 +26,10 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import static odiro.config.jwt.JwtProperties.REFRESH_TOKEN_EXPIRATION_TIME;
 
@@ -154,6 +153,14 @@ public class MemberService {
     public void logout(HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
         redisService.deleteValues(authorizationHeader.substring(7));
+    }
+
+    //유저 검색
+    public List<UserSearchResponseDto> searchMembersByUsername(String username) {
+        List<Member> members = memberRepository.findByUsernameContaining(username);
+        return members.stream()
+                .map(UserSearchResponseDto::fromEntity)
+                .collect(Collectors.toList());
     }
 }
 
