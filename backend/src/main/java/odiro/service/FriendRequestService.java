@@ -10,6 +10,8 @@ import odiro.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -32,9 +34,10 @@ public class FriendRequestService {
         return friendRequestRepository.save(friendRequest).getId();
     }
 
-    @Transactional
-    public Long acceptFriendRequest(Long friendRequestId) {
-        FriendRequest friendRequest = friendRequestRepository.findById(friendRequestId)
+
+    public Long acceptFriendRequest(Long senderId, Long receiverId) {
+        // senderId와 receiverId로 친구 요청 검색
+        FriendRequest friendRequest = friendRequestRepository.findBySenderIdAndReceiverId(senderId, receiverId)
                 .orElseThrow(() -> new IllegalArgumentException("Friend request not found"));
 
         // FriendService의 addFriend 메서드를 사용하여 친구 관계를 저장
@@ -44,5 +47,9 @@ public class FriendRequestService {
         friendRequestRepository.delete(friendRequest);
 
         return friendId;
+    }
+
+    public List<FriendRequest> getReceivedFriendRequests(Long userId) {
+        return friendRequestRepository.findAllByReceiverId(userId);
     }
 }

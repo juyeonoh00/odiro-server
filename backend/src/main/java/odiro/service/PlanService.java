@@ -54,7 +54,7 @@ public class PlanService {
 
         // 플랜 생성
         Plan plan = new Plan();
-        plan.initPlan(member, request.getTitle(), request.getLastDay(), request.getFirstDay(), request.getIsPublic(),request.getPlanFilter());
+        plan.initPlan(member, request.getTitle(), request.getFirstDay(), request.getLastDay(), request.getIsPublic(),request.getPlanFilter());
         planRepository.save(plan);
 
         // planFilter 저장

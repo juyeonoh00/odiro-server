@@ -87,6 +87,19 @@ public class LocationService {
         }
     }
 
+    // WishLocation 삭제
+    public void deleteWishLocation(Long locationId, Long planId, Long userId) {
+        // Location 검색
+        Location location = locationRepository.findById(locationId)
+                .orElseThrow(() -> new RuntimeException("Location not found with id: " + locationId));
+        // 삭제
+        if(location.getPlan().getInitializer().getId().equals(userId)&&location.getPlan().getId().equals(planId)) {
+            locationRepository.delete(location);
+        }else{
+            throw new RuntimeException("유저 정보 혹은 플랜 정보가 일치하지 않습니다");
+        }
+    }
+
     // 장소 찜하기
     public Location postWishLocation(Long planId, String addressName, String kakaoMapId, String phone, String placeName, String placeUrl, Float lat, Float lng, String roadAddressName, String imgUrl, String CategoryGroupName, Long PathplanId, Long userId) {
 

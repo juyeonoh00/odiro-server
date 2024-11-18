@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import odiro.config.auth.PrincipalDetails;
 import odiro.config.jwt.JwtUtil;
 import odiro.config.jwt.TokenDto;
 import odiro.config.oauth2.Oauth2TokenService;
@@ -18,6 +19,7 @@ import odiro.domain.member.Member;
 import odiro.dto.member.SignInRequestDto;
 import odiro.dto.member.SignUpDto;
 import odiro.dto.member.SignUpResponseDto;
+import odiro.dto.member.UserSearchResponseDto;
 import odiro.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,10 +28,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -132,6 +136,11 @@ public class MemberController {
 //    }
 
 
+    @GetMapping("/user/search/{username}")
+    public ResponseEntity<List<UserSearchResponseDto>> searchUsers(@PathVariable String username, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        List<UserSearchResponseDto> users = memberService.searchMembersByUsername(username);
+        return ResponseEntity.ok(users);
+    }
 
 
 
