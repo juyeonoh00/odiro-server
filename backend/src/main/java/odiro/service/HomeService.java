@@ -1,6 +1,7 @@
 package odiro.service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import odiro.config.redis.RedisService;
 import odiro.domain.Plan;
 import odiro.repository.PlanRepository;
@@ -16,6 +17,7 @@ import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class HomeService {
 
     private final RedisTemplate<String, Object> redisTemplate;
@@ -24,6 +26,7 @@ public class HomeService {
     public List<Plan> getplanFilteredList(String filterNum) {
         //0일경우 1,2를 모두 찾음
         List<String> patterns = generatePatterns(filterNum);
+        log.info("patterns: {}", patterns);
         List<String> values = new ArrayList<>();
 
         for (String pattern : patterns) {
@@ -35,6 +38,7 @@ public class HomeService {
                     values = Stream.concat(values.stream(), value.stream())
                             .toList();
                 }
+                log.info("values: {}", values);
             }
         }
 
@@ -70,6 +74,7 @@ public class HomeService {
             if (n.charAt(i) == '0') {
                 List<String> newPatterns = new ArrayList<>();
                 for (String pattern : patterns) {
+                    newPatterns.add(pattern.substring(0, i) + '0' + pattern.substring(i + 1));
                     newPatterns.add(pattern.substring(0, i) + '1' + pattern.substring(i + 1));
                     newPatterns.add(pattern.substring(0, i) + '2' + pattern.substring(i + 1));
                 }
@@ -78,4 +83,5 @@ public class HomeService {
         }
         return patterns;
     }
+
 }

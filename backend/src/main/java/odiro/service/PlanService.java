@@ -26,6 +26,7 @@ public class PlanService {
     private final PlanMemberRepository planMemberRepository;
     private final MemberService memberService;
     private final RedisService redisService;
+    private final HomeService homeService;
 
     public Optional<Plan> findById(Long planId) {
         return planRepository.findById(planId);
