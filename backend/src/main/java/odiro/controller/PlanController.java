@@ -17,12 +17,10 @@ import odiro.dto.member.MemberInDetailPage;
 import odiro.dto.memo.MemoInDetailPage;
 import odiro.dto.memo.PostMemoRequest;
 import odiro.dto.memo.PostMemoResponse;
-import odiro.dto.plan.EditPlanRequest;
-import odiro.dto.plan.GetDetailPlanResponse;
-import odiro.dto.plan.InitPlanRequest;
-import odiro.dto.plan.InitPlanResponse;
+import odiro.dto.plan.*;
 import odiro.service.DayPlanService;
 import odiro.service.LocationService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -143,6 +141,33 @@ public class PlanController {
         }
         return responses;
     }
+
+    @PostMapping("/plan/invite")
+    public ResponseEntity<Void> inviteMember(@RequestBody PlanInviteRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        planService.inviteMember(principalDetails.getMember().getId(), request.getPlanId(), request.getReceiverId());
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("/plan/wait/list")
+    public ResponseEntity<List<PlanInvitationListResponse>> getPendingPlanInvitations(
+            @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        Long receiverId = principalDetails.getMember().getId(); // 로그인된 사용자 ID
+        List<PlanInvitationListResponse> invitations = planService.getPendingInvitations(receiverId);
+        return ResponseEntity.ok(invitations);
+    }
+
+
+    @PostMapping("/plan/join")
+    public ResponseEntity<String> acceptInvitation(
+            @RequestBody PlanInvitationAcceptRequest request,
+            @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        Long memberId = principalDetails.getMember().getId(); // 로그인된 사용자 ID
+        Long planId = request.getId(); // 요청 본문에서 Plan ID 추출
+        planService.acceptInvitation(memberId, planId);
+        return ResponseEntity.ok("Invitation accepted and member added to the plan.");
+    }
+
+
 }
 //    @Operation(summary = "Plan 카테고리 선택", description = "Plan 카테고리 선택")
 //    @ApiResponses(value = {

@@ -6,10 +6,14 @@ import odiro.config.redis.RedisService;
 import odiro.domain.PlanMember;
 import odiro.domain.member.Member;
 import odiro.dto.plan.InitPlanRequest;
+import odiro.dto.plan.PlanInvitationListResponse;
+import odiro.repository.MemberRepository;
+import odiro.repository.PlanInvitationRepository;
 import odiro.repository.PlanMemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import odiro.domain.Plan;
+import odiro.domain.PlanInvitation;
 import odiro.repository.PlanRepository;
 
 import java.time.LocalDateTime;
@@ -24,6 +28,8 @@ public class PlanService {
 
     private final PlanRepository planRepository;
     private final PlanMemberRepository planMemberRepository;
+    private final MemberRepository memberRepository;
+    private final PlanInvitationRepository planInvitationRepository;
     private final MemberService memberService;
     private final RedisService redisService;
     private final HomeService homeService;
@@ -101,5 +107,54 @@ public class PlanService {
             // Plan 삭제
             planRepository.delete(plan);
         }
+    }
+
+    // 초대 생성
+    public PlanInvitation inviteMember(Long senderId, Long planId, Long receiverId) {
+        // 초대 생성에 필요한 멤버 및 플랜 확인
+        Member sender = memberService.findById(senderId)
+                .orElseThrow(() -> new RuntimeException("Sender not found"));
+        Member receiver = memberService.findById(receiverId)
+                .orElseThrow(() -> new RuntimeException("Receiver not found"));
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new RuntimeException("Plan not found"));
+
+        // 초대 생성 및 저장
+        PlanInvitation invitation = PlanInvitation.builder()
+                .plan(plan)
+                .sender(sender)
+                .receiver(receiver)
+                .isAccepted(false)
+                .build();
+        return planInvitationRepository.save(invitation);
+    }
+
+    public List<PlanInvitationListResponse> getPendingInvitations(Long receiverId) {
+        List<PlanInvitation> invitations = planInvitationRepository.findByReceiverIdAndIsAcceptedFalse(receiverId);
+
+        // 필요한 정보를 DTO로 변환
+        return invitations.stream()
+                .map(invitation -> new PlanInvitationListResponse(
+                        invitation.getPlan().getId(),
+                        invitation.getPlan().getTitle()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    public void acceptInvitation(Long memberId, Long planId) {
+        // Plan과 Member 존재 여부 확인
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new IllegalArgumentException("Plan not found: " + planId));
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Member not found: " + memberId));
+
+        // PlanMember에 추가
+        PlanMember planMember = new PlanMember();
+        planMember.setParticipant(member);
+        planMember.setPlan(plan);
+        planMemberRepository.save(planMember);
+
+        // PlanInvitation 삭제
+        planInvitationRepository.deleteByReceiverIdAndPlanId(memberId, planId);
     }
 }

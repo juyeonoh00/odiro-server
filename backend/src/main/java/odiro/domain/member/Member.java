@@ -1,6 +1,7 @@
 package odiro.domain.member;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import odiro.domain.Comment;
@@ -15,11 +16,12 @@ import static lombok.AccessLevel.*;
 
 @Entity
 @Builder
-@Getter@Setter
+@Getter @Setter
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor(access = PUBLIC)
 public class Member extends BaseTimeEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 
@@ -34,19 +36,23 @@ public class Member extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
+
     @Column
     private String profileImage;
-    @JsonIgnore
+
+    @JsonManagedReference
     @OneToMany(mappedBy = "initializer")
     private List<Plan> initalizedPlans = new ArrayList<>();
+
     @JsonIgnore
     @OneToMany(mappedBy = "writer")
     private List<Comment> comments = new ArrayList<>();
+
     @JsonIgnore
     @OneToMany(mappedBy = "participant")
     private List<PlanMember> joinedPlan = new ArrayList<>();
 
-    //비밀번호 암호화
+    // 비밀번호 암호화
     public void passwordEncoding(PasswordEncoder passwordEncoder) {
         password = passwordEncoder.encode(password);
     }
