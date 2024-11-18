@@ -137,7 +137,7 @@ public class MemberController {
 
 
     @GetMapping("/user/search/{username}")
-    public ResponseEntity<List<UserSearchResponseDto>> searchUsers(@PathVariable String username, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ResponseEntity<List<UserSearchResponseDto>> searchUsers(@PathVariable("username") String username, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         List<UserSearchResponseDto> users = memberService.searchMembersByUsername(username);
         return ResponseEntity.ok(users);
     }
