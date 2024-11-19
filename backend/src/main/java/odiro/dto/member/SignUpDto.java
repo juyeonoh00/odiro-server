@@ -7,11 +7,11 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import odiro.domain.member.Authority;
 import odiro.domain.member.Member;
+import org.springframework.web.multipart.MultipartFile;
 
 @ToString
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 public class SignUpDto {
 
@@ -30,17 +30,25 @@ public class SignUpDto {
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?]).{8,}$",
             message = "비밀번호는 최소 하나의 대문자, 소문자와 숫자 또는 특수 문자를 포함해야 합니다.")
     private String password;
-
+    private MultipartFile file;
 
     @JsonIgnore
     private Authority authority;
 
+    // 프로필 이미지가 없을 경우 기본 이미지 경로를 반환하는 메서드
+    private String getProfileImagePath() {
+        if (file == null || file.isEmpty()) {
+            return "C:\\Users\\Administrator\\Downloads\\odiro-server\\backend\\src\\main\\resources\\static\\images\\default_image.png"; // 기본 이미지 경로
+        }
+        return file.getOriginalFilename();
+    }
     public Member toEntity() {
         return Member.builder()
                 .email(email)
                 .username(username)
                 .password(password)
                 .authority(Authority.ROLE_USER)
+                .profileImage(getProfileImagePath())
                 .build();
     }
 }

@@ -16,7 +16,7 @@ public class AwsController {
         this.awsService = awsService;
     }
 
-    @PostMapping("/upload-photo")
+    @PostMapping("profile/upload-photo")
     public ResponseEntity<String> uploadPhoto(@RequestParam("file") MultipartFile file) {
         if (file == null || file.isEmpty()) {
             return ResponseEntity.badRequest().body("No file uploaded!");
