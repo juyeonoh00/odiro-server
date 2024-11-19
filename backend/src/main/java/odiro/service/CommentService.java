@@ -33,8 +33,7 @@ public class CommentService {
         // 멤버 검색
         Member member = memberService.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("Member not found"));
-
-        if(dayPlan.getPlan().getPlanMembers().contains(member)&&dayPlan.getPlan().getId().equals(planId)) {
+        if(dayPlan.getPlan().getPlanMembers().stream().anyMatch(pm->pm.getParticipant().getId().equals(member.getId()))&&dayPlan.getPlan().getId().equals(planId)) {
             // Comment 저장
             Comment comment = new Comment(dayPlan, member, content);
             commentRepository.save(comment);

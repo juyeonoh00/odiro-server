@@ -51,7 +51,7 @@ public class DayPlanService {
                 .orElseThrow(() -> new EntityNotFoundException("DayPlan not found"));
 
 
-        if(dayPlan.getPlan().getId().equals(planId) && dayPlan.getPlan().getPlanMembers().contains(member)) {
+        if(dayPlan.getPlan().getId().equals(planId) && dayPlan.getPlan().getPlanMembers().stream().anyMatch(pm->pm.getParticipant().getId().equals(member.getId()))) {
             List<Location> locations = dayPlan.getLocations();
 
             // 새로운 순서로 Location 리스트 재정렬

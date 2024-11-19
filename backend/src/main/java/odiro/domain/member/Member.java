@@ -57,9 +57,6 @@ public class Member extends BaseTimeEntity {
         password = passwordEncoder.encode(password);
     }
 
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
-    }
     @Override
     public String toString() {
         return "Member{" +

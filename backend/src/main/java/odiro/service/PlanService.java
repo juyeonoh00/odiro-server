@@ -2,6 +2,7 @@ package odiro.service;
 
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import odiro.config.redis.RedisService;
 import odiro.domain.PlanMember;
 import odiro.domain.member.Member;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class PlanService {
 
     private final PlanRepository planRepository;
@@ -61,6 +63,7 @@ public class PlanService {
         // 플랜 생성
         Plan plan = new Plan();
         plan.initPlan(member, request.getTitle(), request.getLastDay(), request.getFirstDay(), request.getIsPublic(),request.getPlanFilter());
+
         planRepository.save(plan);
 
         // planFilter 저장
@@ -85,7 +88,8 @@ public class PlanService {
         //Plan 검색
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new RuntimeException("Plan not found with id: " + planId));
-        if(plan.getPlanMembers().contains(member)){
+
+        if(plan.getPlanMembers().stream().anyMatch(pm -> pm.getParticipant().getId().equals(member.getId()))) {
             //Plan 수정 후 저장
             plan.setTitle(title);
             plan.setFirstDay(firstDay);

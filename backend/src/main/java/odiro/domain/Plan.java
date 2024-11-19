@@ -30,15 +30,7 @@ public class Plan {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="initializer_id")
     private Member initializer;
-    // 플랜 멤버
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "plan_member",
-            joinColumns = @JoinColumn(name = "plan_id"),
-            inverseJoinColumns = @JoinColumn(name = "member_id")
-    )
-    private List<Member> planMembers = new ArrayList<>();
+
     @JsonIgnore
     @OneToMany(mappedBy = "plan")
     private List<DayPlan> dayPlans = new ArrayList<>();
@@ -47,15 +39,17 @@ public class Plan {
     @OneToMany(mappedBy = "plan")
     private List<Location> wishLocations = new ArrayList<>();
 
-    public void initPlan(Member initializer, String title, LocalDateTime firstDay, LocalDateTime lastDay, Boolean isPublic, String planFilter)
-    {
+    // 추가: Plan과 관련된 PlanMember 리스트
+    @JsonIgnore
+    @OneToMany(mappedBy = "plan")
+    private List<PlanMember> planMembers = new ArrayList<>(); // Plan과 관련된 PlanMember들
+
+    public void initPlan(Member initializer, String title, LocalDateTime firstDay, LocalDateTime lastDay, Boolean isPublic, String planFilter) {
         this.initializer = initializer;
-        this.planMembers.add(initializer);
         this.title = title;
         this.firstDay = firstDay;
         this.lastDay = lastDay;
         this.isPublic = isPublic;
         this.planFilter = planFilter;
-
     }
 }

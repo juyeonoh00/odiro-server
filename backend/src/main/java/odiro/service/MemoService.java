@@ -21,7 +21,7 @@ public class MemoService {
         // DayPlan 검색
         DayPlan dayPlan = dayPlanService.findById(dayPlanId)
                 .orElseThrow(() -> new RuntimeException("DayPlan not found"));
-        if(dayPlan.getPlan().getId().equals(PathdayPlanId) && dayPlan.getPlan().getPlanMembers().contains(member))
+        if(dayPlan.getPlan().getId().equals(PathdayPlanId) && dayPlan.getPlan().getPlanMembers().stream().anyMatch(pm->pm.getParticipant().getId().equals(member.getId())))
             {
             // Memo 생성 후 저장
             Memo memo = new Memo(dayPlan, content);
@@ -39,7 +39,7 @@ public class MemoService {
         //Memo 검색
         Memo memo = memoRepository.findById(memoId)
                 .orElseThrow(() -> new RuntimeException("Memo not found with id: " + memoId));
-        if(memo.getDayPlan().getPlan().getId().equals(PathdayPlanId) && memo.getDayPlan().getPlan().getPlanMembers().contains(member)) {
+        if(memo.getDayPlan().getPlan().getId().equals(PathdayPlanId) && memo.getDayPlan().getPlan().getPlanMembers().stream().anyMatch(pm->pm.getParticipant().getId().equals(member.getId()))) {
             //Memo 수정 후 저장
             memo.setContent(content);
             memoRepository.save(memo);
@@ -55,7 +55,7 @@ public class MemoService {
         //Memo 검색
         Memo memo = memoRepository.findById(memoId)
                 .orElseThrow(() -> new RuntimeException("Memo not found with id: " + memoId));
-        if(memo.getDayPlan().getPlan().getId().equals(PathdayPlanId) && memo.getDayPlan().getPlan().getPlanMembers().contains(member)) {
+        if(memo.getDayPlan().getPlan().getId().equals(PathdayPlanId) && memo.getDayPlan().getPlan().getPlanMembers().stream().anyMatch(pm->pm.getParticipant().getId().equals(member.getId()))) {
             // Memo 삭제
             memoRepository.delete(memo);
         }else{
