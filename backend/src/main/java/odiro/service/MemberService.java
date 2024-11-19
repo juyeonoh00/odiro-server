@@ -11,6 +11,7 @@ import odiro.config.jwt.TokenDto;
 import odiro.config.oauth2.OAuthAttributes;
 import odiro.config.redis.RedisService;
 import odiro.domain.member.Authority;
+import odiro.dto.UpdateMemberDto;
 import odiro.dto.member.*;
 import odiro.exception.member.EmailAlreadyExistsException;
 import odiro.exception.member.UsernameAlreadyExistsException;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import odiro.domain.member.Member;
 import odiro.config.email.EmailService;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -43,6 +45,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final RedisService redisService;
+    private final AwsService awsService;
     @Value("${spring.mail.auth-code-expiration-millis}")
     private long authCodeExpirationMillis;
     private final JwtUtil jwtUtil;
@@ -55,9 +58,13 @@ public class MemberService {
         return memberRepository.findById(memberId);
     }
     @Transactional
-    public Member signUp(SignUpDto signUpDto) {
+    public Member signUp(SignUpDto signUpDto) throws IOException {
         signUpDto.setAuthority(Authority.valueOf("ROLE_USER"));
         Member member = signUpDto.toEntity();
+        if (signUpDto.getFile() != null) {
+            member.setProfileImage(awsService.uploadFile(signUpDto.getFile()));
+        }else {
+        }
         member.passwordEncoding(passwordEncoder);
         memberRepository.save(member);
         return member;
@@ -114,7 +121,7 @@ public class MemberService {
         }
     }
 
-    public MemberDto updateMember(Long id, UpdateUserRequest request) {
+    public MemberDto updateMember(Long id, UpdateMemberDto request) {
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         if (request.getUsername() != null) {
@@ -162,5 +169,16 @@ public class MemberService {
                 .map(UserSearchResponseDto::fromEntity)
                 .collect(Collectors.toList());
     }
+
+    public Member mypage(Long userId) {
+        return memberRepository
+                .findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
+    public Boolean verificationPassword(String password, String requestPassword) {
+        return passwordEncoder.matches(requestPassword, password);
+    }
+
 }
 
