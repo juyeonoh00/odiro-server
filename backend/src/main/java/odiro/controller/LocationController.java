@@ -90,7 +90,7 @@ public class LocationController {
     @PostMapping("/{planId}/location/reorder")
     public ResponseEntity<PostDayPlanResponse> postLocation(@RequestBody ReorderLocationRequest request, @PathVariable("planId") Long planId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        DayPlan reorderedDayplan = dayPlanService.reorderLocations(request.getDayPlanId(), request.getReorderedLocationIds(),planId, principalDetails.getMember().getId());
+        DayPlan reorderedDayplan = dayPlanService.reorderLocations(request.getDayPlanId(), request.getReorderedLocationIds(),planId, principalDetails.getMember());
 
         PostDayPlanResponse response = new PostDayPlanResponse(reorderedDayplan.getId());
 

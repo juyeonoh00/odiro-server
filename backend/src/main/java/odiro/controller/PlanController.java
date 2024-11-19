@@ -116,7 +116,7 @@ public class PlanController {
     @PutMapping("/plan/edit")
     public ResponseEntity<InitPlanResponse> editPlan(@RequestBody EditPlanRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        Plan updatedPlan = planService.editPlan(request.getId(), request.getTitle(), request.getFirstDay(), request.getLastDay(), principalDetails.getMember().getId());
+        Plan updatedPlan = planService.editPlan(request.getId(), request.getTitle(), request.getFirstDay(), request.getLastDay(), principalDetails.getMember());
 
         InitPlanResponse response = new InitPlanResponse(updatedPlan.getId());
 
@@ -126,7 +126,7 @@ public class PlanController {
     @DeleteMapping("/plan/delete/{planId}")
     public ResponseEntity<Void> deleteMemo(@PathVariable("planId") Long planId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        planService.deletePlan(planId,principalDetails.getMember().getId());
+        planService.deletePlan(planId,principalDetails.getMember());
         return ResponseEntity.noContent().build();
     }
 

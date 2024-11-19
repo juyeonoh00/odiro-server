@@ -3,6 +3,7 @@ package odiro.service;
 import lombok.RequiredArgsConstructor;
 import odiro.domain.DayPlan;
 import odiro.domain.Memo;
+import odiro.domain.member.Member;
 import odiro.repository.MemoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,12 +16,13 @@ public class MemoService {
     private final MemoRepository memoRepository;
     private final DayPlanService dayPlanService;
 
-    public Memo postMemo(Long dayPlanId, String content, Long PathdayPlanId, Long userId) {
+    public Memo postMemo(Long dayPlanId, String content, Long PathdayPlanId, Member member)  {
 
         // DayPlan 검색
         DayPlan dayPlan = dayPlanService.findById(dayPlanId)
                 .orElseThrow(() -> new RuntimeException("DayPlan not found"));
-        if(dayPlan.getPlan().getInitializer().getId().equals(userId)&&dayPlan.getPlan().getId().equals(PathdayPlanId)) {
+        if(dayPlan.getPlan().getId().equals(PathdayPlanId) && dayPlan.getPlan().getPlanMembers().contains(member))
+            {
             // Memo 생성 후 저장
             Memo memo = new Memo(dayPlan, content);
             memoRepository.save(memo);
@@ -32,12 +34,12 @@ public class MemoService {
         }
     }
 
-    public Memo editMemo(Long memoId, String content, Long PathdayPlanId, Long userId) {
+    public Memo editMemo(Long memoId, String content, Long PathdayPlanId, Member member) {
 
         //Memo 검색
         Memo memo = memoRepository.findById(memoId)
                 .orElseThrow(() -> new RuntimeException("Memo not found with id: " + memoId));
-        if(memo.getDayPlan().getPlan().getInitializer().getId().equals(userId)&&memo.getDayPlan().getPlan().getId().equals(PathdayPlanId)) {
+        if(memo.getDayPlan().getPlan().getId().equals(PathdayPlanId) && memo.getDayPlan().getPlan().getPlanMembers().contains(member)) {
             //Memo 수정 후 저장
             memo.setContent(content);
             memoRepository.save(memo);
@@ -48,13 +50,13 @@ public class MemoService {
         }
     }
 
-    public void deleteMemo(Long memoId, Long PathdayPlanId, Long userId) {
+    public void deleteMemo(Long memoId, Long PathdayPlanId, Member member) {
 
         //Memo 검색
         Memo memo = memoRepository.findById(memoId)
                 .orElseThrow(() -> new RuntimeException("Memo not found with id: " + memoId));
-        if(memo.getDayPlan().getPlan().getInitializer().getId().equals(userId)&&memo.getDayPlan().getPlan().getId().equals(PathdayPlanId)) {
-        // Memo 삭제
+        if(memo.getDayPlan().getPlan().getId().equals(PathdayPlanId) && memo.getDayPlan().getPlan().getPlanMembers().contains(member)) {
+            // Memo 삭제
             memoRepository.delete(memo);
         }else{
             throw new RuntimeException("유저 정보 혹은 플랜 정보가 일치하지 않습니다");

@@ -60,7 +60,7 @@ public class PlanService {
 
         // 플랜 생성
         Plan plan = new Plan();
-        plan.initPlan(member, request.getTitle(), request.getFirstDay(), request.getLastDay(), request.getIsPublic(),request.getPlanFilter());
+        plan.initPlan(member, request.getTitle(), request.getLastDay(), request.getFirstDay(), request.getIsPublic(),request.getPlanFilter());
         planRepository.save(plan);
 
         // planFilter 저장
@@ -79,12 +79,13 @@ public class PlanService {
         return plan;
     }
 
-    public Plan editPlan(Long planId, String title, LocalDateTime firstDay, LocalDateTime lastDay, Long id) {
+    public Plan editPlan(Long planId, String title, LocalDateTime firstDay, LocalDateTime lastDay, Member member) {
+
 
         //Plan 검색
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new RuntimeException("Plan not found with id: " + planId));
-        if(plan.getInitializer().getId().equals(id)){
+        if(plan.getPlanMembers().contains(member)){
             //Plan 수정 후 저장
             plan.setTitle(title);
             plan.setFirstDay(firstDay);
@@ -94,16 +95,16 @@ public class PlanService {
             return plan;
         }
         else {
-            throw new RuntimeException("userId not match with writerid: " + id);
+            throw new RuntimeException("userId not match with writerid: " + member);
         }
     }
 
-    public void deletePlan(Long planId, Long id) {
+    public void deletePlan(Long planId, Member member) {
 
         // Plan 검색
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new RuntimeException("Plan not found with id: " + planId));
-        if(plan.getInitializer().getId().equals(id)) {
+        if(plan.getPlanMembers().contains(member)) {
             // Plan 삭제
             planRepository.delete(plan);
         }
