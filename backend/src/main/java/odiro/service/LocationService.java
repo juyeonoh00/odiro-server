@@ -28,7 +28,9 @@ public class LocationService {
         DayPlan dayPlan = dayPlanService.findById(dayPlanId)
                 .orElseThrow(() -> new RuntimeException("DayPlan not found with id: " + dayPlanId));
 
-        if(dayPlan.getPlan().getInitializer().getId().equals(userId)&&dayPlan.getPlan().getId().equals(planId)) {
+        if((dayPlan.getPlan().getInitializer().getId().equals(userId) ||
+                dayPlan.getPlan().getPlanMembers().stream().anyMatch(pm -> pm.getParticipant().getId().equals(userId))) &&
+                dayPlan.getPlan().getId().equals(planId)) {
             // Location 저장
             // Location 생성
             Location location = new Location(dayPlan, addressName, kakaoMapId, phone, placeName, placeUrl, lat, lng, roadAddressName, imgUrl, CategoryGroupName);
@@ -54,7 +56,9 @@ public class LocationService {
         // 기존 Location 검색
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() -> new RuntimeException("Location not found with id: " + locationId));
-        if(location.getDayPlan().getPlan().getInitializer().getId().equals(userId)&&location.getDayPlan().getPlan().getId().equals(planId)) {
+        if((location.getDayPlan().getPlan().getInitializer().getId().equals(userId)||
+                location.getDayPlan().getPlan().getPlanMembers().stream().anyMatch(pm -> pm.getParticipant().getId().equals(userId)))
+                &&location.getDayPlan().getPlan().getId().equals(planId)) {
             // 수정된 정보 업데이트
             location.setAddressName(addressName);
             location.setKakaoMapId(kakaoMapId);
@@ -80,7 +84,9 @@ public class LocationService {
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() -> new RuntimeException("Location not found with id: " + locationId));
         // 삭제
-        if(location.getDayPlan().getPlan().getInitializer().getId().equals(userId)&&location.getDayPlan().getPlan().getId().equals(planId)) {
+        if((location.getDayPlan().getPlan().getInitializer().getId().equals(userId) ||
+                location.getDayPlan().getPlan().getPlanMembers().stream().anyMatch(pm -> pm.getParticipant().getId().equals(userId)))
+                &&location.getDayPlan().getPlan().getId().equals(planId)) {
             locationRepository.delete(location);
         }else{
             throw new RuntimeException("유저 정보 혹은 플랜 정보가 일치하지 않습니다");
@@ -93,7 +99,9 @@ public class LocationService {
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() -> new RuntimeException("Location not found with id: " + locationId));
         // 삭제
-        if(location.getPlan().getInitializer().getId().equals(userId)&&location.getPlan().getId().equals(planId)) {
+        if((location.getDayPlan().getPlan().getInitializer().getId().equals(userId) ||
+                location.getDayPlan().getPlan().getPlanMembers().stream().anyMatch(pm -> pm.getParticipant().getId().equals(userId)))
+                &&location.getDayPlan().getPlan().getId().equals(planId)) {
             locationRepository.delete(location);
         }else{
             throw new RuntimeException("유저 정보 혹은 플랜 정보가 일치하지 않습니다");
@@ -106,7 +114,9 @@ public class LocationService {
         // Plan 검색
         Plan plan = planService.findById(planId)
                 .orElseThrow(() -> new RuntimeException("Plan not found with id: " + planId));
-        if(plan.getInitializer().getId().equals(userId)&&plan.getId().equals(planId)) {
+        if((plan.getInitializer().getId().equals(userId)||
+                plan.getPlanMembers().stream().anyMatch(pm -> pm.getParticipant().getId().equals(userId))
+                        &&plan.getId().equals(planId))) {
             // Location 저장
             Location location = new Location(plan, addressName, kakaoMapId, phone, placeName, placeUrl, lat, lng, roadAddressName, imgUrl, CategoryGroupName);
             locationRepository.save(location);
@@ -125,7 +135,9 @@ public class LocationService {
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() -> new RuntimeException("Location not found with id: " + locationId));
 
-        if(location.getDayPlan().getPlan().getInitializer().getId().equals(userId)&&location.getDayPlan().getPlan().getId().equals(planId)) {
+        if((location.getDayPlan().getPlan().getInitializer().getId().equals(userId) ||
+                location.getDayPlan().getPlan().getPlanMembers().stream().anyMatch(pm -> pm.getParticipant().getId().equals(userId)))
+                &&location.getDayPlan().getPlan().getId().equals(planId)) {
             // DayPlan 검색
             DayPlan dayPlan = dayPlanService.findById(dayPlanId)
                     .orElseThrow(() -> new RuntimeException("DayPlan not found with id: " + dayPlanId));

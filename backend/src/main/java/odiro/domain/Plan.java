@@ -39,6 +39,11 @@ public class Plan {
     @OneToMany(mappedBy = "plan")
     private List<Location> wishLocations = new ArrayList<>();
 
+    // 추가: Plan과 관련된 PlanMember 리스트
+    @JsonIgnore
+    @OneToMany(mappedBy = "plan")
+    private List<PlanMember> planMembers = new ArrayList<>(); // Plan과 관련된 PlanMember들
+
     public void initPlan(Member initializer, String title, LocalDateTime firstDay, LocalDateTime lastDay, Boolean isPublic, String planFilter) {
         this.initializer = initializer;
         this.title = title;
