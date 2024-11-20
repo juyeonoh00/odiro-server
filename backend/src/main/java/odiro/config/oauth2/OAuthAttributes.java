@@ -16,11 +16,12 @@ public class OAuthAttributes {
     private String nickName;    // 닉네임 정보
     private String email;       // 이메일 주소
     private SocialType socialType;
+    private String profilleImage;
     public static OAuthAttributes ofKakao(SocialType userNameAttributeName, Map<String, Object> attributes) {
 
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
-
+        String profileImage = (String) profile.get("profile_image_url");
         String nickname = (String) profile.get("nickname");
         String email = (String) kakaoAccount.get("email");
 
@@ -32,6 +33,7 @@ public class OAuthAttributes {
                 .email(email)
                 .nickName(nickname)
                 .attributes(attributes)
+                .profilleImage(profileImage)
                 .socialType(SocialType.KAKAO)
                 .build();
     }
@@ -40,6 +42,7 @@ public class OAuthAttributes {
                 .email(email)
                 .username(nickName)
                 .password(null)
+                .profileImage(profilleImage)
                 .authority(Authority.ROLE_USER)
                 .build();
     }

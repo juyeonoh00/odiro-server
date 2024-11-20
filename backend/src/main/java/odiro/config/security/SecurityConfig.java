@@ -55,7 +55,7 @@ public class SecurityConfig {
                         .requestMatchers("/ws").permitAll()
                         // 해당 API에 대해서는 모든 요청을 허가
                         .requestMatchers("/api/location/festival/research").permitAll()
-
+                        .requestMatchers("/api/home/plan").permitAll()
                         .requestMatchers("/api/user/check-username").permitAll()
                         .requestMatchers("/api/kakao/**").permitAll()
                         .requestMatchers("/api/emails/**").permitAll()
