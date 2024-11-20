@@ -14,7 +14,7 @@ import odiro.config.jwt.JwtUtil;
 import odiro.config.jwt.TokenDto;
 import odiro.config.oauth2.Oauth2TokenService;
 import odiro.domain.member.Member;
-import odiro.dto.UpdateMemberDto;
+import odiro.dto.member.UpdateMemberDto;
 import odiro.dto.member.*;
 import odiro.service.AwsService;
 import odiro.service.MemberService;
@@ -45,8 +45,7 @@ public class MemberController {
             @ApiResponse(responseCode = "200", description = "OK")
     })
         @PostMapping(value = "/signup")
-//        public ResponseEntity<SignUpResponseDto> singUp (@ModelAttribute SignUpDto signUpDto) throws IOException {
-    public ResponseEntity<SignUpResponseDto> singUp (@ModelAttribute SignUpDto signUpDto) throws IOException {
+    public ResponseEntity<SignUpResponseDto> singUp (@RequestBody SignUpDto signUpDto) throws IOException {
             Member member = memberService.signUp(signUpDto);
             SignUpResponseDto res = SignUpResponseDto.toDto(member);
             //response 전달을 위한 dto 변환
@@ -145,16 +144,16 @@ public class MemberController {
     }
 
 
-//    @Operation(summary = "회원 정보 수정", description = "회원 정보 수정")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "202", description = "Accepted")
-//    })
-//    @PatchMapping("/update/{userId}")
-//    public ResponseEntity<UpdateMemberDto> updateMember(@RequestHeader("userId") Long userId, @RequestBody UpdateMemberDto request) {
-//        MemberDto member = memberService.updateMember(userId, request);
-//        // dto 만들어서 조건 추가하기
-//        return ResponseEntity.ok(user);
-//    }
+    @Operation(summary = "회원 정보 수정", description = "회원 정보 수정")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "202", description = "Accepted")
+    })
+    @PatchMapping("/update")
+    public ResponseEntity<MemberDto> updateMember(@AuthenticationPrincipal PrincipalDetails principalDetails, @ModelAttribute UpdateMemberDto request) throws IOException {
+        MemberDto member = memberService.updateMember(principalDetails.getMember(), request);
+        // dto 만들어서 조건 추가하기
+        return ResponseEntity.ok(member);
+    }
 
 //    @Operation(summary = "프로필 이미지 수정", description = "프로필 이미지 수정")
 //    @ApiResponses(value = {

@@ -1,9 +1,11 @@
-package odiro.dto;
+package odiro.dto.member;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
+
 @ToString
 @Getter
 @Setter
@@ -24,5 +26,12 @@ public class UpdateMemberDto {
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?]).{8,}$",
             message = "비밀번호는 최소 하나의 대문자, 소문자와 숫자 또는 특수 문자를 포함해야 합니다.")
     private String password;
+    private MultipartFile file;
 
+//    public String getProfileImagePath() {
+//        if (file == null || file.isEmpty()) {
+//            return "https://tennis-upload.s3.ap-northeast-2.amazonaws.com/avatars/1700428898409-person.png"; // 기본 이미지 경로
+//        }
+//        return file.getOriginalFilename();
+//    }
 }

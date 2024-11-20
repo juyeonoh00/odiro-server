@@ -17,7 +17,6 @@ import static lombok.AccessLevel.*;
 @Entity
 @Builder
 @Getter @Setter
-@NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor(access = PUBLIC)
 public class Member extends BaseTimeEntity {
     @Id
@@ -56,7 +55,9 @@ public class Member extends BaseTimeEntity {
     public void passwordEncoding(PasswordEncoder passwordEncoder) {
         password = passwordEncoder.encode(password);
     }
-
+    public Member() {
+        this.profileImage = "https://tennis-upload.s3.ap-northeast-2.amazonaws.com/avatars/1700428898409-person.png";
+    }
     @Override
     public String toString() {
         return "Member{" +

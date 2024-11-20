@@ -11,7 +11,7 @@ import odiro.config.jwt.TokenDto;
 import odiro.config.oauth2.OAuthAttributes;
 import odiro.config.redis.RedisService;
 import odiro.domain.member.Authority;
-import odiro.dto.UpdateMemberDto;
+import odiro.dto.member.UpdateMemberDto;
 import odiro.dto.member.*;
 import odiro.exception.member.EmailAlreadyExistsException;
 import odiro.exception.member.UsernameAlreadyExistsException;
@@ -61,10 +61,6 @@ public class MemberService {
     public Member signUp(SignUpDto signUpDto) throws IOException {
         signUpDto.setAuthority(Authority.valueOf("ROLE_USER"));
         Member member = signUpDto.toEntity();
-        if (signUpDto.getFile() != null) {
-            member.setProfileImage(awsService.uploadFile(signUpDto.getFile()));
-        }else {
-        }
         member.passwordEncoding(passwordEncoder);
         memberRepository.save(member);
         return member;
@@ -121,9 +117,7 @@ public class MemberService {
         }
     }
 
-    public MemberDto updateMember(Long id, UpdateMemberDto request) {
-        Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public MemberDto updateMember(Member member, UpdateMemberDto request) throws IOException {
         if (request.getUsername() != null) {
             Optional<Member> checkUser = memberRepository.findByusername(request.getUsername());
             if (checkUser.isPresent()) {
@@ -142,12 +136,17 @@ public class MemberService {
             member.setPassword(request.getPassword());
             member.passwordEncoding(passwordEncoder);
         }
-        memberRepository.save(member);
-        return new MemberDto(member);
+        if (request.getFile() != null) {
+            member.setProfileImage(awsService.uploadFile(request.getFile()));
+        }else {
+        }
+        Member newMember = memberRepository.save(member);
+        return new MemberDto(newMember);
     }
     public TokenDto signIn(SignInRequestDto signInRequestDto, HttpServletResponse response) throws Exception {
         Member member = memberRepository.findByusername(signInRequestDto.getUsername()).orElseThrow(()-> new
                 RuntimeException("user가 존재하지 않습니다."));
+
         if (member == null || !passwordEncoder.matches(signInRequestDto.getPassword(), member.getPassword())) {
             // 비밀번호가 일치하지 않거나 사용자가 존재하지 않으면 예외 발생
             throw new Exception("Invalid username or password.");
@@ -176,8 +175,8 @@ public class MemberService {
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 
-    public Boolean verificationPassword(String password, String requestPassword) {
-        return passwordEncoder.matches(requestPassword, password);
+    public Boolean verificationPassword(String encodedPassword, String password) {
+        return passwordEncoder.matches(password, encodedPassword);
     }
 
 }
