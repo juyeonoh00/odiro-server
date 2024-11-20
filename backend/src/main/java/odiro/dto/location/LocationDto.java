@@ -14,8 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class LocationDto {
-    private String lat;
-    private String lng;
+    private Float lat;
+    private Float lng;
     private String imgUrl;
     private List<DayPlanDto> plans; // PlanDto 리스트
 }

@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
 import odiro.config.redis.RedisService;
+import odiro.domain.DayPlan;
 import odiro.domain.PlanMember;
 import odiro.domain.member.Member;
+import odiro.dto.dayPlan.DayPlanDto;
+import odiro.dto.location.LocationDto;
 import odiro.dto.plan.InitPlanRequest;
 import odiro.dto.plan.PlanInvitationListResponse;
 import odiro.repository.MemberRepository;
@@ -19,6 +22,7 @@ import odiro.repository.PlanRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -48,12 +52,6 @@ public class PlanService {
         return participants;
     }
 
-    public List<Plan> findPlansByParticipantId(Long participantId) {
-        List<PlanMember> planMembers = planMemberRepository.findByParticipantId(participantId);
-        return planMembers.stream()
-                .map(PlanMember::getPlan)
-                .collect(Collectors.toList());
-    }
 
     public Plan initPlanV2(Long memberId, InitPlanRequest request) {
         // 멤버 검색
@@ -161,5 +159,37 @@ public class PlanService {
 
         // PlanInvitation 삭제
         planInvitationRepository.deleteByReceiverIdAndPlanId(memberId, planId);
+    }
+
+    public List<DayPlanDto> myplan(Long id) {
+        List<PlanMember> planMembers = planMemberRepository.findByParticipantId(id);
+        List<Plan> planList =  planMembers.stream()
+                .map(PlanMember::getPlan)
+                .collect(Collectors.toList());
+        List<DayPlanDto> dayPlanDtoList = planList.stream()
+                .map(plan -> {
+                    List<DayPlan> dayPlans = plan.getDayPlans();
+                    if (dayPlans != null && !dayPlans.isEmpty()) {
+                        DayPlan firstDayPlan = dayPlans.get(0);
+                        return DayPlanDto.builder()
+                                .id(plan.getId())
+                                .title(plan.getTitle())
+                                .firstDay(plan.getFirstDay())
+                                .lastDay(plan.getLastDay())
+                                .locationList(firstDayPlan.getLocations().stream()
+                                        .map(location -> LocationDto.builder()
+                                                .lat(location.getLat())
+                                                .lng(location.getLng())
+                                                .imgUrl(location.getImgUrl())
+                                                .build())
+                                        .collect(Collectors.toList()))
+                                .build();
+                    }
+                    return null; // DayPlans가 비어있다면 null 반환
+                })
+                .filter(Objects::nonNull) // null 필터링
+                .collect(Collectors.toList());
+        // Dto로 변환해서 넣기
+        return dayPlanDtoList;
     }
 }

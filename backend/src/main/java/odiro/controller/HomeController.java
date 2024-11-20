@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import odiro.domain.Plan;
+import odiro.dto.dayPlan.DayPlanDto;
 import odiro.service.HomeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +24,8 @@ public class HomeController {
             @ApiResponse(responseCode = "200", description = "OK")
     })
     @GetMapping(value = "/plan")
-    public ResponseEntity<List<Plan>> planFilteredList (@RequestParam(defaultValue = "0") String filterNum){
-        List<Plan> planFilteredList = homeService.getplanFilteredList(filterNum);
+    public ResponseEntity<List<DayPlanDto>> planFilteredList (@RequestParam(defaultValue = "0") String filterNum){
+        List<DayPlanDto> planFilteredList = homeService.getplanFilteredList(filterNum);
         return ResponseEntity.status(HttpStatus.CREATED).body(planFilteredList);
     }
 

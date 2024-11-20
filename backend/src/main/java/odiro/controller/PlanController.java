@@ -3,10 +3,8 @@ package odiro.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import odiro.config.auth.PrincipalDetails;
-import odiro.config.redis.RedisService;
-import odiro.domain.DayPlan;
-import odiro.domain.Memo;
 import odiro.domain.member.Member;
+import odiro.dto.dayPlan.DayPlanDto;
 import odiro.dto.dayPlan.DayPlanInDetailPage;
 import odiro.dto.comment.CommentInDetailPage;
 import odiro.dto.location.LocationInDetailPage;
@@ -15,8 +13,6 @@ import odiro.dto.member.HomeResponse;
 import odiro.dto.member.InitializerInDetailPage;
 import odiro.dto.member.MemberInDetailPage;
 import odiro.dto.memo.MemoInDetailPage;
-import odiro.dto.memo.PostMemoRequest;
-import odiro.dto.memo.PostMemoResponse;
 import odiro.dto.plan.*;
 import odiro.service.DayPlanService;
 import odiro.service.LocationService;
@@ -42,11 +38,9 @@ public class PlanController {
     private final DayPlanService dayPlanService;
     private final LocationService locationService;
 
-    @GetMapping("/home")
-    public List<HomeResponse> homeForm( @AuthenticationPrincipal PrincipalDetails principalDetails) {
-
-        List<Plan> planList = planService.findPlansByParticipantId(principalDetails.getMember().getId());
-        return mapToHomeResponseList(planList);
+    @GetMapping("/plan/myplan")
+    public List<DayPlanDto> myplan( @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        return planService.myplan(principalDetails.getMember().getId());
     }
 
     @PostMapping("/plan/create")
@@ -131,16 +125,6 @@ public class PlanController {
     }
 
 
-    private List<HomeResponse> mapToHomeResponseList(List<Plan> planList) {
-
-        List<HomeResponse> responses = new ArrayList<>();
-        for (Plan plan : planList) {
-            HomeResponse response = new HomeResponse(
-                    plan.getId(), plan.getTitle(),plan.getFirstDay(), plan.getLastDay());
-            responses.add(response);
-        }
-        return responses;
-    }
 
     @PostMapping("/plan/invite")
     public ResponseEntity<Void> inviteMember(@RequestBody PlanInviteRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {

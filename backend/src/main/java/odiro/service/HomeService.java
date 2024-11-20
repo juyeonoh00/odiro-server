@@ -4,17 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import odiro.config.redis.RedisService;
 import odiro.domain.DayPlan;
-import odiro.domain.Location;
 import odiro.domain.Plan;
 import odiro.dto.dayPlan.DayPlanDto;
+import odiro.dto.location.LocationDto;
 import odiro.repository.PlanRepository;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,7 +23,7 @@ public class HomeService {
     private final RedisTemplate<String, Object> redisTemplate;
     private final PlanRepository planRepository;
     private final RedisService redisService;
-    public List<Plan> getplanFilteredList(String filterNum) {
+    public List<DayPlanDto> getplanFilteredList(String filterNum) {
         //0일경우 1,2를 모두 찾음
         List<String> patterns = generatePatterns(filterNum);
         log.info("patterns: {}", patterns);
@@ -50,19 +47,32 @@ public class HomeService {
         List<Plan> planList = planRepository.findByIdIn((List<Long>) randomElements);
         // plan이 리스트로 있음
         // planList를 돌면서 dayPlan을 가져와서 첫번째 dayPlan의 정보를 가져와서 넣기
-
-        planList.stream()
+        // 각 planList의 첫번째 dayPlan을 DayPlanDto에 저장하고, 해당 dayPlanDto의 location리스트를 LocationDto에 저장
+        List<DayPlanDto> dayPlanDtoList = planList.stream()
                 .map(plan -> {
                     List<DayPlan> dayPlans = plan.getDayPlans();
                     if (dayPlans != null && !dayPlans.isEmpty()) {
                         DayPlan firstDayPlan = dayPlans.get(0);
+                        return DayPlanDto.builder()
+                                .id(plan.getId())
+                                .title(plan.getTitle())
+                                .firstDay(plan.getFirstDay())
+                                .lastDay(plan.getLastDay())
+                                .locationList(firstDayPlan.getLocations().stream()
+                                        .map(location -> LocationDto.builder()
+                                                .lat(location.getLat())
+                                                .lng(location.getLng())
+                                                .imgUrl(location.getImgUrl())
+                                                .build())
+                                        .collect(Collectors.toList()))
+                                .build();
                     }
-                    return plan;
+                        return null; // DayPlans가 비어있다면 null 반환
                 })
+                .filter(Objects::nonNull) // null 필터링
                 .collect(Collectors.toList());
-
         // Dto로 변환해서 넣기
-        return planList;
+        return dayPlanDtoList;
     }
 
     //랜덤 리스트 생성

@@ -8,6 +8,7 @@ import lombok.Setter;
 import odiro.dto.location.LocationDto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -16,9 +17,9 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class DayPlanDto {
-    private String id;
+    private Long id;
     private String title;
-    private LocalDate firstDay;
-    private LocalDate lastDay;
-    private List<LocationDto> location; // LocationDto 리스트
+    private LocalDateTime firstDay;
+    private LocalDateTime lastDay;
+    private List<LocationDto> locationList; // LocationDto 리스트
 }
