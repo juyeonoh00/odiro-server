@@ -18,6 +18,7 @@ import static lombok.AccessLevel.*;
 @Builder
 @Getter @Setter
 @AllArgsConstructor(access = PUBLIC)
+@NoArgsConstructor(access = PROTECTED)
 public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +40,7 @@ public class Member extends BaseTimeEntity {
     @Column
     private String profileImage;
 
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "initializer")
     private List<Plan> initalizedPlans = new ArrayList<>();
 
@@ -55,9 +56,7 @@ public class Member extends BaseTimeEntity {
     public void passwordEncoding(PasswordEncoder passwordEncoder) {
         password = passwordEncoder.encode(password);
     }
-    public Member() {
-        this.profileImage = "https://tennis-upload.s3.ap-northeast-2.amazonaws.com/avatars/1700428898409-person.png";
-    }
+
     @Override
     public String toString() {
         return "Member{" +

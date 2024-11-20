@@ -27,6 +27,7 @@ public class Plan {
     private LocalDateTime firstDay;
     private LocalDateTime lastDay;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="initializer_id")
     private Member initializer;

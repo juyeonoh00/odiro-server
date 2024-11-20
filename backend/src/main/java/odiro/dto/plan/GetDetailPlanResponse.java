@@ -29,6 +29,6 @@ public class GetDetailPlanResponse {
     private List<MemberInDetailPage> participant;
 
     private List<DayPlanInDetailPage> dayPlan;
-
+    private String planFilter;
     private List<WishLocationInDetailPage> wishLocation;
 }

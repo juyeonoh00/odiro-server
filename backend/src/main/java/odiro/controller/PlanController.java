@@ -45,7 +45,7 @@ public class PlanController {
     @GetMapping("/home")
     public List<HomeResponse> homeForm( @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        List<Plan> planList = planService.findPlansByParticipantId(principalDetails.getMember().getId()); //memberId 1로 임시 지정
+        List<Plan> planList = planService.findPlansByParticipantId(principalDetails.getMember().getId());
         return mapToHomeResponseList(planList);
     }
 
@@ -108,7 +108,7 @@ public class PlanController {
         List<WishLocationInDetailPage> wishLocations = locationService.getWishLocationsByPlanId(planId);
 
         GetDetailPlanResponse response = new GetDetailPlanResponse(
-                plan.getId(), plan.getTitle(), plan.getFirstDay(), plan.getLastDay(), initializerResponse, memberResponses, dayPlanResponses, wishLocations
+                plan.getId(), plan.getTitle(), plan.getFirstDay(), plan.getLastDay(), initializerResponse, memberResponses, dayPlanResponses, plan.getPlanFilter(), wishLocations
         );
 
         return response;

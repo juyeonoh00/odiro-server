@@ -41,6 +41,7 @@ public class SignUpDto {
                 .username(username)
                 .password(password)
                 .authority(Authority.ROLE_USER)
+                .profileImage("https://tennis-upload.s3.ap-northeast-2.amazonaws.com/avatars/1700428898409-person.png")
                 .build();
     }
 }

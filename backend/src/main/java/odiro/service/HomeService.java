@@ -6,6 +6,7 @@ import odiro.config.redis.RedisService;
 import odiro.domain.DayPlan;
 import odiro.domain.Location;
 import odiro.domain.Plan;
+import odiro.dto.dayPlan.DayPlanDto;
 import odiro.repository.PlanRepository;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -47,13 +48,14 @@ public class HomeService {
         Object randomElements = getRandomElements(values, 6);
         // 해당 리스트를 dto 정보를 가져와서 넣기
         List<Plan> planList = planRepository.findByIdIn((List<Long>) randomElements);
+        // plan이 리스트로 있음
+        // planList를 돌면서 dayPlan을 가져와서 첫번째 dayPlan의 정보를 가져와서 넣기
 
         planList.stream()
                 .map(plan -> {
                     List<DayPlan> dayPlans = plan.getDayPlans();
                     if (dayPlans != null && !dayPlans.isEmpty()) {
                         DayPlan firstDayPlan = dayPlans.get(0);
-
                     }
                     return plan;
                 })
