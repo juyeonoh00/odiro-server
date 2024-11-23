@@ -7,9 +7,18 @@ import odiro.config.redis.RedisService;
 import odiro.domain.DayPlan;
 import odiro.domain.PlanMember;
 import odiro.domain.member.Member;
+import odiro.dto.comment.CommentInDetailPage;
 import odiro.dto.dayPlan.DayPlanDto;
+import odiro.dto.dayPlan.DayPlanInDetailPage;
 import odiro.dto.location.LocationDto;
+import odiro.dto.location.LocationInDetailPage;
+import odiro.dto.location.WishLocationInDetailPage;
+import odiro.dto.member.InitializerInDetailPage;
+import odiro.dto.member.MemberInDetailPage;
+import odiro.dto.memo.MemoInDetailPage;
+import odiro.dto.plan.GetDetailPlanResponse;
 import odiro.dto.plan.InitPlanRequest;
+import odiro.dto.plan.InitPlanResponse;
 import odiro.dto.plan.PlanInvitationListResponse;
 import odiro.exception.CustomException;
 import odiro.exception.ErrorCode;
@@ -35,9 +44,9 @@ public class PlanService {
     private final PlanMemberRepository planMemberRepository;
     private final MemberRepository memberRepository;
     private final PlanInvitationRepository planInvitationRepository;
-    private final MemberService memberService;
     private final RedisService redisService;
     private final DayPlanRepository dayPlanRepository;
+    private final LocationRepository locationRepotory;
 
     public Optional<Plan> findById(Long planId) {
         return planRepository.findById(planId);
@@ -52,9 +61,9 @@ public class PlanService {
     }
 
 
-    public Plan initPlanV2(Long memberId, InitPlanRequest request) {
+    public InitPlanResponse initPlanV2(Long memberId, InitPlanRequest request) {
         // 멤버 검색
-        Member member = memberService.findById(memberId)
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("Member not found"));
 
         // 플랜 생성
@@ -82,7 +91,7 @@ public class PlanService {
             currentDateTime = currentDateTime.plusDays(1);
         }
         //저장된 플랜 반환
-        return plan;
+        return new InitPlanResponse(plan.getId());
     }
     public DayPlan postDayPlan(Long planId, LocalDateTime day) {
 
@@ -133,9 +142,9 @@ public class PlanService {
     // 초대 생성
     public PlanInvitation inviteMember(Long senderId, Long planId, Long receiverId) {
         // 초대 생성에 필요한 멤버 및 플랜 확인
-        Member sender = memberService.findById(senderId)
+        Member sender = memberRepository.findById(senderId)
                 .orElseThrow(() -> new RuntimeException("Sender not found"));
-        Member receiver = memberService.findById(receiverId)
+        Member receiver = memberRepository.findById(receiverId)
                 .orElseThrow(() -> new RuntimeException("Receiver not found"));
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new RuntimeException("Plan not found"));
@@ -209,5 +218,48 @@ public class PlanService {
                 .collect(Collectors.toList());
         // Dto로 변환해서 넣기
         return dayPlanDtoList;
+    }
+
+    public GetDetailPlanResponse getDetailPlan(Long planId) {
+        Plan plan = planRepository.findById(planId).orElseThrow(() -> new RuntimeException("Plan not found with id " + planId));
+
+
+        Member initializer = plan.getInitializer();
+        InitializerInDetailPage initializerResponse = new InitializerInDetailPage(
+                initializer.getId(), initializer.getUsername(), initializer.getEmail(), initializer.getProfileImage());
+
+        List<Member> participants = findParticipantsByPlanId(planId);
+        List<MemberInDetailPage> memberResponses = participants.stream()
+                .map(member -> new MemberInDetailPage(member.getId(), member.getUsername(), member.getEmail(), member.getProfileImage()))
+                .collect(Collectors.toList());
+
+
+        //Location, memo,, comment는 day별로 묶어서
+
+        List<DayPlanInDetailPage> dayPlanResponses = plan.getDayPlans().stream()
+                .map(dayPlan -> {
+                    List<LocationInDetailPage> locations = dayPlan.getLocations().stream()
+                            .map(location -> new LocationInDetailPage( location.getLocationOrder(),
+                                    location.getId(), location.getAddressName(), location.getKakaoMapId(), location.getPhone(),
+                                    location.getPlaceName(), location.getPlaceUrl(), location.getLat(), location.getLng(),
+                                    location.getRoadAddressName(), location.getImgUrl(),location.getCategoryGroupName()))
+                            .collect(Collectors.toList());
+
+                    List<MemoInDetailPage> memos = dayPlan.getMemos().stream()
+                            .map(memo -> new MemoInDetailPage(memo.getId(), memo.getContent()))
+                            .collect(Collectors.toList());
+
+                    List<CommentInDetailPage> comments = dayPlan.getComments().stream()
+                            .map(comment -> new CommentInDetailPage(comment.getId(), comment.getWriter().getId(), comment.getContent(), comment.getWriteTime()))
+                            .collect(Collectors.toList());
+
+                    return new DayPlanInDetailPage(dayPlan.getId(), dayPlan.getDate(), locations, memos, comments);
+                })
+                .collect(Collectors.toList());
+
+        List<WishLocationInDetailPage> wishLocations = locationRepotory.getWishLocationsByPlanId(planId);
+        return new GetDetailPlanResponse(
+                plan.getId(), plan.getTitle(), plan.getFirstDay(), plan.getLastDay(), initializerResponse, memberResponses, dayPlanResponses, plan.getPlanFilter(), wishLocations
+        );
     }
 }

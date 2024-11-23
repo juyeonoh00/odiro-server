@@ -1,5 +1,6 @@
 package odiro.repository;
 
+import odiro.domain.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import odiro.domain.Plan;
 import org.springframework.stereotype.Repository;

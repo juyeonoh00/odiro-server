@@ -36,10 +36,6 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
-    private final JwtUtil jwtUtil;
-    private final AuthenticationManager authenticationManager;
-    private final Oauth2TokenService oauth2TokenService;
-    private final AwsService awsService;
     @Operation(summary = "회원가입", description = "회원가입")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK")
@@ -57,10 +53,6 @@ public class MemberController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK")
     })
-//    @PostMapping("/auth/login")
-//    public ResponseEntity<TokenDto> login(@RequestBody MemberLoginRequestDto memberRequestDto) {
-//        return ResponseEntity.ok(memberService.login(memberRequestDto));
-//    }
     @PostMapping("/signin")
     public ResponseEntity<TokenDto> signIn(@RequestBody SignInRequestDto signInRequestDto, HttpServletResponse response) throws Exception {
         return ResponseEntity.ok(memberService.signIn(signInRequestDto, response));
@@ -106,35 +98,6 @@ public class MemberController {
     public ResponseEntity<Boolean> verificationPassword(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody String password) {
         return ResponseEntity.ok(memberService.verificationPassword(principalDetails.getPassword(), password));
     }
-//    @Operation(summary = "카카오 로그인", description = "회원가입")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "OK")
-//    })
-//    @GetMapping("/kakao")
-//    public ResponseEntity<> kakaoSignUp(@RequestParam("code") String code,HttpServletResponse response){
-//        OauthToken oauthAccessToken = oauth2TokenService.getKakaoAccessToken(code);
-//        jwtUtil.generateAuthToken(oauthAccessToken, response);
-//        //(2)
-//        // 발급 받은 accessToken 으로 카카오 회원 정보 DB 저장 후 JWT 를 생성
-//        String jwtToken = userService.SaveUserAndGetToken(oauthToken.getAccess_token());
-//        //(3)
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
-//        //(4)
-//        return ResponseEntity.ok().headers(headers).body("success");
-//    }
-
-
-//    @Operation(summary = "로그아웃", description = "Acceess Token 인증 후, 현재 로그인중인 사용자 로그아웃")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "202", description = "Accepted")
-//    })
-//    @PatchMapping("/logout")
-//    public void logout(HttpServletRequest request) {
-//        String accessToken = JwtUtil.resolveAccessToken(request);
-//        String ref = JwtUtil.resolveRefreshToken(request);
-//        memberService.logout(ref, accessToken);
-//    }
 
 
     @GetMapping("/user/search/{username}")
@@ -155,16 +118,6 @@ public class MemberController {
         return ResponseEntity.ok(member);
     }
 
-//    @Operation(summary = "프로필 이미지 수정", description = "프로필 이미지 수정")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "202", description = "Accepted")
-//    })
-//    @PutMapping("/update/profileImage")
-//    public ResponseEntity<SignUpResponseDto> updateProfileImage(@RequestHeader("userId") Long userId, @RequestBody UpdateUserRequest request) {
-//        UpdateResponseDto user = memberService.updateUser(userId, request);
-//        return ResponseEntity.ok(user);
-//    }
-
     @Operation(summary = "마이페이지", description = "마이페이지")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "202", description = "Accepted")
@@ -183,7 +136,4 @@ public class MemberController {
         memberService.logout(request);
         response.setHeader("Authorization", "");
     }
-
-
-
 }
