@@ -11,14 +11,13 @@ import odiro.dto.dayPlan.DayPlanDto;
 import odiro.dto.location.LocationDto;
 import odiro.dto.plan.InitPlanRequest;
 import odiro.dto.plan.PlanInvitationListResponse;
-import odiro.repository.MemberRepository;
-import odiro.repository.PlanInvitationRepository;
-import odiro.repository.PlanMemberRepository;
+import odiro.exception.CustomException;
+import odiro.exception.ErrorCode;
+import odiro.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import odiro.domain.Plan;
 import odiro.domain.PlanInvitation;
-import odiro.repository.PlanRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,7 +37,7 @@ public class PlanService {
     private final PlanInvitationRepository planInvitationRepository;
     private final MemberService memberService;
     private final RedisService redisService;
-    private final HomeService homeService;
+    private final DayPlanRepository dayPlanRepository;
 
     public Optional<Plan> findById(Long planId) {
         return planRepository.findById(planId);
@@ -76,9 +75,28 @@ public class PlanService {
         planMember.setPlan(plan);
         planMemberRepository.save(planMember);
 
+        //DayPlan 생성
+        LocalDateTime currentDateTime = request.getFirstDay();
+        while (!currentDateTime.isAfter(request.getLastDay())) {
+            postDayPlan(plan.getId(), currentDateTime);
+            currentDateTime = currentDateTime.plusDays(1);
+        }
         //저장된 플랜 반환
         return plan;
     }
+    public DayPlan postDayPlan(Long planId, LocalDateTime day) {
+
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_PLAN_ID, planId));
+
+        DayPlan savedDayPlan = new DayPlan();
+        savedDayPlan.setPlan(plan);
+        savedDayPlan.setDate(day);
+
+        dayPlanRepository.save(savedDayPlan);
+        return savedDayPlan;
+    }
+
 
     public Plan editPlan(Long planId, String title, LocalDateTime firstDay, LocalDateTime lastDay, Member member) {
 

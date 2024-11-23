@@ -13,8 +13,8 @@ import odiro.config.redis.RedisService;
 import odiro.domain.member.Authority;
 import odiro.dto.member.UpdateMemberDto;
 import odiro.dto.member.*;
-import odiro.exception.member.EmailAlreadyExistsException;
-import odiro.exception.member.UsernameAlreadyExistsException;
+import odiro.exception.CustomException;
+import odiro.exception.ErrorCode;
 import odiro.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -94,7 +94,7 @@ public class MemberService {
     private void checkDuplicatedEmail(String email) {
         Optional<Member> member = memberRepository.findByEmail(email);
         if (member.isPresent()) {
-            throw new EmailAlreadyExistsException(email);
+            throw new CustomException(ErrorCode.DUPLICATED_EMAIL, email);
 
         }
     }
@@ -112,7 +112,6 @@ public class MemberService {
             }
             return builder.toString();
         } catch (NoSuchAlgorithmException e) {
-            log.debug("MemberService.createCode() exception occur");
             throw e;
         }
     }
@@ -121,14 +120,14 @@ public class MemberService {
         if (request.getUsername() != null) {
             Optional<Member> checkUser = memberRepository.findByusername(request.getUsername());
             if (checkUser.isPresent()) {
-                throw new UsernameAlreadyExistsException(member.getUsername());
+                throw new CustomException(ErrorCode.DUPLICATED_USER_NAME, member.getUsername());
             }
             member.setUsername(request.getUsername());
         }
         if (request.getEmail() != null) {
             Optional<Member> checkUser = memberRepository.findByEmail(request.getEmail());
             if (checkUser.isPresent()) {
-                throw new EmailAlreadyExistsException(member.getEmail());
+                throw new CustomException(ErrorCode.DUPLICATED_EMAIL, member.getEmail());
             }
             member.setEmail(request.getEmail());
         }
@@ -138,18 +137,16 @@ public class MemberService {
         }
         if (request.getFile() != null) {
             member.setProfileImage(awsService.uploadFile(request.getFile()));
-        }else {
         }
         Member newMember = memberRepository.save(member);
         return new MemberDto(newMember);
     }
     public TokenDto signIn(SignInRequestDto signInRequestDto, HttpServletResponse response) throws Exception {
         Member member = memberRepository.findByusername(signInRequestDto.getUsername()).orElseThrow(()-> new
-                RuntimeException("user가 존재하지 않습니다."));
+                CustomException(ErrorCode.USER_NOT_FOUNDED, signInRequestDto.getUsername()));
 
-        if (member == null || !passwordEncoder.matches(signInRequestDto.getPassword(), member.getPassword())) {
-            // 비밀번호가 일치하지 않거나 사용자가 존재하지 않으면 예외 발생
-            throw new Exception("Invalid username or password.");
+        if (!passwordEncoder.matches(signInRequestDto.getPassword(), member.getPassword())) {
+            throw new CustomException(ErrorCode.INVALID_PASSWORD, signInRequestDto.getPassword());
         }
         TokenDto tokenDto = jwtUtil.generateToken(member, response);
         redisService.setValues(member.getId().toString(), tokenDto.getRefreshToken(), Duration.ofDays(REFRESH_TOKEN_EXPIRATION_TIME));
@@ -172,7 +169,7 @@ public class MemberService {
     public Member mypage(Long userId) {
         return memberRepository
                 .findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUNDED, userId));
     }
 
     public Boolean verificationPassword(String encodedPassword, String password) {

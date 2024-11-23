@@ -25,20 +25,16 @@ public class CommentController {
     @PostMapping("/{planId}/comment/create")
     public ResponseEntity<CommentResponse> writeComment(@RequestBody CommentRequest request, @PathVariable("planId") Long planId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        Comment savedComment = commentService.postComment(request.getDayPlanId(),principalDetails.getMember().getId(), request.getContent(), planId);
+        CommentResponse newComment = commentService.postComment(request.getDayPlanId(),principalDetails.getMember().getId(), request.getContent(), planId);
 
-        CommentResponse response = new CommentResponse(savedComment.getId(), savedComment.getWriteTime());
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(newComment);
     }
 
     @PutMapping("/{planId}/comment/edit")
     public ResponseEntity<CommentResponse> updateComment(@RequestBody EditCommentRequest request, @PathVariable("planId") Long planId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        Comment updatedComment = commentService.updateComment(request.getId(), request.getContent(), principalDetails.getMember(), planId);
-
-        CommentResponse response = new CommentResponse(updatedComment.getId(), updatedComment.getWriteTime());
-        return ResponseEntity.ok(response);
+        CommentResponse updatedComment = commentService.updateComment(request.getId(), request.getContent(), principalDetails.getMember(), planId);
+        return ResponseEntity.ok(updatedComment);
     }
 
     @DeleteMapping("/{planId}/comment/delete/{commentId}")
@@ -51,14 +47,9 @@ public class CommentController {
     @GetMapping("/comment/list")
     public ResponseEntity<Page<CommentDetailDto>> getComments(
             @RequestParam Long dayPlanId,
-            @RequestParam(defaultValue = "0") int page) {
+            @RequestParam(defaultValue = "0") int page, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        Page<CommentDetailDto> commmentList = commentService.getCommentsByDayPlanId(dayPlanId, page, principalDetails.getMember());
 
-        page = (page > 0) ? page - 1 : 0;
-
-        // CommentService를 이용하여 페이지 처리된 CommentDto 리스트를 가져옴
-        Page<CommentDetailDto> comments = commentService.getCommentsByDayPlanId(dayPlanId, page);
-
-        // 반환
-        return ResponseEntity.ok(comments);
+        return ResponseEntity.ok(commmentList);
     }
 }

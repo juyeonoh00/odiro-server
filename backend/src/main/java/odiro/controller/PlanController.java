@@ -45,19 +45,11 @@ public class PlanController {
 
     @PostMapping("/plan/create")
     public InitPlanResponse initPlan(@RequestBody InitPlanRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+
         Plan savedPlan = planService.initPlanV2(
                 principalDetails.getMember().getId(), request);
-
-        //DayPlan 생성
-        LocalDateTime currentDateTime = request.getFirstDay();
-        while (!currentDateTime.isAfter(request.getLastDay())) {
-            dayPlanService.postDayPlan(savedPlan.getId(), currentDateTime);
-            currentDateTime = currentDateTime.plusDays(1);
-        }
-
-        InitPlanResponse response = new InitPlanResponse(savedPlan.getId());
-
-        return response;
+        return new InitPlanResponse(savedPlan.getId());
     }
 
     @GetMapping("/plan/{planId}")

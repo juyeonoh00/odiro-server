@@ -2,13 +2,14 @@ package odiro.service;
 
 import lombok.RequiredArgsConstructor;
 import odiro.domain.Friend;
-import odiro.domain.FriendRequest;
 import odiro.domain.member.Member;
+import odiro.dto.friend.FriendListResponseDto;
 import odiro.repository.FriendRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -25,10 +26,14 @@ public class FriendService {
     }
 
     // 친구 목록 가져오기
-    public List<Friend> getFriendList(Long userId) {
+    public List<FriendListResponseDto> getFriendList(Long userId) {
         // 친구 목록을 가져오는 로직:
         // 1. sender가 userId인 경우 또는 receiver가 userId인 경우
-        return friendRepository.findAllBySenderIdOrReceiverId(userId, userId);
+        List<Friend> friends = friendRepository.findAllBySenderIdOrReceiverId(userId, userId);
+
+        return friends.stream()
+                .map(friend -> FriendListResponseDto.fromEntity(friend, userId)) // userId를 함께 전달
+                .collect(Collectors.toList());
     }
 
     // 친구 삭제

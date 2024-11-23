@@ -42,7 +42,7 @@ public class HomeService {
             }
         }
 
-        Object randomElements = getRandomElements(values, 6);
+        Object randomElements = getRandomElements(values, 9);
         // 해당 리스트를 dto 정보를 가져와서 넣기
         List<Plan> planList = planRepository.findByIdIn((List<Long>) randomElements);
         // plan이 리스트로 있음

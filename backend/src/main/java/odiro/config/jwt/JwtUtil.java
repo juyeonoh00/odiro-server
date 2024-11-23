@@ -64,38 +64,9 @@ public class JwtUtil {
         return accessToken;
     }
 
-//    public TokenDto generateToken(Authentication authentication, HttpServletResponse response){
-//        PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
-//        Claims claims = Jwts.claims().setSubject(userDetails.getMember().getId().toString());
-//        // 권한들
-////        String authorities = authentication.getAuthorities().stream()
-////                .map(GrantedAuthority::getAuthority)
-////                .collect(Collectors.joining(","));
-//
-//        String accessToken = Jwts.builder()
-//                .setClaims(claims)
-//                .setIssuedAt(new Date(System.currentTimeMillis()))
-//                .setExpiration(new Date(System.currentTimeMillis()+ JwtProperties.ACCESS_TOKEN_EXPIRATION_TIME))
-//                .claim(JwtProperties.AUTHORITIES_KEY, authentication.getAuthorities())
-//                .signWith(SignatureAlgorithm.HS256,secretKey.getBytes())
-//                .compact();
-//        String refreshToken = Jwts.builder()
-//                .setClaims(claims)
-//                .setIssuedAt(new Date(System.currentTimeMillis()))
-//                .setExpiration(new Date(System.currentTimeMillis()+ JwtProperties.REFRESH_TOKEN_EXPIRATION_TIME))
-//                .claim(JwtProperties.AUTHORITIES_KEY, authentication.getAuthorities())
-//                .signWith(SignatureAlgorithm.HS256,secretKey.getBytes())
-//                .compact();
-//        response.addHeader(JwtProperties.ACCESS_HEADER, JwtProperties.TOKEN_PREFIX + accessToken);
-//        refreshTokenRepository.save(new RefreshToken(userDetails.getMember().getId(), refreshToken, accessToken));
-//        return new TokenDto(accessToken, refreshToken);
-//    }
     public TokenDto generateToken(Member member, HttpServletResponse response){
         Claims claims = Jwts.claims().setSubject(member.getId().toString());
         // 권한들
-//        String authorities = authentication.getAuthorities().stream()
-//                .map(GrantedAuthority::getAuthority)
-//                .collect(Collectors.joining(","));
 
         String accessToken = Jwts.builder()
                 .setClaims(claims)
@@ -112,7 +83,6 @@ public class JwtUtil {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
         response.addHeader(JwtProperties.ACCESS_HEADER, JwtProperties.TOKEN_PREFIX + accessToken);
-//        refreshTokenRepository.save(new RefreshToken(member.getId(), refreshToken, accessToken));
         return new TokenDto(accessToken, refreshToken);
     }
 
@@ -144,8 +114,6 @@ public class JwtUtil {
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken); // 토큰 복호화
 
-        log.info("발급 : {} " , claims.getIssuedAt());
-        log.info("만료 : {} " , claims.getExpiration());
         if (claims.get(JwtProperties.AUTHORITIES_KEY) == null) {
             throw new RuntimeException("권한정보가 없습니다.");
         }
@@ -163,23 +131,7 @@ public class JwtUtil {
     }
 
     public void reissueAccessToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        log.error("💡 Access Token 이 만료되었습니다.");
-//        try
-//        {
-//            RefreshToken refreshTokenInfo = refreshTokenRepository.findByAccessToken(token).orElseThrow(()->new TokenExcption(ErrorCode.TOKEN_NOT_FOUND));
-//            String refreshToken = refreshTokenInfo.getRefreshToken();
-//            validateToken(refreshToken);
-//            Long memberId = refreshTokenInfo.getMemberId();
-//            Member member = memberRepository.findById(memberId)
-//                    .orElseThrow(() -> new TokenExcption(ErrorCode.USER_NOT_FOUNDED));
-//            // 리프레시 토큰 정보 기반 에세스 토큰 재발급
-//            String accessToken = createAccessToken(member, response);
-//            // 레디스에 저장
-//            refreshTokenRepository.save(new RefreshToken(memberId, refreshToken, accessToken));
-//        }catch (TokenExcption e) {
-//            // 리프레시 토큰 없으면
-//            throw e;
-//        }
+
         try {
             log.error("💡 Access Token 이 만료되었습니다.");
             String accessToken = getJwtToken(request.getHeader(HttpHeaders.AUTHORIZATION));

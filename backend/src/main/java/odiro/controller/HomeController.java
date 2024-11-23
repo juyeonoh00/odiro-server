@@ -26,7 +26,7 @@ public class HomeController {
     @GetMapping(value = "/plan")
     public ResponseEntity<List<DayPlanDto>> planFilteredList (@RequestParam(defaultValue = "0") String filterNum){
         List<DayPlanDto> planFilteredList = homeService.getplanFilteredList(filterNum);
-        return ResponseEntity.status(HttpStatus.CREATED).body(planFilteredList);
+        return ResponseEntity.ok(planFilteredList);
     }
 
 }
