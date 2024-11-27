@@ -1,7 +1,7 @@
 # Build stage
 FROM gradle:7.6-jdk17 AS build
 WORKDIR /app
-COPY .. .
+COPY backend/ .
 RUN chmod +x ./gradlew
 RUN sed -i 's/\r$//' ./gradlew
 RUN ./gradlew :backend:build -x test --no-daemon
