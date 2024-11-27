@@ -58,7 +58,7 @@ public class MemberService {
         return memberRepository.findById(memberId);
     }
     @Transactional
-    public Member signUp(SignUpDto signUpDto) throws IOException {
+    public Member signUp(SignUpDto signUpDto) {
         signUpDto.setAuthority(Authority.valueOf("ROLE_USER"));
         Member member = signUpDto.toEntity();
         member.passwordEncoding(passwordEncoder);
@@ -153,9 +153,10 @@ public class MemberService {
         return tokenDto;
     }
 
-    public void logout(HttpServletRequest request) {
+    public void logout(HttpServletResponse response, HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
         redisService.deleteValues(authorizationHeader.substring(7));
+        response.setHeader("Authorization", "");
     }
 
     //유저 검색

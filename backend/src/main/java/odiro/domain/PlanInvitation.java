@@ -29,5 +29,6 @@ public class PlanInvitation {
     private Member receiver;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean isAccepted = false; // 초대 수락 여부
 }

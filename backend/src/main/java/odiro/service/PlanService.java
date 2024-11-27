@@ -64,7 +64,7 @@ public class PlanService {
     public InitPlanResponse initPlanV2(Long memberId, InitPlanRequest request) {
         // 멤버 검색
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUNDED, memberId));
 
         // 플랜 생성
         Plan plan = new Plan();
@@ -96,7 +96,7 @@ public class PlanService {
     public DayPlan postDayPlan(Long planId, LocalDateTime day) {
 
         Plan plan = planRepository.findById(planId)
-                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_PLAN_ID, planId));
+                .orElseThrow(() -> new CustomException(ErrorCode.PLAN_NOT_FOUND, planId));
 
         DayPlan savedDayPlan = new DayPlan();
         savedDayPlan.setPlan(plan);
@@ -107,24 +107,24 @@ public class PlanService {
     }
 
 
-    public Plan editPlan(Long planId, String title, LocalDateTime firstDay, LocalDateTime lastDay, Member member) {
+    public InitPlanResponse editPlan(Long planId, String title, LocalDateTime firstDay, LocalDateTime lastDay, Member member) {
 
 
         //Plan 검색
         Plan plan = planRepository.findById(planId)
-                .orElseThrow(() -> new RuntimeException("Plan not found with id: " + planId));
+                .orElseThrow(() -> new CustomException(ErrorCode.PLAN_NOT_FOUND, planId));
 
         if(plan.getPlanMembers().stream().anyMatch(pm -> pm.getParticipant().getId().equals(member.getId()))) {
             //Plan 수정 후 저장
             plan.setTitle(title);
             plan.setFirstDay(firstDay);
             plan.setLastDay(lastDay);
-            planRepository.save(plan);
+            Plan updatedPlan = planRepository.save(plan);
 
-            return plan;
+            return new InitPlanResponse(updatedPlan.getId());
         }
         else {
-            throw new RuntimeException("userId not match with writerid: " + member);
+            throw new CustomException(ErrorCode.NOT_AUTHERIZED_USER, member.getId());
         }
     }
 
@@ -132,7 +132,7 @@ public class PlanService {
 
         // Plan 검색
         Plan plan = planRepository.findById(planId)
-                .orElseThrow(() -> new RuntimeException("Plan not found with id: " + planId));
+                .orElseThrow(() -> new CustomException(ErrorCode.PLAN_NOT_FOUND, planId));
         if(plan.getPlanMembers().contains(member)) {
             // Plan 삭제
             planRepository.delete(plan);
@@ -143,11 +143,11 @@ public class PlanService {
     public PlanInvitation inviteMember(Long senderId, Long planId, Long receiverId) {
         // 초대 생성에 필요한 멤버 및 플랜 확인
         Member sender = memberRepository.findById(senderId)
-                .orElseThrow(() -> new RuntimeException("Sender not found"));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUNDED, "Sender : "+senderId));
         Member receiver = memberRepository.findById(receiverId)
-                .orElseThrow(() -> new RuntimeException("Receiver not found"));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUNDED, "Receiver : "+receiverId));
         Plan plan = planRepository.findById(planId)
-                .orElseThrow(() -> new RuntimeException("Plan not found"));
+                .orElseThrow(() -> new CustomException(ErrorCode.PLAN_NOT_FOUND, "Plan : "+planId));
 
         // 초대 생성 및 저장
         PlanInvitation invitation = PlanInvitation.builder()
@@ -161,7 +161,6 @@ public class PlanService {
 
     public List<PlanInvitationListResponse> getPendingInvitations(Long receiverId) {
         List<PlanInvitation> invitations = planInvitationRepository.findByReceiverIdAndIsAcceptedFalse(receiverId);
-
         // 필요한 정보를 DTO로 변환
         return invitations.stream()
                 .map(invitation -> new PlanInvitationListResponse(
@@ -174,17 +173,15 @@ public class PlanService {
     public void acceptInvitation(Long memberId, Long planId) {
         // Plan과 Member 존재 여부 확인
         Plan plan = planRepository.findById(planId)
-                .orElseThrow(() -> new IllegalArgumentException("Plan not found: " + planId));
+                .orElseThrow(() -> new CustomException(ErrorCode.PLAN_NOT_FOUND, planId));
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("Member not found: " + memberId));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUNDED, memberId));
 
-        // PlanMember에 추가
         PlanMember planMember = new PlanMember();
         planMember.setParticipant(member);
         planMember.setPlan(plan);
         planMemberRepository.save(planMember);
 
-        // PlanInvitation 삭제
         planInvitationRepository.deleteByReceiverIdAndPlanId(memberId, planId);
     }
 
@@ -221,7 +218,8 @@ public class PlanService {
     }
 
     public GetDetailPlanResponse getDetailPlan(Long planId) {
-        Plan plan = planRepository.findById(planId).orElseThrow(() -> new RuntimeException("Plan not found with id " + planId));
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new CustomException(ErrorCode.PLAN_NOT_FOUND, planId));
 
 
         Member initializer = plan.getInitializer();

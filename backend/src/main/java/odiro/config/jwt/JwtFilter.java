@@ -29,8 +29,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
-        
-        log.info("Request 작동: {}", request.getRequestURL());
+
         String token = request.getHeader(JwtProperties.ACCESS_HEADER);
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7).trim();

@@ -48,41 +48,21 @@ public class LocationController {
     @PostMapping("/{planId}/location/create")
     public ResponseEntity<PostLocationResponse> postLocation(@RequestBody PostLocationRequest request, @PathVariable("planId") Long planId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        // https://place.map.kakao.com/placePrint.daum?confirmid={장소 고유 ID} 형식으로 로직 통일 가능
-        String url = "https://place.map.kakao.com/placePrint.daum?confirmid=" + request.getKakaoMapId();
-        String imagePath = null;
 
-        //이미지 크롤링
-        try {   //이미지가 없을경우 예외처리
-            Document doc = Jsoup.connect(url).get();
-            Elements images = doc.getElementsByClass("thumb_g");
-            if (!images.isEmpty()) {
-                imagePath = images.get(0).attr("src");
-            } else {
-                imagePath = null; // or provide a default image path
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            imagePath = null; // or provide a default image path
-        }
-
-        Location savedLocation = locationService.postLocation(
-                request.getDayPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), imagePath, request.getCategoryGroupName(), planId, principalDetails.getMember().getId()
+        PostLocationResponse savedLocation = locationService.postLocation(
+                request.getDayPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), request.getCategoryGroupName(), planId, principalDetails.getMember().getId()
         );
 
-        PostLocationResponse response = new PostLocationResponse(savedLocation.getId(), imagePath);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(savedLocation);
     }
 
     //장소 삭제
     @DeleteMapping("/{planId}/location/delete/{locationId}")
     public ResponseEntity<Void> deleteLocation(@PathVariable("locationId") Long locationId, @PathVariable("planId") Long planId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        //삭제
         locationService.deleteLocation(locationId, planId, principalDetails.getMember().getId());
 
-        //결과 반환
         return ResponseEntity.noContent().build();
     }
 
@@ -126,28 +106,12 @@ public class LocationController {
     @PostMapping("/{planId}/wishLocation/create")
     public ResponseEntity<PostLocationResponse> postWishLocation(@RequestBody PostWishLocationRequest request, @PathVariable("planId") Long planId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        // https://place.map.kakao.com/placePrint.daum?confirmid={장소 고유 ID} 형식으로 로직 통일 가능
-        String url = "https://place.map.kakao.com/placePrint.daum?confirmid=" + request.getKakaoMapId();
-        String imagePath = null;
 
-        //이미지 크롤링
-        try {
-            Document doc = Jsoup.connect(url).get();
-
-            // "https:" 가 빠진채로 image src가 저장되어 있으므로 "https:" prefix 추가
-            imagePath = doc.getElementsByClass("thumb_g").get(0).attr("src");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Location savedLocation = locationService.postWishLocation(
-                request.getPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), imagePath, request.getCategoryGroupName(), planId, principalDetails.getMember().getId()
+        PostLocationResponse savedLocation = locationService.postWishLocation(
+                request.getPlanId(), request.getAddressName(), request.getKakaoMapId(), request.getPhone(), request.getPlaceName(), request.getPlaceUrl(), request.getLat(), request.getLng(), request.getRoadAddressName(), request.getCategoryGroupName(), planId, principalDetails.getMember().getId()
         );
 
-        PostLocationResponse response = new PostLocationResponse(savedLocation.getId(), imagePath);
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(savedLocation);
     }
 
     //찜한것을 DayPlan에 등록
@@ -166,10 +130,7 @@ public class LocationController {
     @DeleteMapping("/{planId}/wishLocation/delete/{locationId}")
     public ResponseEntity<Void> deleteWishLocation(@PathVariable("locationId") Long locationId, @PathVariable("planId") Long planId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        //삭제
         locationService.deleteWishLocation(locationId,planId, principalDetails.getMember().getId());
-
-        //결과 반환
         return ResponseEntity.noContent().build();
     }
 
@@ -247,65 +208,10 @@ public class LocationController {
 
     @PostMapping("/location/festival/research")
     public ResponseEntity<FestivalResearchResponse> festivalResearch(@RequestBody FestivalResearchRequest request) {
-        String serviceKey = "szHH6COt5YFTsdBxmYiQHMud7PenOjVtlp3UgLc9a16gRpnoLPcSlKecg9w7Rd%2Bhz0bOAHMnfpQfMDx3KaYpNA%3D%3D";
-        String apiUrl = "http://apis.data.go.kr/B551011/KorService1/searchFestival1?";
 
-        try {
-            StringBuilder urlBuilder = new StringBuilder(apiUrl);
-            urlBuilder.append("MobileOS=ETC");
-            urlBuilder.append("&MobileApp=odiro");
-            urlBuilder.append("&_type=json");
-            urlBuilder.append("&eventStartDate=").append(request.getYyyymmdd());
-            urlBuilder.append("&serviceKey=").append(serviceKey);
 
-            // HTTP 요청 수행
-            URL url = new URL(urlBuilder.toString());
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"))) {
-                StringBuilder response = new StringBuilder();
-                String line;
-                while ((line = br.readLine()) != null) {
-                    response.append(line);
-                }
-
-                System.out.println("Response Data: " + response.toString());
-
-                // JSON 파싱
-                JSONObject jsonResponse = new JSONObject(response.toString());
-                JSONObject body = jsonResponse.getJSONObject("response").getJSONObject("body");
-                JSONArray items = body.getJSONObject("items").getJSONArray("item");
-
-                List<FestivalDto> festivalList = new ArrayList<>();
-                for (int i = 0; i < items.length(); i++) {
-                    JSONObject item = items.getJSONObject(i);
-                    FestivalDto festival = new FestivalDto(
-                            item.optString("addr1", ""),
-                            item.optString("addr2", ""),
-                            item.optString("eventstartdate", ""),
-                            item.optString("eventenddate", ""),
-                            item.optString("firstimage", ""),
-                            item.optString("firstimage2", ""),
-                            item.optString("tel", ""),
-                            item.optString("title", "")
-                    );
-                    festivalList.add(festival);
-                }
-
-                // Response 생성 및 반환
-                FestivalResearchResponse responseDto = new FestivalResearchResponse(festivalList);
-                return new ResponseEntity<>(responseDto, HttpStatus.OK);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        FestivalResearchResponse response = locationService.festivalResearch(request);
+        return ResponseEntity.ok(response);
     }
 //    @GetMapping("/location/search")
 //    public ResponseEntity<InformationVO> init(@RequestParam String contenttypeid, @RequestParam String contentid) {

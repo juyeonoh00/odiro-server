@@ -23,7 +23,6 @@ import java.util.List;
 public class PlanController {
 
     private final PlanService planService;
-    private final LocationService locationService;
 
     @GetMapping("/plan/myplan")
     public ResponseEntity<List<DayPlanDto>> myplan( @AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -48,11 +47,9 @@ public class PlanController {
     @PutMapping("/plan/edit")
     public ResponseEntity<InitPlanResponse> editPlan(@RequestBody EditPlanRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        Plan updatedPlan = planService.editPlan(request.getId(), request.getTitle(), request.getFirstDay(), request.getLastDay(), principalDetails.getMember());
+        InitPlanResponse updatedPlan = planService.editPlan(request.getId(), request.getTitle(), request.getFirstDay(), request.getLastDay(), principalDetails.getMember());
 
-        InitPlanResponse response = new InitPlanResponse(updatedPlan.getId());
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(updatedPlan);
     }
 
     @DeleteMapping("/plan/delete/{planId}")
@@ -67,14 +64,13 @@ public class PlanController {
     @PostMapping("/plan/invite")
     public ResponseEntity<Void> inviteMember(@RequestBody PlanInviteRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         planService.inviteMember(principalDetails.getMember().getId(), request.getPlanId(), request.getReceiverId());
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/plan/wait/list")
     public ResponseEntity<List<PlanInvitationListResponse>> getPendingPlanInvitations(
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Long receiverId = principalDetails.getMember().getId(); // 로그인된 사용자 ID
-        List<PlanInvitationListResponse> invitations = planService.getPendingInvitations(receiverId);
+        List<PlanInvitationListResponse> invitations = planService.getPendingInvitations(principalDetails.getMember().getId());
         return ResponseEntity.ok(invitations);
     }
 
@@ -83,10 +79,8 @@ public class PlanController {
     public ResponseEntity<String> acceptInvitation(
             @RequestBody PlanInvitationAcceptRequest request,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Long memberId = principalDetails.getMember().getId(); // 로그인된 사용자 ID
-        Long planId = request.getId(); // 요청 본문에서 Plan ID 추출
-        planService.acceptInvitation(memberId, planId);
-        return ResponseEntity.ok("Invitation accepted and member added to the plan.");
+        planService.acceptInvitation(principalDetails.getMember().getId(), request.getId());
+        return ResponseEntity.noContent().build();
     }
 
 

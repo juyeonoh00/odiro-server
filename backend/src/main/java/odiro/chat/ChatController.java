@@ -65,9 +65,9 @@ public class ChatController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK")
     })
-    @GetMapping("/api/chatroomList/{userId}")
-    public List<ChatRoom> userMessageList(@PathVariable Long userId) {
-        return chatRoomRepository.findAllByUserId(userId);
+    @GetMapping("/api/chatroomList")
+    public List<ChatRoom> userMessageList(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        return chatRoomRepository.findAllByUserId(principalDetails.getMember().getId());
     }
 
     @Operation(summary = "채팅방", description = "특정 채팅방의 메시지 리스트를 보여줌")

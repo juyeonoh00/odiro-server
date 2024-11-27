@@ -10,17 +10,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import odiro.config.auth.PrincipalDetails;
-import odiro.config.jwt.JwtUtil;
 import odiro.config.jwt.TokenDto;
-import odiro.config.oauth2.Oauth2TokenService;
 import odiro.domain.member.Member;
 import odiro.dto.member.UpdateMemberDto;
 import odiro.dto.member.*;
-import odiro.service.AwsService;
 import odiro.service.MemberService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,12 +36,9 @@ public class MemberController {
             @ApiResponse(responseCode = "200", description = "OK")
     })
         @PostMapping(value = "/signup")
-    public ResponseEntity<SignUpResponseDto> singUp (@RequestBody SignUpDto signUpDto) throws IOException {
+    public ResponseEntity<SignUpResponseDto> singUp ( @RequestBody SignUpDto signUpDto) {
             Member member = memberService.signUp(signUpDto);
-            SignUpResponseDto res = SignUpResponseDto.toDto(member);
-            //response 전달을 위한 dto 변환
-            return ResponseEntity.status(HttpStatus.CREATED).body(res);
-
+            return ResponseEntity.ok(SignUpResponseDto.toDto(member));
         }
 
     @Operation(summary = "로그인", description = "로그인후, access/refresh Token 발행")
@@ -55,7 +47,8 @@ public class MemberController {
     })
     @PostMapping("/signin")
     public ResponseEntity<TokenDto> signIn(@RequestBody SignInRequestDto signInRequestDto, HttpServletResponse response) throws Exception {
-        return ResponseEntity.ok(memberService.signIn(signInRequestDto, response));
+        TokenDto tokenDto = memberService.signIn(signInRequestDto, response);
+        return ResponseEntity.ok(tokenDto);
     }
 
     @Operation(summary = "이메일 인증 요청", description = "이메일 인증 코드 발송")
@@ -65,8 +58,7 @@ public class MemberController {
     @GetMapping("/emails/verification-requests")
     public ResponseEntity sendMessage(@RequestParam("email") @Valid String email) throws NoSuchAlgorithmException, MessagingException, UnsupportedEncodingException {
         memberService.sendCodeToEmail(email);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "유저 이름 중복 확인", description = "username 중복 확인")
@@ -101,7 +93,7 @@ public class MemberController {
 
 
     @GetMapping("/user/search/{username}")
-    public ResponseEntity<List<UserSearchResponseDto>> searchUsers(@PathVariable("username") String username, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ResponseEntity<List<UserSearchResponseDto>> searchUsers(@PathVariable("username") String username) {
         List<UserSearchResponseDto> users = memberService.searchMembersByUsername(username);
         return ResponseEntity.ok(users);
     }
@@ -114,7 +106,6 @@ public class MemberController {
     @PatchMapping("/update")
     public ResponseEntity<MemberDto> updateMember(@AuthenticationPrincipal PrincipalDetails principalDetails, @ModelAttribute UpdateMemberDto request) throws IOException {
         MemberDto member = memberService.updateMember(principalDetails.getMember(), request);
-        // dto 만들어서 조건 추가하기
         return ResponseEntity.ok(member);
     }
 
@@ -124,7 +115,8 @@ public class MemberController {
     })
     @GetMapping("/mypage")
     public ResponseEntity<Member> mypage(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        return ResponseEntity.ok(memberService.mypage(principalDetails.getMember().getId()));
+        Member member = memberService.mypage(principalDetails.getMember().getId());
+        return ResponseEntity.ok(member);
     }
 
     @Operation(summary = "로그아웃", description = "Acceess Token 인증 후, 현재 로그인중인 사용자 로그아웃")
@@ -132,8 +124,8 @@ public class MemberController {
             @ApiResponse(responseCode = "202", description = "Accepted")
     })
     @PatchMapping("/logout")
-    public void logout(HttpServletResponse response, HttpServletRequest request) {
-        memberService.logout(request);
-        response.setHeader("Authorization", "");
+    public ResponseEntity<Object> logout(HttpServletResponse response, HttpServletRequest request) {
+        memberService.logout(response, request);
+        return ResponseEntity.noContent().build();
     }
 }

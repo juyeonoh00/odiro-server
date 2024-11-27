@@ -29,7 +29,9 @@ public enum ErrorCode {
     TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "해당 토큰을 찾을 수 없습니다"),
     USER_NOT_FOUNDED(HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다"),
     DAYPLAN_NOT_FOUND(HttpStatus.NOT_FOUND, "Day Plan을 찾을 수 없습니다"),
-    COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "Comment를 찾을 수 없습니다");
+    PLAN_NOT_FOUND(HttpStatus.NOT_FOUND, "Day을 찾을 수 없습니다"),
+    COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "Comment를 찾을 수 없습니다"),
+    INVALID_URL(HttpStatus.BAD_REQUEST, "url 추출에 실패하였습니다");
 
 
 

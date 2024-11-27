@@ -26,7 +26,6 @@ public class HomeService {
     public List<DayPlanDto> getplanFilteredList(String filterNum) {
         //0일경우 1,2를 모두 찾음
         List<String> patterns = generatePatterns(filterNum);
-        log.info("patterns: {}", patterns);
         List<String> values = new ArrayList<>();
 
         for (String pattern : patterns) {
@@ -38,7 +37,6 @@ public class HomeService {
                     values = Stream.concat(values.stream(), value.stream())
                             .toList();
                 }
-                log.info("values: {}", values);
             }
         }
 

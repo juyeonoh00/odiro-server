@@ -28,10 +28,4 @@ public class UpdateMemberDto {
     private String password;
     private MultipartFile file;
 
-//    public String getProfileImagePath() {
-//        if (file == null || file.isEmpty()) {
-//            return "https://tennis-upload.s3.ap-northeast-2.amazonaws.com/avatars/1700428898409-person.png"; // 기본 이미지 경로
-//        }
-//        return file.getOriginalFilename();
-//    }
 }

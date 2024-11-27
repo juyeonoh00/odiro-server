@@ -21,14 +21,17 @@ public class CorsConfig {
         config.setAllowCredentials(true);
 
         // 모든 도메인 허용 (모든 출처에서의 요청을 허용)
-        config.addAllowedOrigin("*");
-
+        config.addAllowedOrigin("https://localhost:3000");
+        config.addAllowedOrigin("http://localhost:3000");
         // 모든 헤더 허용
         config.addAllowedHeader("*");
 
-        // 모든 HTTP 메소드 허용 (GET, POST, PUT, DELETE 등)
-        config.addAllowedMethod("*");
-
+//        config.addAllowedMethod("*");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("PATCH");
         // 특정 URL 패턴에 대해 위에서 정의한 CORS 설정 적용
         source.registerCorsConfiguration("/api/**", config);
 

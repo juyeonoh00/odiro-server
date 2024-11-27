@@ -41,14 +41,17 @@ public class Member extends BaseTimeEntity {
     private String profileImage;
 
     @JsonIgnore
+    @Builder.Default
     @OneToMany(mappedBy = "initializer")
     private List<Plan> initalizedPlans = new ArrayList<>();
 
     @JsonIgnore
+    @Builder.Default
     @OneToMany(mappedBy = "writer")
     private List<Comment> comments = new ArrayList<>();
 
     @JsonIgnore
+    @Builder.Default
     @OneToMany(mappedBy = "participant")
     private List<PlanMember> joinedPlan = new ArrayList<>();
 

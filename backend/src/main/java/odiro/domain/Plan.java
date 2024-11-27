@@ -21,6 +21,7 @@ public class Plan {
     @Column(name = "plan_id")
     private Long id;
 
+    @Builder.Default
     private Boolean isPublic = false;
     private String planFilter;
     private String title;
@@ -33,14 +34,17 @@ public class Plan {
     private Member initializer;
 
     @JsonIgnore
+    @Builder.Default
     @OneToMany(mappedBy = "plan")
     private List<DayPlan> dayPlans = new ArrayList<>();
 
     @JsonIgnore
+    @Builder.Default
     @OneToMany(mappedBy = "plan")
     private List<Location> wishLocations = new ArrayList<>();
 
     // 추가: Plan과 관련된 PlanMember 리스트
+    @Builder.Default
     @JsonIgnore
     @OneToMany(mappedBy = "plan")
     private List<PlanMember> planMembers = new ArrayList<>(); // Plan과 관련된 PlanMember들
