@@ -118,8 +118,8 @@ public class LocationService {
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() -> new RuntimeException("Location not found with id: " + locationId));
         // 삭제
-        if(location.getDayPlan().getPlan().getPlanMembers().stream().anyMatch(pm -> pm.getParticipant().getId().equals(userId))
-                &&location.getDayPlan().getPlan().getId().equals(planId)) {
+        if(location.getPlan().getPlanMembers().stream().anyMatch(pm -> pm.getParticipant().getId().equals(userId))
+                &&location.getPlan().getId().equals(planId)) {
             locationRepository.delete(location);
         }else{
             throw new RuntimeException("유저 정보 혹은 플랜 정보가 일치하지 않습니다");
