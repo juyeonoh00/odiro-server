@@ -71,8 +71,13 @@ public class MemberService {
     public Member signUp(OAuthAttributes oAuthAttributes) {
 //        oAuthAttributes.setAuthority(Authority.valueOf("ROLE_USER"));
         Member member = oAuthAttributes.toEntity();
-        memberRepository.save(member);
-        return member;
+        // 중복된 이메일의 경우 에러 처리 필요
+        if(memberRepository.findByEmail(member.getEmail()).isEmpty()) {
+            return memberRepository.save(member);
+        }
+        else{
+            return memberRepository.findByEmail(member.getEmail()).orElseThrow(()->new CustomException(ErrorCode.EMAIL_NOT_FOUND, member.getEmail()));
+        }
     }
 
 

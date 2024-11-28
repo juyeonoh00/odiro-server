@@ -29,10 +29,8 @@ public class KakaoLoginController {
         OauthToken oauthToken = oauth2TokenService.getKakaoAccessToken(code);
         OAuthAttributes oAuthAttributes = oauth2TokenService.loadKakao(oauthToken.getAccessToken(), oauthToken.getRefreshToken());
         Member member = memberService.signUp(oAuthAttributes);
+        log.info(member.getId().toString());
         TokenDto tokenDto = jwtUtil.generateToken(member, response);
-        // member db에 저장
-        // generator 호출
-//        TokenDto tokenDto = jwtUtil.generateToken(authentication, response);
         return ResponseEntity.ok(tokenDto);
     }
 }

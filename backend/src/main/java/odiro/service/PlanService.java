@@ -216,7 +216,6 @@ public class PlanService {
         // Dto로 변환해서 넣기
         return dayPlanDtoList;
     }
-
     public GetDetailPlanResponse getDetailPlan(Long planId) {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ErrorCode.PLAN_NOT_FOUND, planId));
@@ -248,7 +247,7 @@ public class PlanService {
                             .collect(Collectors.toList());
 
                     List<CommentInDetailPage> comments = dayPlan.getComments().stream()
-                            .map(comment -> new CommentInDetailPage(comment.getId(), comment.getWriter().getId(), comment.getContent(), comment.getWriteTime()))
+                            .map(comment -> new CommentInDetailPage(comment.getId(), comment.getWriter().getId(), comment.getContent(), comment.getWriteTime(), comment.getWriter().getUsername(), comment.getWriter().getProfileImage()))
                             .collect(Collectors.toList());
 
                     return new DayPlanInDetailPage(dayPlan.getId(), dayPlan.getDate(), locations, memos, comments);

@@ -114,7 +114,8 @@ spring:
       uri: mongodb://localhost:27017/Demo
     redis:
       #      host: 172.17.0.2 or redis
-      host: host.docker.internal
+#      host: redis
+      host: localhost
       port: 6379
   jpa:
     hibernate:
@@ -158,6 +159,7 @@ spring:
 server:
   address: 0.0.0.0
   port: 8080
+
 
 logging:
   level:

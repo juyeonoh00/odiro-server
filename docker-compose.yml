@@ -83,6 +83,9 @@ services:
 #      retries: 10
 
   redis:
+    build:
+      context: .
+      dockerfile: redis/Dockerfile
     image: redis:6.2
     container_name: redis
     ports:

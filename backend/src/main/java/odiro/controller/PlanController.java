@@ -85,45 +85,4 @@ public class PlanController {
 
 
 }
-//    @Operation(summary = "Plan 카테고리 선택", description = "Plan 카테고리 선택")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "OK")
-//    })
-//    @GetMapping(value = "/create")
-//    public ResponseEntity<SignUpResponseDto> singUp (@RequestBody SignUpDto signUpDto){
-//        Member member = memberService.signUp(signUpDto);
-//        SignUpResponseDto res = SignUpResponseDto.toDto(member);
-//        //response 전달을 위한 dto 변환
-//
-//        return ResponseEntity.status(HttpStatus.CREATED).body(res);
-//    }
-//
-//    @Operation(summary = "Plan 카테고리 수정", description = "Plan 카테고리 수정")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "OK")
-//    })
-//    @GetMapping(value = "/edit")
-//    public ResponseEntity<SignUpResponseDto> singUp (@RequestBody SignUpDto signUpDto){
-//        Member member = memberService.signUp(signUpDto);
-//        SignUpResponseDto res = SignUpResponseDto.toDto(member);
-//        //response 전달을 위한 dto 변환
-//
-//        return ResponseEntity.status(HttpStatus.CREATED).body(res);
-//    }
 
-//    @PostMapping("/plan/create")
-//    public InitPlanResponse initPlan(@RequestBody InitPlanData inputData) {
-//
-//        Member member = memberService.findById(inputData.getMemberId()).orElseThrow(() -> new RuntimeException("Member not found"));
-//
-//        Plan newPlan = new Plan(member, inputData.getTitle(), inputData.getFirstday(), inputData.getLastday());
-//        Plan savedPlan = planService.initPlan(newPlan);
-//
-//        if (savedPlan != null) {
-//            InitPlanResponse response = new InitPlanResponse(
-//                    savedPlan.getId(), savedPlan.getInitializer().getId(), savedPlan.getTitle(), savedPlan.getFirstDay(), savedPlan.getLastDay());
-//            return response;
-//        } else {
-//            log.error("Plan 저장 실패");
-//        }
-//    }

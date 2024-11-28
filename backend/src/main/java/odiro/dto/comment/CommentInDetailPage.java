@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 
@@ -18,4 +19,6 @@ public class CommentInDetailPage {
     private Long memberId;
     private String content;
     private LocalDateTime createdAt;
+    private String username;
+    private String profileImg;
 }
