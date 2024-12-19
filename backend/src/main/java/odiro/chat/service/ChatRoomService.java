@@ -1,12 +1,20 @@
-package odiro.chat;
+package odiro.chat.service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
+import odiro.chat.domain.ChatRoom;
+import odiro.chat.domain.Message;
+import odiro.chat.dto.CreateChatDto;
+import odiro.chat.dto.MessageDto;
+import odiro.chat.repository.ChatRoomRepository;
+import odiro.chat.repository.MessageRepository;
 import odiro.config.auth.PrincipalDetails;
 import odiro.domain.member.Member;
+import odiro.exception.CustomException;
+import odiro.exception.ErrorCode;
 import odiro.repository.MemberRepository;
-import odiro.service.MemberService;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -17,22 +25,31 @@ public class ChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
     private final MessageRepository messageRepository;
     private final SimpMessagingTemplate messagingTemplate;
-    // 채팅방을 관리할 Map (채팅방 ID -> ChatRoom 객체)
-    private final Map<String, ChatRoom> chatRooms = new HashMap<>();
+
 
     // 새로운 채팅방 생성
     public ChatRoom createChatRoom(CreateChatDto createChatDto, Long userId) {
-        String roomId = UUID.randomUUID().toString(); Set<Member> chatroomMembers = new HashSet<>();
+        String roomId = UUID.randomUUID().toString();
+
+        Set<Member> chatroomMembers = new HashSet<>();
         chatroomMembers.add(memberRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid member ID")));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUNDED)));
         for (Long id : createChatDto.getMemberIds()) {
             Member member = memberRepository.findById(id)
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid member ID"));
+                    .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUNDED));
             chatroomMembers.add(member);
         }
+        String roomName = createChatDto.getRoomName();
+
+        if (roomName == null || roomName.isEmpty()) {
+            roomName = chatroomMembers.stream()
+                    .map(Member::getUsername)
+                    .collect(Collectors.joining(", "));
+        }
+
         ChatRoom chatRoom = ChatRoom.builder()
                 .roomId(roomId)
-                .name(createChatDto.getRoomName())
+                .roomName(roomName)
                 .users(chatroomMembers)
                 .build();
         return chatRoomRepository.save(chatRoom);
@@ -57,12 +74,27 @@ public class ChatRoomService {
 
         // 메시지를 브로드캐스트
         Message message = new Message();
-        message.setSenderName(principalDetails.getUsername());
+        message.setSender(principalDetails.getMember());
         message.setContent(messageDto.getContent());
         message.setRoomId(messageDto.getRoomId());
         messageRepository.save(message);
-        // 본인을 제외하고 메세지를 받아야함
-        // 메세지 알림을 줘야함
+//
+//        // 본인을 제외하고 메세지를 받아야함
+//        // 메세지 알림을 줘야함
+//        for (String recipientId : participants) {
+//            // 발신자는 제외하고 메시지 전송
+//            if (!recipientId.equals(senderId)) {
+//                messagingTemplate.convertAndSendToUser(
+//                        recipientId, // 수신자 ID
+//                        "/chat/" + roomId, // 목적지
+//                        message // 메시지 내용
+//                );
+//            }
+//        }
         messagingTemplate.convertAndSend(destination, message);
+    }
+
+    public List<ChatRoom> getChatRoomsByMember(Member member) {
+        return chatRoomRepository.findByUsersContaining(member);
     }
 }

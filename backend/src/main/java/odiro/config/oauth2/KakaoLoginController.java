@@ -1,19 +1,25 @@
 package odiro.config.oauth2;
 
+import com.mysql.cj.log.Log;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import odiro.chat.domain.ChatRoom;
 import odiro.config.jwt.JwtUtil;
 import odiro.config.jwt.TokenDto;
 import odiro.domain.member.Member;
 
+import odiro.dto.member.LoginDto;
 import odiro.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import odiro.chat.service.ChatRoomService;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -24,13 +30,16 @@ public class KakaoLoginController {
     private final Oauth2TokenService oauth2TokenService;
     private final MemberService memberService;
     private final JwtUtil jwtUtil;
+    private final ChatRoomService chatRoomService;
+
     @GetMapping("/kakao")
-    public ResponseEntity<TokenDto> callback(@RequestParam("code") String code, HttpServletResponse response) {
+    public ResponseEntity<LoginDto> callback(@RequestParam("code") String code, HttpServletResponse response) {
         OauthToken oauthToken = oauth2TokenService.getKakaoAccessToken(code);
         OAuthAttributes oAuthAttributes = oauth2TokenService.loadKakao(oauthToken.getAccessToken(), oauthToken.getRefreshToken());
         Member member = memberService.signUp(oAuthAttributes);
         log.info(member.getId().toString());
         TokenDto tokenDto = jwtUtil.generateToken(member, response);
-        return ResponseEntity.ok(tokenDto);
+        List<ChatRoom> chatRooms= chatRoomService.getChatRoomsByMember(member);
+        return ResponseEntity.ok(new LoginDto(tokenDto.getAccessToken(), tokenDto.getRefreshToken(), chatRooms));
     }
 }

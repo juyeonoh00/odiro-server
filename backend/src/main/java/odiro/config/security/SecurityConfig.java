@@ -57,6 +57,7 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/ws").permitAll()
                         // 해당 API에 대해서는 모든 요청을 허가
                         .requestMatchers("/api/location/festival/research").permitAll()

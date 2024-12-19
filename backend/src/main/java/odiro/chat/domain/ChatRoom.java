@@ -1,4 +1,4 @@
-package odiro.chat;
+package odiro.chat.domain;
 
 
 import static java.awt.DefaultKeyboardFocusManager.*;
@@ -25,15 +25,15 @@ public class ChatRoom {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String roomId;
-    private String name;
+    private String roomName;
     @JsonIgnore
     @OneToMany
     private Set<Member> users = new HashSet<>();
 
     @Builder
-    public ChatRoom(String roomId, String name, Set<Member> users){
+    public ChatRoom(String roomId, String roomName, Set<Member> users){
         this.roomId = roomId;
-        this.name = name;
+        this.roomName = roomName;
         this.users = users;
     }
 //

@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import odiro.chat.domain.ChatRoom;
+import odiro.chat.service.ChatRoomService;
 import odiro.config.jwt.JwtUtil;
 import odiro.config.jwt.TokenDto;
 import odiro.config.oauth2.OAuthAttributes;
@@ -46,6 +48,7 @@ public class MemberService {
     private final EmailService emailService;
     private final RedisService redisService;
     private final AwsService awsService;
+    private final ChatRoomService chatRoomService;
     @Value("${spring.mail.auth-code-expiration-millis}")
     private long authCodeExpirationMillis;
     private final JwtUtil jwtUtil;
@@ -146,7 +149,7 @@ public class MemberService {
         Member newMember = memberRepository.save(member);
         return new MemberDto(newMember);
     }
-    public TokenDto signIn(SignInRequestDto signInRequestDto, HttpServletResponse response) throws Exception {
+    public LoginDto signIn(SignInRequestDto signInRequestDto, HttpServletResponse response) throws Exception {
         Member member = memberRepository.findByusername(signInRequestDto.getUsername()).orElseThrow(()-> new
                 CustomException(ErrorCode.USER_NOT_FOUNDED, signInRequestDto.getUsername()));
 
@@ -155,7 +158,8 @@ public class MemberService {
         }
         TokenDto tokenDto = jwtUtil.generateToken(member, response);
         redisService.setValues(member.getId().toString(), tokenDto.getRefreshToken(), Duration.ofDays(REFRESH_TOKEN_EXPIRATION_TIME));
-        return tokenDto;
+        List<ChatRoom> chatRooms= chatRoomService.getChatRoomsByMember(member);
+        return new LoginDto(tokenDto.getAccessToken(), tokenDto.getRefreshToken(), chatRooms);
     }
 
     public void logout(HttpServletResponse response, HttpServletRequest request) {

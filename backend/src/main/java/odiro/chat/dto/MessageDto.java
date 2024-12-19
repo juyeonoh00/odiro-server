@@ -1,4 +1,4 @@
-package odiro.chat;
+package odiro.chat.dto;
 
 import lombok.Getter;
 import lombok.Setter;

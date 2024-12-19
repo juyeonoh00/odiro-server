@@ -1,5 +1,6 @@
 package odiro.controller;
 
+import com.mysql.cj.log.Log;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -9,6 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import odiro.chat.domain.ChatRoom;
+import odiro.chat.service.ChatRoomService;
 import odiro.config.auth.PrincipalDetails;
 import odiro.config.jwt.TokenDto;
 import odiro.domain.member.Member;
@@ -31,6 +34,7 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final ChatRoomService chatRoomService;
     @Operation(summary = "회원가입", description = "회원가입")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK")
@@ -46,8 +50,8 @@ public class MemberController {
             @ApiResponse(responseCode = "200", description = "OK")
     })
     @PostMapping("/signin")
-    public ResponseEntity<TokenDto> signIn(@RequestBody SignInRequestDto signInRequestDto, HttpServletResponse response) throws Exception {
-        TokenDto tokenDto = memberService.signIn(signInRequestDto, response);
+    public ResponseEntity<LoginDto> signIn(@RequestBody SignInRequestDto signInRequestDto, HttpServletResponse response) throws Exception {
+        LoginDto tokenDto = memberService.signIn(signInRequestDto, response);
         return ResponseEntity.ok(tokenDto);
     }
 

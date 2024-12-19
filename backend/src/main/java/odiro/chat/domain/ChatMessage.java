@@ -1,4 +1,4 @@
-package odiro.chat;
+package odiro.chat.domain;
 
 import lombok.Getter;
 import lombok.Setter;

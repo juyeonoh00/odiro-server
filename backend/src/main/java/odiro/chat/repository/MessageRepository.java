@@ -1,5 +1,6 @@
-package odiro.chat;
+package odiro.chat.repository;
 
+import odiro.chat.domain.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 

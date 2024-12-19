@@ -1,8 +1,9 @@
-package odiro.chat;
+package odiro.chat.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import odiro.domain.member.Member;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -18,7 +19,8 @@ public class Message {
     private Long id;
     private String roomId;
 
-    private String senderName;
+    @ManyToOne
+    private Member sender;
     private String content;
     @CreatedDate
     private LocalDateTime timestamp;

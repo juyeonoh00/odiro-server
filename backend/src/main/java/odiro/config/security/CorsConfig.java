@@ -26,7 +26,6 @@ public class CorsConfig {
         // 모든 헤더 허용
         config.addAllowedHeader("*");
 
-//        config.addAllowedMethod("*");
         config.addAllowedMethod("GET");
         config.addAllowedMethod("POST");
         config.addAllowedMethod("PUT");
@@ -34,6 +33,18 @@ public class CorsConfig {
         config.addAllowedMethod("PATCH");
         // 특정 URL 패턴에 대해 위에서 정의한 CORS 설정 적용
         source.registerCorsConfiguration("/api/**", config);
+
+
+//        CorsConfiguration wsConfig = new CorsConfiguration();
+//        wsConfig.setAllowCredentials(true);
+//        wsConfig.addAllowedOrigin("http://localhost:3000");
+//        wsConfig.addAllowedOrigin("https://localhost:3000");
+//        wsConfig.addAllowedOrigin("http://localhost:8080");
+//        wsConfig.addAllowedOrigin("https://localhost:8080");
+//        wsConfig.addAllowedHeader("*");
+//        wsConfig.addAllowedMethod("*");
+//        source.registerCorsConfiguration("/ws/**", wsConfig);
+
 
         // CORS 필터 생성 및 반환
         return new CorsFilter(source);

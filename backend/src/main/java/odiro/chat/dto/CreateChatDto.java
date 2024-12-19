@@ -1,4 +1,4 @@
-package odiro.chat;
+package odiro.chat.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,5 +9,7 @@ import java.util.Set;
 @Setter
 public class CreateChatDto {
     private Set<Long> memberIds;
-    private String roomName = "default";
+    private String roomName;
+
+
 }

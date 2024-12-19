@@ -1,4 +1,4 @@
-package odiro.chat;
+package odiro.chat.controller;
 
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -6,8 +6,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
+import odiro.chat.domain.ChatRoom;
+import odiro.chat.domain.Message;
+import odiro.chat.dto.CreateChatDto;
+import odiro.chat.dto.MessageDto;
+import odiro.chat.repository.ChatRoomRepository;
+import odiro.chat.service.ChatRoomService;
 import odiro.config.auth.PrincipalDetails;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +22,7 @@ import java.util.List;
 @RestController
 public class ChatController {
 
-    private final SimpMessagingTemplate messagingTemplate;
     private final ChatRoomService chatRoomService;
-    private final UserSessionService userSessionService;
     private final ChatRoomRepository chatRoomRepository;
 
 

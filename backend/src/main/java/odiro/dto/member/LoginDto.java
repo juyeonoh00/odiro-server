@@ -1,4 +1,4 @@
-package odiro.config.jwt;
+package odiro.dto.member;
 
 import lombok.*;
 import odiro.chat.domain.ChatRoom;
@@ -9,9 +9,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TokenDto {
-//    private String grantType;
+@Setter
+public class LoginDto {
+    //    private String grantType;
     private String accessToken;
     private String refreshToken;
+    private List<ChatRoom> chatRooms;
 //    private Long accessTokenExpiresIn;
 }

@@ -1,4 +1,4 @@
-package odiro.chat;
+package odiro.chat.dto;
 import org.springframework.stereotype.Service;
 
 import lombok.Getter;
