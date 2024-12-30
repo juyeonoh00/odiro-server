@@ -21,22 +21,42 @@
 ## 기술 스택 및 아키텍처
 
 ### 기술 스택
-- **언어**: Java
-- **프레임워크**: Spring Boot
-- **빌드 도구**: Gradle
-- **데이터베이스**: MySQL
-- **캐시**: Redis
-- **컨테이너화**: Docker, Docker Compose
+
+**Language & Library** &nbsp; : &nbsp;
+<img src="https://img.shields.io/badge/Java-17-007396?style=for-the-badge&logo=java&logoColor=white" alt="Java 17">
+<img src="https://img.shields.io/badge/SpringBoot-3.3.2-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot 3.3.2">
+<img src="https://img.shields.io/badge/Spring%20Data%20JPA-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Data JPA">
+<img src="https://img.shields.io/badge/Spring%20Security-6DB33F?style=for-the-badge&logo=Spring%20Security&logoColor=white" alt="Spring Security">
+<img src="https://img.shields.io/badge/OAuth2.0-4285F4?style=for-the-badge&logo=oauth&logoColor=white" alt="OAuth 2.0">
+<img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white" alt="JWT">
+
+**Database & Caching** &nbsp; : &nbsp;
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
+<img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis">
+
+**etc** &nbsp; : &nbsp;
+<img src="https://img.shields.io/badge/WebSocket-010101?style=for-the-badge&logo=WebRTC&logoColor=white" alt="WebSocket">
+<img src="https://img.shields.io/badge/Apache%20Kafka-231F20?style=for-the-badge&logo=apachekafka&logoColor=white" alt="Apache Kafka">
+<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+<img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white" alt="Gradle">
+<img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git">
 
 ### 아키텍처
-- **애플리케이션 계층**: Spring Boot 기반의 모듈화된 구조
-- **데이터 계층**: MySQL 및 Redis를 활용한 데이터 저장 및 캐싱
-- **배포 환경**: Docker Compose를 통한 멀티 컨테이너 환경 구축
+
+<img src="img\odiro_architecture.png" alt="Odiro Architecture" width="600">
 
 ## 명세서
-- **HTTP API**: RESTful 방식으로 설계된 엔드포인트 제공
-- **데이터베이스 모델**: 관계형 데이터베이스 설계 (ERD 포함)
-- **캐싱 전략**: 빈번한 데이터 요청을 Redis로 처리하여 성능 최적화
+
+<details><summary><strong>ERD</strong></summary>
+
+<img src="img\ERD.png" alt="RedChart ERD" width="600">
+</details>
+
+<details><summary><strong>API 명세서</strong></summary>
+
+스웨거 링크 추가 예정
+</details>
+
 
 ## 주요 기능
 1. **사용자 인증 및 권한 관리**
@@ -61,14 +81,3 @@
    - Redis와 MySQL 간 데이터 일관성을 보장하기 위한 TTL(Time To Live) 설정 및 동기화 메커니즘 적용
 3. **성능 최적화**
    - API 호출 빈도가 높은 엔드포인트에 대한 쿼리 최적화 및 인덱스 추가로 응답 시간 단축
-
-## 프로젝트 구조
-```plaintext
-odiro-server/
-├── backend/               # 백엔드 소스 코드
-├── docker-compose.yml     # Docker Compose 설정 파일
-├── mysql/                 # MySQL 데이터베이스 관련 설정
-├── redis/                 # Redis 관련 설정
-├── gradle/                # Gradle 빌드 설정
-└── settings.gradle        # Gradle 설정 파일
-```
