@@ -30,11 +30,13 @@ public class PlanController {
         return ResponseEntity.ok(dayPlanDtoList);
     }
 
-    @PostMapping("/plan/create")
-    public ResponseEntity<InitPlanResponse> initPlan(@RequestBody InitPlanRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+//    @PostMapping("/plan/create")
+//    public ResponseEntity<InitPlanResponse> initPlan(@RequestBody InitPlanRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        @PostMapping("/plan/create")
+        public ResponseEntity<InitPlanResponse> initPlan(@RequestBody InitPlanRequest request) {
 
         InitPlanResponse savedPlan = planService.initPlanV2(
-                principalDetails.getMember().getId(), request);
+                1L, request);
         return ResponseEntity.ok(savedPlan);
 
     }

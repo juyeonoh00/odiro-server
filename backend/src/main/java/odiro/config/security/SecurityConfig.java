@@ -57,6 +57,7 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+
                         .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/ws").permitAll()
                         // 해당 API에 대해서는 모든 요청을 허가
@@ -69,7 +70,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/signup").permitAll()
                         .requestMatchers("/","/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         // 이 밖에 모든 요청에 대해서 인증을 필요로 한다는 설정
-                        .anyRequest().authenticated())
+//                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
+
+                )
                 .addFilterBefore(corsConfig.corsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(ex->{

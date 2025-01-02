@@ -1,1 +1,6 @@
-FROM --platform=linux/amd64 openjdk:17
+FROM --platform=linux/amd64 mysql
+
+ENV MYSQL_ROOT_PASSWORD=1234
+ENV MYSQL_DATABASE=mysql
+#ENV MYSQL_USER=root
+ENV MYSQL_PASSWORD=1234
