@@ -28,6 +28,7 @@
 <img src="https://img.shields.io/badge/Spring%20Security-6DB33F?style=for-the-badge&logo=Spring%20Security&logoColor=white" alt="Spring Security">
 <img src="https://img.shields.io/badge/OAuth2.0-4285F4?style=for-the-badge&logo=oauth&logoColor=white" alt="OAuth 2.0">
 <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white" alt="JWT">
+<img src="https://img.shields.io/badge/Feign%20Client-007396?style=for-the-badge&logo=java&logoColor=white" alt="Feign Client">
 
 **Database & Caching** &nbsp; : &nbsp;
 <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
@@ -35,7 +36,9 @@
 
 **etc** &nbsp; : &nbsp;
 <img src="https://img.shields.io/badge/WebSocket-010101?style=for-the-badge&logo=WebRTC&logoColor=white" alt="WebSocket">
-<img src="https://img.shields.io/badge/Apache%20Kafka-231F20?style=for-the-badge&logo=apachekafka&logoColor=white" alt="Apache Kafka">
+<img src="https://img.shields.io/badge/AWS%20S3-569A31?style=for-the-badge&logo=Amazon%20S3&logoColor=white" alt="AWS S3">
+<img src="https://img.shields.io/badge/AWS%20RDS-FF9900?style=for-the-badge&logo=Amazon%20RDS&logoColor=white" alt="AWS RDS">
+<img src="https://img.shields.io/badge/AWS%20EC2-FF9900?style=for-the-badge&logo=Amazon%20EC2&logoColor=white" alt="AWS EC2">
 <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
 <img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white" alt="Gradle">
 <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git">
@@ -46,11 +49,9 @@
 
 ## 명세서
 
-<details><summary><strong>ERD</strong></summary>
-
-<img src="img\odiro_erd.png" alt="Odiro ERD" width="600">
-</details>
-
+- [ERD](https://geode-dryer-3f6.notion.site/ERD-1bb40852c227804d8c34d868f0a13e9c?pvs=4)
+- [요구사항 명세서](https://geode-dryer-3f6.notion.site/ded1f1df26934a41b437aeb81df0a8e7?pvs=4)
+- [api 명세서](https://geode-dryer-3f6.notion.site/Api-1bb40852c227807cb6a5e9cfd6481f2a?pvs=4)
 
 ## 주요 기능
 1. **로그인 서비스**
@@ -69,9 +70,12 @@
 ## 기술적 의사 결정
 1. **Stomp 사용**
    - Pub/Sub 모델을 통해 클라이언트 상태를 직접 관리하지 않아도 되며, 세션 정보 저장으로 인한 서버 부담을 최소화
-   - 트래픽 증가 시 메시지 브로커(RabbitMQ, ActiveMQ 등)와 통합할 수 있도록 구조를 설계
+   - 트래픽 증가 시 메시지 브로커(RabbitMQ, ActiveMQ 등)와 통합할 수 있어 확장성 보장
 2. **S3 사용**
    - 프로필 사진은 유저의 개인정보임으로 안정성을 중시, planner의 특성상 타 국가에서 원활한 사용이 가능해야하므로 글로벌 서비스에 안정적인 S3를 채택
+3. **Docker를 통한 AWS 배포**
+   - Docker Compose로 스케일 아웃시 모든 서비스가 동일하게 수평 확장되어 비효율 문제 확인
+   - Docker Compose를 배제하고, AWS 환경에서 앱, MySQL, Redis를 각각 독립적인 Docker 컨테이너로 분리 배포하여 서비스별 스케일 아웃이 가능하도록 설계 할 수 있도록 설계하여 확장성 보장
 
 ## 트러블 슈팅 및 성능 개선
 1. **Redis를 활용한 데이터 조회 최적화**
@@ -85,7 +89,7 @@
         - 조회된 데이터를 PlanRepository와 결합해 필요한 정보만 RDB에서 가져오도록 설계.
         - 필터 조건과 랜덤 샘플링 로직을 추가하여 특정 조건에 맞는 데이터를 반환.
     - **성과**:
-       - mysq 사용 시 (읽기 db 사용 x)
+       - mysql 사용 시 (읽기 db 사용 x)
      
          <img src="img\mysql_500_100.png" alt="Mysql 실행 결과" width="400">
      
@@ -94,8 +98,4 @@
          <img src="img\redis_500_100.png" alt="Redis 실행 결과" width="400">
      
          → Redis를 활용한 조회로 서버 부하를 최소화하고 응답 성능 최적화하여 처리량 **41.73%%** 상승
-
-3. **Docker를 통한 AWS 배포**
-   - docker-compose 사용 시 스케일 업 할 경우 모든 서비스가 복사 되어 확장 되는 문제 확인
-   - docker compose를 사용하지 않고, 각각의 aws 환경에서 앱, mysql, redis 각각의 도커 파일을 띄우는 방식으로 활용하여 한번에 각각 스케일업 할 수 있도록 확장성 보장
 
