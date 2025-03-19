@@ -45,7 +45,7 @@
 
 ### 아키텍처
 
-<img src="img\odiro_architecture.png" alt="Odiro Architecture" width="600">
+<img src="img\odiro_architecture.png" alt="Odiro Architecture" width="800">
 
 ## 명세서
 
