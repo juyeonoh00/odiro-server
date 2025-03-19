@@ -49,11 +49,9 @@
 
 ## 명세서
 
-<details><summary><strong>ERD</strong></summary>
-
-<img src="img\odiro_erd.png" alt="Odiro ERD" width="600">
-</details>
-
+- [ERD](https://geode-dryer-3f6.notion.site/ERD-1bb40852c227804d8c34d868f0a13e9c?pvs=4)
+- [요구사항 명세서](https://geode-dryer-3f6.notion.site/ded1f1df26934a41b437aeb81df0a8e7?pvs=4)
+- [api 명세서](https://geode-dryer-3f6.notion.site/Api-1bb40852c227807cb6a5e9cfd6481f2a?pvs=4)
 
 ## 주요 기능
 1. **로그인 서비스**
@@ -91,7 +89,7 @@
         - 조회된 데이터를 PlanRepository와 결합해 필요한 정보만 RDB에서 가져오도록 설계.
         - 필터 조건과 랜덤 샘플링 로직을 추가하여 특정 조건에 맞는 데이터를 반환.
     - **성과**:
-       - mysq 사용 시 (읽기 db 사용 x)
+       - mysql 사용 시 (읽기 db 사용 x)
      
          <img src="img\mysql_500_100.png" alt="Mysql 실행 결과" width="400">
      
