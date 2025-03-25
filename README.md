@@ -51,7 +51,7 @@
 
 - [ERD](https://geode-dryer-3f6.notion.site/ERD-1bb40852c227804d8c34d868f0a13e9c?pvs=4)
 - [요구사항 명세서](https://geode-dryer-3f6.notion.site/ded1f1df26934a41b437aeb81df0a8e7?pvs=4)
-- [api 명세서](https://geode-dryer-3f6.notion.site/Api-1bb40852c227807cb6a5e9cfd6481f2a?pvs=4)
+- [API 명세서](https://geode-dryer-3f6.notion.site/Api-1bb40852c227807cb6a5e9cfd6481f2a?pvs=4)
 
 ## 주요 기능
 1. **로그인 서비스**
