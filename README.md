@@ -17,7 +17,13 @@
 - 여행 메이트들과 함께 플래너를 작성하고, 이를 카테고리화하여 공유할 수 있는 소셜 플랫폼
 - 친구 추가 및 채팅 기능을 통해 다양한 유저와 교류하고 소통할 수 있도록 지원
 
+<video src="https://github.com/user-attachments/assets/6a15955e-0147-4988-9cf6-eb5700201b8c" width="480" controls>
+  <img src="https://github.com/user-attachments/assets/7980bbcf-3cfb-41d0-981c-41454307ddec" width="600"/>
+</video>
+
+
 ## 기술 스택 및 아키텍처
+
 
 ### 기술 스택
 
